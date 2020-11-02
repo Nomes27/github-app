@@ -8,6 +8,7 @@ import "firebase/auth";
 //NEED TO INSTALL BOTH FIREBASE AND FIREBASE TOOLS
 
 const db = firebase.firestore();
+const rooms = db.collection("rooms");
 
 function App() {
   return (
