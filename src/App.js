@@ -4,6 +4,7 @@ import firebase from "./config";
 //import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import LandingPage from "./components/LandingPage/LandingPage";
 
 //NEED TO INSTALL BOTH FIREBASE AND FIREBASE TOOLS
 
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">Test</header>
+      <LandingPage />
     </div>
   );
 }
