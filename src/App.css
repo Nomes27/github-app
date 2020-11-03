@@ -4,7 +4,6 @@
   text-align: center;
 }
 
-
 .dashboard_header {
   background-color: lightblue;
 }
@@ -36,6 +35,7 @@
 
 .leaderboard {
   border: black 2px solid;
+}
 
 .landing-page--wrapper {
   display: flex;
@@ -137,5 +137,4 @@
   .landing-page--sign-in {
     height: 100vh;
   }
-
 }
