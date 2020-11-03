@@ -5,7 +5,8 @@ const user = {
   name: "alex",
   avatar:
     "https://bigideasforsmallbusiness.com/wp-content/uploads/2017/07/blog4site_7-13-17_Quiz-on-Tax-Rules_dreamstime-480x420.jpg",
-};
+  friends: ['Naomi', 'Tia', 'Will']
+  };
 function DashBoard() {
   return (
     <div>
@@ -21,7 +22,7 @@ function DashBoard() {
         <button className="dashboard_game_buttons">Host Game</button>
         <button className="dashboard_game_buttons">Join Game</button>
       </div>
-      <FriendsList />
+      <FriendsList friends={user.friends} />
       <LeaderBoard />
     </div>
   );

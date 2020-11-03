@@ -1,7 +1,13 @@
 import React from "react";
 
-function FriendsList() {
-  return <h1>Friends-list goes here...</h1>;
+
+
+function FriendsList(props) {
+  return <ul className="friendslist">
+    {props.friends.map(friend => {
+      return <li>{friend}</li>
+    })}
+          </ul>
 }
 
 export default FriendsList;
