@@ -6,7 +6,6 @@ import "firebase/auth";
 import LandingPage from "./components/LandingPage/LandingPage";
 import { Router } from "@reach/router";
 import ProfilePage from "./Components/ProfilePage";
-import SignUp from "./Components/SignUp";
 import Room from "./Components/Room";
 import Host from "./Components/Host";
 import DashBoard from "./Components/Dashboard";
@@ -25,7 +24,6 @@ function App() {
         <LandingPage path="/" />
         <DashBoard path="/dashboard" />
         <ProfilePage path="/profile" />
-        <SignUp path="/sign-up" />
         <Host path="/quiz" />
         <Room path="quiz/:room_id" />
       </Router>
