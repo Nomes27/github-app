@@ -21,8 +21,8 @@ function DashBoard() {
         <button className="dashboard_game_buttons">Host Game</button>
         <button className="dashboard_game_buttons">Join Game</button>
       </div>
-      <FriendsList className="friendslist"/>
-      <LeaderBoard className="leaderboard"/>
+      <FriendsList />
+      <LeaderBoard />
     </div>
   );
 }
