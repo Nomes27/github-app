@@ -1,5 +1,4 @@
 import "./App.css";
-import React from "react";
 import firebase from "./config";
 //import firebase from "firebase/app";
 import "firebase/firestore";
@@ -14,7 +13,7 @@ const rooms = db.collection("rooms");
 function App() {
   return (
     <div className="App">
-      <header className="App-header">Test</header>
+      {/* <header className="App-header">Test</header> */}
       <LandingPage />
     </div>
   );

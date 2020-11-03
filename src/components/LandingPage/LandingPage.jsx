@@ -1,24 +1,25 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 const LandingPage = () => {
     const [signUp, setSignUp] = useState(false);
 
     const handleClick = (event) => {
         setSignUp(!signUp);
-        event.target.innerText = signUp ? 'Back' : 'Sign Up';
-        console.log(signUp);
     }
     
+    
+    console.log(signUp);
+    
         return (
-            <div>
+            <div className="landing-page--wrapper">
                 <div className="landing-page--graphic">
                     
                 </div>
                 <div className="landing-page--sign-in">
-
-                </div>
-                <div>
-                    <button className="landing-page--modal-btn" onClick={handleClick}>Sign Up</button>
+                    {signUp ? <SignUp /> : <SignIn />}
+                    <button className="landing-page--sign-in--modal-btn" onClick={handleClick}>{signUp ? 'Back' : 'Sign Up'}</button>
                 </div>
             </div>
         )
