@@ -1,15 +1,15 @@
 import "./App.css";
-import React from "react";
 import firebase from "./config";
 //import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import LandingPage from "./components/LandingPage/LandingPage";
 import { Router } from "@reach/router";
-import LandingPage from "./Components/LandingPage";
 import ProfilePage from "./Components/ProfilePage";
 import Room from "./Components/Room";
 import Host from "./Components/Host";
 import DashBoard from "./Components/Dashboard";
+
 
 //NEED TO INSTALL BOTH FIREBASE AND FIREBASE TOOLS
 
@@ -19,6 +19,7 @@ const rooms = db.collection("rooms");
 function App() {
   return (
     <div className="App">
+
       <Router>
         <LandingPage path="/" />
         <DashBoard path="/dashboard" />
@@ -26,6 +27,7 @@ function App() {
         <Host path="/quiz" />
         <Room path="quiz/:room_id" />
       </Router>
+
     </div>
   );
 }

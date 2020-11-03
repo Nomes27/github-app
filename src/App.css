@@ -1,6 +1,9 @@
 .App {
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
+
 
 .dashboard_header {
   background-color: lightblue;
@@ -33,4 +36,106 @@
 
 .leaderboard {
   border: black 2px solid;
+
+.landing-page--wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.landing-page--graphic {
+  display: flex;
+  width: 100%;
+  height: 35%;
+  background: gray;
+}
+
+.landing-page--sign-in {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 65%;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-page--sign-in--modal-btn {
+  display: flex;
+  width: 5rem;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+.signup--wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 50%;
+  margin-top: 1rem;
+  margin-bottom: auto;
+}
+
+.signin--wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 50%;
+  justify-content: center;
+}
+
+.signin--form {
+  display: flex;
+  flex-direction: column;
+  height: 75%;
+  justify-content: center;
+  align-items: center;
+}
+
+.signin--input {
+  display: flex;
+  width: 50%;
+  height: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  background: beige;
+  border: none;
+  padding: 4px 12px;
+}
+
+.signin--btn {
+  padding: 4px 12px;
+}
+
+.signup--wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 50%;
+  justify-content: center;
+}
+
+.signup--form {
+  display: flex;
+  flex-direction: column;
+  height: 75%;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 1200px) {
+  .landing-page--wrapper {
+    flex-direction: row-reverse;
+  }
+
+  .landing-page--graphic {
+    height: 100vh;
+  }
+
+  .landing-page--sign-in {
+    height: 100vh;
+  }
+
 }
