@@ -1,3 +1,36 @@
 .App {
   text-align: center;
 }
+
+.dashboard_header {
+  background-color: lightblue;
+}
+
+.dashboard_header_buttons {
+  top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dashboard_header_button {
+  border-radius: 100%;
+  padding: 1rem;
+}
+
+.dashboard_avatar {
+  border-radius: 100%;
+  width: 50%;
+}
+
+.dashboard_game_buttons {
+  padding: 1rem;
+}
+
+.friendslist {
+  border: black 2px solid;
+}
+
+.leaderboard {
+  border: black 2px solid;
+}
