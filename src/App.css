@@ -125,6 +125,24 @@
   align-items: center;
 }
 
+.profile_avatar {
+  width: 50%;
+  border-radius: 100%;
+}
+.profile_form {
+  display: inline;
+  padding: 0.3rem;
+}
+.profile_button {
+  padding: 0.3rem;
+  margin: 1rem;
+  width: 10rem;
+}
+.profile_h1 {
+  margin-bottom: 0;
+  font-size: 3rem;
+  margin-top: 1rem;
+}
 @media screen and (min-width: 1200px) {
   .landing-page--wrapper {
     flex-direction: row-reverse;
