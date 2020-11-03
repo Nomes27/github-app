@@ -28,7 +28,6 @@ function App() {
         <Host path="/quiz" />
         <Room path="quiz/:room_id" />
       </Router>
-      <header className="App-header">Test</header>
     </div>
   );
 }
