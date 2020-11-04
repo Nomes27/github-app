@@ -1,5 +1,5 @@
 import React from "react";
-import FriendsList from "./FriendsList";
+import FriendsList from "../Shared/FriendsList";
 
 const user = {
   name: "alex",
