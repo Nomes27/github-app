@@ -125,6 +125,28 @@
   align-items: center;
 }
 
+.profile_avatar {
+  width: 50%;
+  border-radius: 100%;
+}
+.profile_form {
+  display: inline;
+  padding: 0.3rem;
+}
+.profile_button {
+  padding: 0.3rem;
+  margin: 1rem;
+  width: 10rem;
+}
+.profile_h1 {
+  margin-bottom: 0;
+  font-size: 3rem;
+  margin-top: 1rem;
+}
+.profile_graphic {
+  display: none;
+}
+
 @media screen and (min-width: 1200px) {
   .landing-page--wrapper {
     flex-direction: row-reverse;
@@ -136,5 +158,27 @@
 
   .landing-page--sign-in {
     height: 100vh;
+  }
+
+  .profile_grid {
+    display: grid;
+    height: 100px;
+    grid-template-columns: 1fr 3fr;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+  .profile_grid_item1 {
+    background-color: rgb(187, 184, 184);
+  }
+  .profile_grid_item2 {
+    align-self: center;
+  }
+  .profile_graphic {
+    width: 90%;
+    display: block;
+    margin: auto;
+    padding-top: 10rem;
   }
 }

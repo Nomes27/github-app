@@ -1,6 +1,6 @@
 import React from "react";
 import LeaderBoard from "./LeaderBoard";
-import FriendsList from "./FriendsList";
+import FriendsList from "../Shared/FriendsList";
 const user = {
   name: "alex",
   avatar:
@@ -14,7 +14,7 @@ function DashBoard() {
           <button className="dashboard_header_button">Log out </button>
           <button className="dashboard_header_button">Settings </button>
         </div>
-        <img src={`${user.avatar}`} className="dashboard_avatar"/>
+        <img src={`${user.avatar}`} className="dashboard_avatar" />
         <h1>Hello, {user.name}!</h1>
       </header>
       <div>
