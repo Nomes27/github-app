@@ -5,6 +5,7 @@ const user = {
   name: "alex",
   avatar:
     "https://bigideasforsmallbusiness.com/wp-content/uploads/2017/07/blog4site_7-13-17_Quiz-on-Tax-Rules_dreamstime-480x420.jpg",
+  friends: ["Naomi", "Tia", "Will"],
 };
 //ADD ON CLICK WHICH BRINGS UP FORM
 class ProfilePage extends React.Component {
@@ -51,7 +52,7 @@ class ProfilePage extends React.Component {
         </div>
 
         <div className="profile_grid_item2">
-          <FriendsList />
+          <FriendsList friends={user.friends} path={this.props.path} />
           <form>
             <label htmlFor="name">Add friend by username</label>
             <br></br>

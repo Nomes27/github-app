@@ -29,10 +29,6 @@
   padding: 1rem;
 }
 
-.friendslist {
-  border: black 2px solid;
-}
-
 .leaderboard {
   border: black 2px solid;
 }
@@ -167,9 +163,18 @@ table th {
   padding: 0 20px;
 }
 
-
-
-
+.friendslist {
+  border: black 2px solid;
+  padding: 1rem;
+  margin: 2rem;
+}
+.friendslist-friend {
+  padding: 1rem;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
 @media screen and (min-width: 1200px) {
   .landing-page--wrapper {
