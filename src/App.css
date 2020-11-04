@@ -33,11 +33,14 @@
   border: black 2px solid;
   padding: 1rem;
   margin: 2rem;
-  list-style-type: none;
 }
 
 .friendslist-friend {
   padding: 1rem;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .leaderboard {

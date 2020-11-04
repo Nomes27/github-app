@@ -1,13 +1,23 @@
 import React from "react";
 
-
+const deleteFriend = (friend) => {
+  
+}
 
 function FriendsList(props) {
-  return <ul className="friendslist">
+  return (<div className="friendslist">
+    <h3>Friends</h3>
     {props.friends.map(friend => {
-      return <div className="friendslist-friend"><li>{friend}</li></div>
+      return <div className="friendslist-friend" key={friend}>
+        <p>{friend}</p>
+       {props.path === "/dashboard" &&  <p>Online</p>}
+       {props.path === "/profile" && <button onClick={(e) => {
+         e.preventDefault();
+         deleteFriend(friend)
+       }}>X</button>}
+       </div>
     })}
-          </ul>
+    </div>)
 }
 
 export default FriendsList;
