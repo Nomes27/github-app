@@ -176,6 +176,10 @@ table th {
   justify-content: space-between;
 }
 
+
+
+
+
 @media screen and (min-width: 1200px) {
   .landing-page--wrapper {
     flex-direction: row-reverse;
