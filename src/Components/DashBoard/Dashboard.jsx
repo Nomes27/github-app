@@ -1,13 +1,36 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import LeaderBoard from "./LeaderBoard";
 import FriendsList from "../Shared/FriendsList";
-const user = {
-  name: "alex",
-  avatar:
-    "https://bigideasforsmallbusiness.com/wp-content/uploads/2017/07/blog4site_7-13-17_Quiz-on-Tax-Rules_dreamstime-480x420.jpg",
-  friends: ["Naomi", "Tia", "Will"],
-};
+
+import firebase from "../../config";
+import "firebase/firestore";
+const db = firebase.firestore();
+const userDB = db.collection("users").doc("alexhunter");
+
 function DashBoard(props) {
+  const [user, setUser] = useState({
+    name: "",
+    avatar: "",
+    friends: [],
+    online: false,
+    score: 0,
+  });
+  useEffect(() => {
+    userDB
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          setUser(doc.data());
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch(function (error) {
+        console.log("Error getting document:", error);
+      });
+  }, []);
   return (
     <div>
       <header className="dashboard_header">
