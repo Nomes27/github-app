@@ -147,6 +147,30 @@
   display: none;
 }
 
+.leaderboard {
+  border: 1px solid black;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.leaderboard--title {
+  margin: 0 auto;
+}
+
+.leaderboard--table {
+  margin: 0 auto;
+}
+
+table th {
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+
+
+
+
 @media screen and (min-width: 1200px) {
   .landing-page--wrapper {
     flex-direction: row-reverse;
