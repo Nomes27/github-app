@@ -9,7 +9,7 @@ import React from "react";
 import { Router } from "@reach/router";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
 import Room from "./Components/QuizRoom/Room";
-import Lobby from "./Components/QuizRoom/Lobby";
+import Quiz from "./Components/QuizRoom/Quiz";
 import DashBoard from "./Components/DashBoard/Dashboard";
 
 //NEED TO INSTALL BOTH FIREBASE AND FIREBASE TOOLS
@@ -23,7 +23,7 @@ class App extends React.Component {
     host: false,
   };
 
-  setHost= (host) => {
+  setHost = (host) => {
     this.setState({ host: host });
   };
 
@@ -35,6 +35,7 @@ class App extends React.Component {
     console.log("this is in app", this.state.user);
   }
   render() {
+    console.log("state-user", this.state.user);
     console.log("state-host", this.state.host);
     return (
       <div className="App">
@@ -44,10 +45,9 @@ class App extends React.Component {
             setUser={this.setUser}
             testUser={this.state.user}
           />
-          <DashBoard path="/dashboard" user={this.state.user} setHost={this.setHost}/>
-          <ProfilePage path="/profile" user={this.state.user}/>
-          <Lobby path="/quiz" user={this.state.user}/>
-          <Room path="quiz/:room_id" user={this.state.user}/>
+          <DashBoard path="/dashboard" user={this.state.user} setHost={this.setHost} />
+          <ProfilePage path="/profile" user={this.state.user} />
+          <Quiz path="/quiz/:room_id" user={this.state.user} />
         </Router>
       </div>
     );

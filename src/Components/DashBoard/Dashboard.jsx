@@ -1,6 +1,6 @@
 import React from "react";
 import LeaderBoard from "./LeaderBoard";
-import { Link } from "@reach/router";
+import { navigate } from "@reach/router";
 
 import firebase from "../../config";
 import "firebase/firestore";
@@ -13,9 +13,14 @@ state = {
   user: '',
 }
 
+generateCode = () => {
+  return "NJHJ"
+}
 updateHost = (event) => {
   event.preventDefault()
   this.props.setHost(true)
+  const room = this.generateCode()
+  navigate(`/quiz/${room}`)
 }
 
 // componentDidMount() {
