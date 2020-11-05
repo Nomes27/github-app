@@ -20,16 +20,22 @@ const rooms = db.collection("rooms");
 class App extends React.Component {
   state = {
     user: "",
+    host: false,
+  };
+
+  setHost= (host) => {
+    this.setState({ host: host });
   };
 
   setUser = (user) => {
     this.setState({ user: user });
   };
+
   componentDidUpdate() {
     console.log("this is in app", this.state.user);
   }
   render() {
-    console.log("state", this.state.user);
+    console.log("state-host", this.state.host);
     return (
       <div className="App">
         <Router>
@@ -38,10 +44,10 @@ class App extends React.Component {
             setUser={this.setUser}
             testUser={this.state.user}
           />
-          <DashBoard path="/dashboard" user={this.state.user} />
-          <ProfilePage path="/profile" />
-          <Lobby path="/quiz" />
-          <Room path="quiz/:room_id" />
+          <DashBoard path="/dashboard" user={this.state.user} setHost={this.setHost}/>
+          <ProfilePage path="/profile" user={this.state.user}/>
+          <Lobby path="/quiz" user={this.state.user}/>
+          <Room path="quiz/:room_id" user={this.state.user}/>
         </Router>
       </div>
     );
