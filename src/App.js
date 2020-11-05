@@ -19,16 +19,17 @@ const rooms = db.collection("rooms");
 
 class App extends React.Component {
   state = {
-    user: "test",
+    user: "",
   };
 
   setUser = (user) => {
     this.setState({ user: user });
   };
   componentDidUpdate() {
-    console.log("here is in app", this.state.user);
+    console.log("this is in app", this.state.user);
   }
   render() {
+    console.log("state", this.state.user);
     return (
       <div className="App">
         <Router>

@@ -12,7 +12,8 @@ const LandingPage = (props) => {
   const submitUser = (event) => {
     event.preventDefault();
     //post req
-    console.log("clicked");
+    event.preventDefault();
+    props.setUser(user);
   };
 
   useEffect(() => {
@@ -22,21 +23,14 @@ const LandingPage = (props) => {
     <div className="landing-page--wrapper">
       <div className="landing-page--graphic"></div>
       <div className="landing-page--sign-in">
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            props.setUser(user);
-            console.log(props.testUser);
-          }}
-        >
+        <form onSubmit={submitUser}>
           <input
             onChange={updateUsername}
             type="text"
             placeholder="enter username..."
           ></input>
+          <button type="submit">START PLAYING</button>
         </form>
-
-        <button type="submit">START PLAYING</button>
       </div>
     </div>
   );
