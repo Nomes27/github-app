@@ -48,7 +48,7 @@ updateHost = (event) => {
         <h1>Hello, {this.props.user}!</h1>
       </header>
       <div>
-        <button className="dashboard_game_buttons" onClick={this.updateHost}>Host Game</button>
+        <Link to="/quiz" onClick={this.updateHost}><button className="dashboard_game_buttons" >Host Game</button></Link>
         <button className="dashboard_game_buttons">Join Game</button>
       </div>
       {/* <FriendsList friends={user.friends} path={props.path} /> */}

@@ -1,22 +1,25 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "@reach/router"
+
+import { navigate, Link } from "@reach/router"
 
 import React from "react";
 
 class LandingPage extends React.Component {
 
-state = {
-  user: ''
-}
+//NEED TO DO FORM VALIDATION ON USER
+  state = {
+    user: ""
+  }
 
   updateUsername = (event) => {
-    this.props.setUser(event.target.value);
+    this.setState({user: event.target.value})
   };
+
+
   submitUser = (event) => {
     event.preventDefault();
+    console.log('this is being run')
     this.props.setUser(this.state.user)
-    const navigate = useNavigate()
-     navigate('./dashboard', { replace: true })
+    navigate('/dashboard'); 
   };
 
 render() {
