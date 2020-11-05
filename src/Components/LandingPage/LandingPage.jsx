@@ -14,7 +14,6 @@ class LandingPage extends React.Component {
     this.setState({user: event.target.value})
   };
 
-
   submitUser = (event) => {
     event.preventDefault();
     console.log('this is being run')

@@ -1,6 +1,6 @@
 import React from "react";
 import LeaderBoard from "./LeaderBoard";
-import { Link } from "@reach/router";
+import { navigate } from "@reach/router";
 
 import firebase from "../../config";
 import "firebase/firestore";
@@ -13,9 +13,14 @@ state = {
   user: '',
 }
 
+generateCode = () => {
+  return "NJHJ"
+}
 updateHost = (event) => {
   event.preventDefault()
   this.props.setHost(true)
+  const room = this.generateCode()
+  navigate(`/quiz/${room}`)
 }
 
 // componentDidMount() {
@@ -48,7 +53,7 @@ updateHost = (event) => {
         <h1>Hello, {this.props.user}!</h1>
       </header>
       <div>
-        <Link to="/quiz" onClick={this.updateHost}><button className="dashboard_game_buttons" >Host Game</button></Link>
+        <button className="dashboard_game_buttons" onClick={this.updateHost}>Host Game</button>
         <button className="dashboard_game_buttons">Join Game</button>
       </div>
       {/* <FriendsList friends={user.friends} path={props.path} /> */}
