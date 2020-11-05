@@ -31,6 +31,7 @@ function DashBoard(props) {
         console.log("Error getting document:", error);
       });
   }, []);
+  console.log(props.user);
   return (
     <div>
       <header className="dashboard_header">

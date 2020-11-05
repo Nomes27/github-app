@@ -1,29 +1,39 @@
-import {useEffect, useState} from 'react';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import { useEffect, useState } from "react";
 
-const LandingPage = () => {
-    const [signUp, setSignUp] = useState(false);
+import React from "react";
 
-    const handleClick = (event) => {
-        setSignUp(!signUp);
-    }
-    
-    
-    console.log(signUp);
-    
-        return (
-            <div className="landing-page--wrapper">
-                <div className="landing-page--graphic">
-                    
-                </div>
-                <div className="landing-page--sign-in">
-                    {signUp ? <SignUp /> : <SignIn />}
-                    <button className="landing-page--sign-in--modal-btn" onClick={handleClick}>{signUp ? 'Back' : 'Sign Up'}</button>
-                </div>
-            </div>
-        )
-    
-}
+const LandingPage = (props) => {
+  const [user, setUser] = useState("");
+
+  const updateUsername = (event) => {
+    setUser(event.target.value);
+    console.log(user);
+  };
+  const submitUser = (event) => {
+    event.preventDefault();
+    //post req
+    event.preventDefault();
+    props.setUser(user);
+  };
+
+  useEffect(() => {
+    console.log(props.testUser);
+  });
+  return (
+    <div className="landing-page--wrapper">
+      <div className="landing-page--graphic"></div>
+      <div className="landing-page--sign-in">
+        <form onSubmit={submitUser}>
+          <input
+            onChange={updateUsername}
+            type="text"
+            placeholder="enter username..."
+          ></input>
+          <button type="submit">START PLAYING</button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default LandingPage;

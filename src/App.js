@@ -4,6 +4,8 @@ import firebase from "./config";
 import "firebase/firestore";
 import "firebase/auth";
 import LandingPage from "./Components/LandingPage/LandingPage";
+
+import React from "react";
 import { Router } from "@reach/router";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
 import Room from "./Components/QuizRoom/Room";
@@ -15,18 +17,35 @@ import DashBoard from "./Components/DashBoard/Dashboard";
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
 
-function App() {
-  return (
-    <div className="App">
-      <Router>
-        <LandingPage path="/" />
-        <DashBoard path="/dashboard" />
-        <ProfilePage path="/profile" />
-        <Host path="/quiz" />
-        <Room path="quiz/:room_id" />
-      </Router>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    user: "",
+  };
+
+  setUser = (user) => {
+    this.setState({ user: user });
+  };
+  componentDidUpdate() {
+    console.log("this is in app", this.state.user);
+  }
+  render() {
+    console.log("state", this.state.user);
+    return (
+      <div className="App">
+        <Router>
+          <LandingPage
+            path="/"
+            setUser={this.setUser}
+            testUser={this.state.user}
+          />
+          <DashBoard path="/dashboard" user={this.state.user} />
+          <ProfilePage path="/profile" />
+          <Host path="/quiz" />
+          <Room path="quiz/:room_id" />
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default App;
