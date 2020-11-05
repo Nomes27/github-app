@@ -9,7 +9,7 @@ import React from "react";
 import { Router } from "@reach/router";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
 import Room from "./Components/QuizRoom/Room";
-import Host from "./Components/QuizRoom/Host";
+import Lobby from "./Components/QuizRoom/Lobby";
 import DashBoard from "./Components/DashBoard/Dashboard";
 
 //NEED TO INSTALL BOTH FIREBASE AND FIREBASE TOOLS
@@ -40,7 +40,7 @@ class App extends React.Component {
           />
           <DashBoard path="/dashboard" user={this.state.user} />
           <ProfilePage path="/profile" />
-          <Host path="/quiz" />
+          <Lobby path="/quiz" />
           <Room path="quiz/:room_id" />
         </Router>
       </div>
