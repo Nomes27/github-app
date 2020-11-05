@@ -1,31 +1,32 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "@reach/router"
 
 import React from "react";
 
-const LandingPage = (props) => {
-  const [user, setUser] = useState("");
+class LandingPage extends React.Component {
 
-  const updateUsername = (event) => {
-    setUser(event.target.value);
-    console.log(user);
+state = {
+  user: ''
+}
+
+  updateUsername = (event) => {
+    this.props.setUser(event.target.value);
   };
-  const submitUser = (event) => {
+  submitUser = (event) => {
     event.preventDefault();
-    //post req
-    event.preventDefault();
-    props.setUser(user);
+    this.props.setUser(this.state.user)
+    const navigate = useNavigate()
+     navigate('./dashboard', { replace: true })
   };
 
-  useEffect(() => {
-    console.log(props.testUser);
-  });
+render() {
   return (
     <div className="landing-page--wrapper">
       <div className="landing-page--graphic"></div>
       <div className="landing-page--sign-in">
-        <form onSubmit={submitUser}>
+        <form onSubmit={this.submitUser}>
           <input
-            onChange={updateUsername}
+            onChange={this.updateUsername}
             type="text"
             placeholder="enter username..."
           ></input>
@@ -34,6 +35,8 @@ const LandingPage = (props) => {
       </div>
     </div>
   );
+}
+
 };
 
 export default LandingPage;
