@@ -41,12 +41,17 @@ class ProfilePage extends React.Component {
             )}
           </section>
           <section>
-            <img className="profile_avatar" src={`${user.avatar}`}></img>
+            <img
+              className="profile_avatar"
+              src={`${user.avatar}`}
+              alt="avatar for user"
+            ></img>
             <br />
             <button className="profile_button">Change Avatar</button>
             <img
               className="profile_graphic"
-              src="https://chessit.co.uk/bj/wp-content/uploads/2018/10/quiz-2074324_640.png" //IS HIDDEN UNTIL SCREEN IS LARGE
+              src="https://chessit.co.uk/bj/wp-content/uploads/2018/10/quiz-2074324_640.png"
+              alt="logo of a quiz graphic" //IS HIDDEN UNTIL SCREEN IS LARGE
             ></img>
           </section>
         </div>

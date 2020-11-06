@@ -1,8 +1,11 @@
 import React from "react";
 import Room from "./Room";
-import { navigate, Router } from "@reach/router";
+import { navigate } from "@reach/router";
 import "firebase/firestore";
 import firebase from "../../config.js";
+import axios from "axios";
+import { formatQuestions } from "../../utils/utils";
+
 const db = firebase.firestore();
 const room = db.collection("rooms");
 
@@ -20,10 +23,28 @@ class Quiz extends React.Component {
     //getting users from the room doc to display
   }
 
+  getQuestions = () => {
+    const params = {
+      category: this.state.category,
+      difficulty: this.state.difficulty,
+    };
+    return axios.get("https://opentdb.com/api.php?amount=10&type=multiple", {
+      params,
+    });
+  };
+
+  formatQuestions = () => {};
+
+  //&category=9&difficulty=easy&type=multiple
   startQuiz = (event) => {
     event.preventDefault();
     this.setState({ showQuiz: true });
-    navigate(`/quiz/${this.state.roomCode}`);
+    this.getQuestions().then((questions) => {
+      console.log(questions);
+      //questions into db
+      //formaquestions called
+      navigate(`/quiz/${this.state.roomCode}`);
+    });
   };
 
   selectTopic = (event) => {
