@@ -3,8 +3,8 @@ import "firebase/firestore";
 import firebase from "../../config.js";
 
 const db = firebase.firestore();
-const room = db.collection("Rooms").doc("XYZA");
-
+//const room = db.collection("Rooms").doc("XYZA");
+const rooms = db.collection("rooms");
 class Room extends React.Component {
   state = {
     users: [],
@@ -26,8 +26,19 @@ class Room extends React.Component {
     });
   };
 
+  selectAnswer = (event) => {
+    const answer = event.target.value;
+    rooms
+      .doc(this.props.room_id)
+      .collection("users")
+      .doc(this.props.user)
+      .set({ field: "test" });
+    //update();
+    //patch question to the db
+  };
+
   componentDidMount() {
-    room
+    rooms
       .get()
       .then((doc) => {
         if (doc.exists) {
@@ -52,16 +63,24 @@ class Room extends React.Component {
         <div>
           <h2>Question {this.state.current_question + 1}</h2>
           <h1> {this.state.questions[this.state.current_question].question}</h1>
-
-          {this.state.questions[this.state.current_question].all_answers.map(
-            (answer) => {
-              return <button key={answer}>{answer}</button>;
-            }
-          )}
-
+          <div className="answerbuttons--container">
+            {this.state.questions[this.state.current_question].all_answers.map(
+              (answer) => {
+                return (
+                  <button
+                    onClick={this.selectAnswer}
+                    className="answerbutton"
+                    key={answer}
+                  >
+                    {answer}
+                  </button>
+                );
+              }
+            )}
+          </div>
           <div>
-            {this.state.users.map((user) => {
-              return <p>{`${user.username}: ${user.score}`}</p>;
+            {this.state.users.map((user, i) => {
+              return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
             })}
           </div>
         </div>

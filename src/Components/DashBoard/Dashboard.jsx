@@ -15,15 +15,31 @@ class DashBoard extends React.Component {
   generateCode = () => {
     return "NJHJ";
   };
-
+  /*
+ db.collection('users').doc(this.username).collection('booksList').add({
+  password: this.password,
+  name: this.name,
+  rollno: this.rollno
+})
+        ],*/
   setUpRoom = (code) => {
     rooms
       .doc(code)
       .set({
-        users: [{ username: this.props.user, score: 0, answers: [] }],
         host: this.props.user,
       })
       .then(() => {
+        rooms
+          .doc(code)
+          .collection("users")
+          .doc(this.props.user)
+          .set({
+            username: this.props.user,
+            score: 0,
+            answers: ["", "", "", "", "", "", "", "", "", ""],
+          });
+        //create a collection of users within the room doc, within rooms collection
+
         console.log();
       });
     // make the room doc(as generated code), puts in the active user into the room
