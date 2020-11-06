@@ -15,15 +15,36 @@ class Room extends React.Component {
     isLoading: true,
   };
 
+  getUserInfo = () => {
+    return rooms.doc(this.props.room_id).collection('users').get()
+  }
+
   getRoomInfo = (roomData) => {
-    this.setState({
-      users: [...roomData.users],
-      host: roomData.host,
-      questions: [...roomData.questions],
-      time_up: roomData.time_up,
-      current_question: roomData.current_question,
-      isLoading: false,
-    });
+    console.log(roomData)
+    this.getUserInfo().then((docs) => {
+      docs.forEach(doc => {
+        console.log(doc.data())
+
+        //NOW HAVE ACCESS TO USER DATA FOR ROOM - NEED TO SET TO STATE
+      })
+
+      this.setState({
+        host: roomData.host,
+        questions: [...roomData.questions],
+        time_up: roomData.time_up,
+        current_question: roomData.current_question,
+        isLoading: false,
+      });
+ 
+      
+    })
+
+    //get the users collection from the room document inside the rooms collection
+    //for each document in the users collection, make a user object from each field in the document
+    //push each user document to a users array
+    //set users array in state to the users array
+
+
   };
 
   selectAnswer = (event) => {
@@ -39,6 +60,7 @@ class Room extends React.Component {
 
   componentDidMount() {
     rooms
+      .doc(this.props.room_id)
       .get()
       .then((doc) => {
         if (doc.exists) {

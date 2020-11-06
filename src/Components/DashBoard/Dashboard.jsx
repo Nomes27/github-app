@@ -27,6 +27,8 @@ class DashBoard extends React.Component {
       .doc(code)
       .set({
         host: this.props.user,
+        current_question: 0,
+        time_up: false,
       })
       .then(() => {
         rooms
