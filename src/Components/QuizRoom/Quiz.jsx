@@ -7,7 +7,7 @@ import axios from "axios";
 import { formatQuestions } from "../../utils/utils";
 
 const db = firebase.firestore();
-const room = db.collection("rooms");
+const rooms = db.collection("rooms");
 
 class Quiz extends React.Component {
   state = {
@@ -33,17 +33,20 @@ class Quiz extends React.Component {
     });
   };
 
-  formatQuestions = () => {};
-
   //&category=9&difficulty=easy&type=multiple
   startQuiz = (event) => {
     event.preventDefault();
-    this.setState({ showQuiz: true });
-    this.getQuestions().then((questions) => {
-      console.log(questions);
-      //questions into db
-      //formaquestions called
-      navigate(`/quiz/${this.state.roomCode}`);
+    this.getQuestions().then((response) => {
+      const questions = response.data.results;
+      const formattedQuestions = formatQuestions(questions)
+      
+      rooms.doc(this.props.room_id).update({questions: formattedQuestions}).then(() => {
+        this.setState({ showQuiz: true });
+        navigate(`/quiz/${this.props.room_id}`);
+      })
+
+
+
     });
   };
 
@@ -57,7 +60,7 @@ class Quiz extends React.Component {
 
   render() {
     if (this.state.showQuiz === true) {
-      return <Room />;
+      return <Room room_id={this.props.room_id}/>;
     } else {
       return (
         <div>
