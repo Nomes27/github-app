@@ -67,13 +67,8 @@ class Room extends React.Component {
       .get()
       .then((doc) => {
         let answer = doc.data().answers[this.state.current_question];
-        console.log(
-          this.state.questions[this.state.current_question].correct_answer,
-          "all of it"
-        );
-        console.log(this.state.questions, "all questions");
-        console.log(this.state.questions[this.state.current_question]);
-        console.log(this.state.current_question, "current q");
+        console.log(answer);
+
         if (
           answer ===
           this.state.questions[this.state.current_question].correct_answer
@@ -94,30 +89,32 @@ class Room extends React.Component {
     .onSnapshot((querySnapshot) => {
       let allAnswered = true;
       //get req to db
-
-      querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-        console.log(doc.data().answers.length, "answers length in listener");
-        console.log(
-          this.state.current_question,
-          "current question in listener"
-        );
-        if (!doc.data().answers.length > this.state.current_question) {
-          allAnswered = false;
-        }
-      });
-
-      if (allAnswered) {
-        //
-        db.collection("rooms")
-          .doc(this.props.room_id)
-          .update({ time_up: true });
-        this.setState((prevState) => {
-          const newQuestion = prevState.current_question++;
-          return { time_up: true, current_question: newQuestion };
+      if (this.state.time_up === false) {
+        querySnapshot.forEach((doc) => {
+          console.log(doc.data());
+          console.log(doc.data().answers.length, "answers length in listener");
+          console.log(
+            this.state.current_question,
+            "current question in listener"
+          );
+          if (!doc.data().answers.length > this.state.current_question) {
+            allAnswered = false;
+          }
         });
-        this.updateUserScore();
-        console.log("hi");
+
+        if (allAnswered) {
+          //
+          db.collection("rooms")
+            .doc(this.props.room_id)
+            .update({ time_up: true });
+          this.updateUserScore();
+          this.setState((prevState) => {
+            // const newQuestion = prevState.current_question++;
+            return { time_up: true };
+          });
+
+          console.log("hi");
+        }
       }
     });
 
@@ -141,6 +138,7 @@ class Room extends React.Component {
 
   render() {
     console.log(this.state.time_up, "here is time-up");
+    console.log(this.state.questions);
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {

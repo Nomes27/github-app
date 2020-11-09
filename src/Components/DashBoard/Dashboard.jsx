@@ -13,7 +13,7 @@ class DashBoard extends React.Component {
   };
 
   generateCode = () => {
-    return "NJHJ";
+    return "Naomi"; //NJHJ
   };
   /*
  db.collection('users').doc(this.username).collection('booksList').add({
@@ -31,17 +31,12 @@ class DashBoard extends React.Component {
         time_up: false,
       })
       .then(() => {
-        rooms
-          .doc(code)
-          .collection("users")
-          .doc(this.props.user)
-          .set({
-            username: this.props.user,
-            score: 0,
-            answers: [],
-          });
+        rooms.doc(code).collection("users").doc(this.props.user).set({
+          username: this.props.user,
+          score: 0,
+          answers: [],
+        });
         //create a collection of users within the room doc, within rooms collection
-
       });
     // make the room doc(as generated code), puts in the active user into the room
   }; //doing this here, so that users are available to view in host lobby
