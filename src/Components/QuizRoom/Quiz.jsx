@@ -18,10 +18,7 @@ class Quiz extends React.Component {
     showQuiz: false,
   };
 
-  componentDidMount() {
-    //this.props.room_id
-    //getting users from the room doc to display
-  }
+
 
   getQuestions = () => {
     const params = {
@@ -60,7 +57,7 @@ class Quiz extends React.Component {
 
   render() {
     if (this.state.showQuiz === true) {
-      return <Room room_id={this.props.room_id}/>;
+      return <Room room_id={this.props.room_id} user={this.props.user}/>;
     } else {
       return (
         <div>

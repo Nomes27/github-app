@@ -2,6 +2,7 @@ import "./App.css";
 
 import "firebase/firestore";
 import "firebase/auth";
+
 import LandingPage from "./Components/LandingPage/LandingPage";
 
 import React from "react";

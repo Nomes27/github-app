@@ -38,11 +38,10 @@ class DashBoard extends React.Component {
           .set({
             username: this.props.user,
             score: 0,
-            answers: ["", "", "", "", "", "", "", "", "", ""],
+            answers: [],
           });
         //create a collection of users within the room doc, within rooms collection
 
-        console.log();
       });
     // make the room doc(as generated code), puts in the active user into the room
   }; //doing this here, so that users are available to view in host lobby

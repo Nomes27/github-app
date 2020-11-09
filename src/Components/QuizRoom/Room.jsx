@@ -1,8 +1,8 @@
 import React from "react";
 import "firebase/firestore";
 import firebase from "../../config.js";
-
-const db = firebase.firestore();
+import 'firebase/functions';
+const db = firebase.firestore()
 //const room = db.collection("Rooms").doc("XYZA");
 const rooms = db.collection("rooms");
 class Room extends React.Component {
@@ -20,22 +20,20 @@ class Room extends React.Component {
   }
 
   getRoomInfo = (roomData) => {
-    console.log(roomData)
+    const userData = []
     this.getUserInfo().then((docs) => {
       docs.forEach(doc => {
-        console.log(doc.data())
-
+        userData.push(doc.data())
         //NOW HAVE ACCESS TO USER DATA FOR ROOM - NEED TO SET TO STATE
       })
-
       this.setState({
+        users: [...userData],
         host: roomData.host,
         questions: [...roomData.questions],
         time_up: roomData.time_up,
         current_question: roomData.current_question,
         isLoading: false,
       });
- 
       
     })
 
@@ -48,36 +46,47 @@ class Room extends React.Component {
   };
 
   selectAnswer = (event) => {
-    const answer = event.target.value;
+    const answer = event.target.innerText;
+    // this.setState((prevState) => {
+    //   users: [...prevState, ]
+    // })
     rooms
       .doc(this.props.room_id)
       .collection("users")
       .doc(this.props.user)
-      .set({ field: "test" });
-    //update();
-    //patch question to the db
+      .update({ answers: firebase.firestore.FieldValue.arrayUnion(answer) });
+
   };
 
+// // Atomically add a new region to the "regions" array field.
+// washingtonRef.update({
+//   regions: firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+// });
+
+
+
   componentDidMount() {
+    console.log('user in room', this.props.user)
     rooms
-      .doc(this.props.room_id)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          const roomData = doc.data();
-          this.getRoomInfo(roomData);
-        } else {
-          console.log("No such document!");
-        }
-      })
-      .catch(function (error) {
-        console.log("Error getting document:", error);
-      });
+    .doc(this.props.room_id)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const roomData = doc.data();
+        this.getRoomInfo(roomData);
+      } else {
+        console.log("No such document!");
+      }
+    })
+    .catch(function (error) {
+      console.log("Error getting document:", error);
+    });
   }
 
+
+
   render() {
-    console.log("this is the new state", this.state);
-    console.log();
+    console.log('are we getting this?')
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
