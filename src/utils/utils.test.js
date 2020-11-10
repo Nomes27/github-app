@@ -1,4 +1,4 @@
-const { formatQuestions } = require("./utils");
+const { formatQuestions, roomCodeGenerator } = require("./utils");
 const axios = require("axios");
 let data = {}
 
@@ -30,4 +30,13 @@ describe("formatQuestions", () => {
     const data = [{ question: "what is 2+2", correct_answer: "4", incorrect_answers: ["1", "2", "3"] }]
     expect(formatQuestions(data)[0].all_answers.length).toBe(4);
   })
+});
+
+describe('roomCodeGenerator', () => {
+  it('returns a string', () => {
+    expect(typeof roomCodeGenerator()).toBe('string')
+  });
+  it('returns a random for letter code', () => {
+    expect(roomCodeGenerator(4).length).toBe(4)
+  });
 });
