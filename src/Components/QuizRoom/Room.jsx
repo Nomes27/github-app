@@ -56,10 +56,7 @@ class Room extends React.Component {
 
   updateUserScore = () => {
     ///compare each users answers against the correct answer, update score on db
-
-    //get into users collection and check this.props.user .answers[current_question]
-    //if this === correct_answer[current_question] then incremement score by 1
-
+    console.log("update func running");
     db.collection("rooms")
       .doc(this.props.room_id)
       .collection("users")
@@ -67,18 +64,26 @@ class Room extends React.Component {
       .get()
       .then((doc) => {
         let answer = doc.data().answers[this.state.current_question];
+
         console.log(answer);
 
         if (
           answer ===
           this.state.questions[this.state.current_question].correct_answer
+          // this.state.questions[this.state.current_question].correct_answer
         ) {
           db.collection("rooms")
             .doc(this.props.room_id)
             .collection("users")
             .doc(this.props.user)
             .update({ score: firebase.firestore.FieldValue.increment(1) });
+          //updated score is not being shown on the page, need to set the state of users, so updated score shows on page
+        } else {
+          console.log("incorrect answer");
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -88,7 +93,7 @@ class Room extends React.Component {
     .collection("users")
     .onSnapshot((querySnapshot) => {
       let allAnswered = true;
-      //get req to db
+
       if (this.state.time_up === false) {
         querySnapshot.forEach((doc) => {
           console.log(doc.data());
@@ -102,16 +107,19 @@ class Room extends React.Component {
           }
         });
 
-        if (allAnswered) {
+        if (allAnswered === true) {
           //
+
           db.collection("rooms")
             .doc(this.props.room_id)
             .update({ time_up: true });
           this.updateUserScore();
-          this.setState((prevState) => {
-            // const newQuestion = prevState.current_question++;
-            return { time_up: true };
-          });
+          this.setState((prevState) => ({
+            time_up: true,
+            current_question: prevState.current_question++,
+          }));
+          //got rid of prevstate
+          // const newQuestion = prevState.current_question++;
 
           console.log("hi");
         }
@@ -161,11 +169,16 @@ class Room extends React.Component {
               }
             )}
           </div>
-          <div>
+          {/*} <div>
             {this.state.users.map((user, i) => {
               return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
             })}
-          </div>
+          </div>*/}
+          {this.state.time_up &&
+            this.state.users.map((user, i) => {
+              return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
+            })}
+          <button>next question</button>
         </div>
       );
     }
