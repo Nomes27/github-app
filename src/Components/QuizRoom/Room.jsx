@@ -2,6 +2,7 @@ import React from "react";
 import "firebase/firestore";
 import firebase from "../../config.js";
 import "firebase/functions";
+import { navigate } from "@reach/router";
 const db = firebase.firestore();
 //const room = db.collection("Rooms").doc("XYZA");
 const rooms = db.collection("rooms");
@@ -14,6 +15,13 @@ class Room extends React.Component {
     current_question: 0,
     isLoading: true,
     selected: false,
+  };
+
+  returnToDashboard = () => {
+    if (this.props.user === this.state.host) {
+      //delete room
+    }
+    navigate("/dashboard");
   };
 
   getUserInfo = () => {
@@ -44,11 +52,19 @@ class Room extends React.Component {
   };
 
   processNextQuestion = () => {
-    this.setState({
-      selected: false,
-    })
-    db.collection("rooms").doc(this.props.room_id).update({current_question: firebase.firestore.FieldValue.increment(1)})
-  }
+    db.collection("rooms")
+      .doc(this.props.room_id)
+      .update({
+        current_question: firebase.firestore.FieldValue.increment(1),
+        time_up: false,
+      })
+      .then(() => {
+        this.setState({
+          selected: false,
+          time_up: false,
+        });
+      });
+  };
 
   selectAnswer = (event) => {
     const answer = event.target.innerText;
@@ -60,7 +76,7 @@ class Room extends React.Component {
       .collection("users")
       .doc(this.props.user)
       .update({ answers: firebase.firestore.FieldValue.arrayUnion(answer) });
-      this.setState({selected: true})
+    this.setState({ selected: true });
   };
 
   updateUserScore = () => {
@@ -93,13 +109,27 @@ class Room extends React.Component {
       });
   };
 
+  roomListener = db
+    .collection("rooms")
+    .doc(this.props.room_id)
+    .onSnapshot((roomSnapshot) => {
+      console.log(roomSnapshot.data(), "rooooom");
+      if (
+        roomSnapshot.data().current_question !== this.state.current_question
+      ) {
+        this.setState({
+          current_question: roomSnapshot.data().current_question,
+        });
+      }
+    });
+
   allAnsweredListener = db
     .collection("rooms")
     .doc(this.props.room_id)
     .collection("users")
     .onSnapshot((usersSnapshot) => {
       let allAnswered = true;
-
+      //checking to see if time_up is true, so we know to display the results and the next question button
       if (this.state.time_up === false) {
         usersSnapshot.forEach((user) => {
           if (!user.data().answers.length > this.state.current_question) {
@@ -117,16 +147,29 @@ class Room extends React.Component {
           this.setState({
             time_up: true,
           });
-
         }
       } else {
+        // if time up is true, get users by scores and put in state so they can be displayed display
         const newUsers = [];
         usersSnapshot.forEach((user) => {
-          newUsers.push(user.data())
-        })
+          newUsers.push(user.data());
+        });
+
+        newUsers.sort(function compare(a, b) {
+          //sort the user scores
+          if (a.score > b.score) {
+            return -1;
+          }
+          if (a.score < b.score) {
+            return 1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+
         this.setState({
-          users: [...newUsers]
-        })
+          users: [...newUsers],
+        });
       }
     });
 
@@ -148,35 +191,65 @@ class Room extends React.Component {
   }
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
       return (
-        <div>
-          <h2>Question {this.state.current_question + 1}</h2>
-          <h1> {this.state.questions[this.state.current_question].question}</h1>
-          <div className="answerbuttons--container">
-            {this.state.questions[this.state.current_question].all_answers.map(
-              (answer) => {
-                return (
-                  <button disabled={this.state.selected}
-                    onClick={this.selectAnswer}
-                    className="answerbutton"
-                    key={answer}
-                  >
-                    {answer}
-                  </button>
-                );
-              }
-            )}
-          </div>
-           <div>
+        <div className="questions-wrapper">
+          {this.state.current_question !== 10 ? (
+            <div className="current-question">
+              <h2>Question {this.state.current_question + 1}</h2>
+              <h1>
+                {" "}
+                {this.state.questions[this.state.current_question].question}
+              </h1>
+              <div className="answerbuttons--container">
+                {this.state.questions[
+                  this.state.current_question
+                ].all_answers.map((answer) => {
+                  return (
+                    <button
+                      disabled={this.state.selected}
+                      onClick={this.selectAnswer}
+                      className="answerbutton"
+                      key={answer}
+                    >
+                      {answer}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            //do while loop - curr score is equal to next score print the user
+            <h1>{this.state.users[0].username} is the winner!</h1>
+            //name of winner - image of trophy
+            //sorted scores
+            //play again button
+            //back to dashboard button
+          )}
+          <div>
             {this.state.users.map((user, i) => {
               return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
             })}
           </div>
-          {this.state.time_up && <button onClick={this.processNextQuestion}>next question</button>}
+          {this.state.time_up &&
+          this.props.user === this.state.host &&
+          this.state.current_question !== 10 ? (
+            <button onClick={this.processNextQuestion}>next question</button>
+          ) : null}
+          {this.state.current_question === 10 && (
+            <div>
+              {this.props.user === this.state.host && (
+                <button>Play Again</button>
+              )}
+
+              <button onClick={this.returnToDashboard}>
+                Return to dashboard
+              </button>
+            </div>
+          )}
         </div>
       );
     }
