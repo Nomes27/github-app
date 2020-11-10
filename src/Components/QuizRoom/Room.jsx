@@ -173,6 +173,22 @@ class Room extends React.Component {
       }
     });
 
+
+    playAgain = () => {
+      this.props.resetQuiz()
+      this.state.users.forEach((user) => {
+        const newUser = {
+        username: user.username,
+        score: 0,
+        answers: [],
+        }
+        db.collection('rooms').doc(this.props.room_id).collection('users').doc(user.username).set(newUser)
+      })
+      
+      db.collection('rooms').doc(this.props.room_id).update({current_question: 0})
+    }
+
+
   componentDidMount() {
     rooms
       .doc(this.props.room_id)
@@ -242,7 +258,7 @@ class Room extends React.Component {
           {this.state.current_question === 10 && (
             <div>
               {this.props.user === this.state.host && (
-                <button>Play Again</button>
+                <button onClick={this.playAgain}>Play Again</button>
               )}
 
               <button onClick={this.returnToDashboard}>
@@ -258,20 +274,3 @@ class Room extends React.Component {
 
 export default Room;
 
-// function FriendsList() {
-//   friends
-//     .get()
-//     .then(function (doc) {
-//       if (doc.exists) {
-//         console.log(doc.data());
-//       } else {
-//         // doc.data() will be undefined in this case
-//         console.log("No such document!");
-//       }
-//     })
-//     .catch(function (error) {
-//       console.log("Error getting document:", error);
-//     });
-//   return <h1>Friends-list goes here...</h1>;
-// }
-// export default FriendsList;
