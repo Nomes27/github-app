@@ -13,6 +13,7 @@ class Room extends React.Component {
     time_up: false,
     current_question: 0,
     isLoading: true,
+    selected: false,
   };
 
   getUserInfo = () => {
@@ -42,6 +43,13 @@ class Room extends React.Component {
     //set users array in state to the users array
   };
 
+  processNextQuestion = () => {
+    this.setState({
+      selected: false,
+    })
+    db.collection("rooms").doc(this.props.room_id).update({current_question: firebase.firestore.FieldValue.increment(1)})
+  }
+
   selectAnswer = (event) => {
     const answer = event.target.innerText;
     // this.setState((prevState) => {
@@ -52,11 +60,11 @@ class Room extends React.Component {
       .collection("users")
       .doc(this.props.user)
       .update({ answers: firebase.firestore.FieldValue.arrayUnion(answer) });
+      this.setState({selected: true})
   };
 
   updateUserScore = () => {
     ///compare each users answers against the correct answer, update score on db
-    console.log("update func running");
     db.collection("rooms")
       .doc(this.props.room_id)
       .collection("users")
@@ -64,8 +72,6 @@ class Room extends React.Component {
       .get()
       .then((doc) => {
         let answer = doc.data().answers[this.state.current_question];
-
-        console.log(answer);
 
         if (
           answer ===
@@ -91,18 +97,12 @@ class Room extends React.Component {
     .collection("rooms")
     .doc(this.props.room_id)
     .collection("users")
-    .onSnapshot((querySnapshot) => {
+    .onSnapshot((usersSnapshot) => {
       let allAnswered = true;
 
       if (this.state.time_up === false) {
-        querySnapshot.forEach((doc) => {
-          console.log(doc.data());
-          console.log(doc.data().answers.length, "answers length in listener");
-          console.log(
-            this.state.current_question,
-            "current question in listener"
-          );
-          if (!doc.data().answers.length > this.state.current_question) {
+        usersSnapshot.forEach((user) => {
+          if (!user.data().answers.length > this.state.current_question) {
             allAnswered = false;
           }
         });
@@ -114,20 +114,23 @@ class Room extends React.Component {
             .doc(this.props.room_id)
             .update({ time_up: true });
           this.updateUserScore();
-          this.setState((prevState) => ({
+          this.setState({
             time_up: true,
-            current_question: prevState.current_question++,
-          }));
-          //got rid of prevstate
-          // const newQuestion = prevState.current_question++;
+          });
 
-          console.log("hi");
         }
+      } else {
+        const newUsers = [];
+        usersSnapshot.forEach((user) => {
+          newUsers.push(user.data())
+        })
+        this.setState({
+          users: [...newUsers]
+        })
       }
     });
 
   componentDidMount() {
-    console.log("user in room", this.props.user);
     rooms
       .doc(this.props.room_id)
       .get()
@@ -145,8 +148,7 @@ class Room extends React.Component {
   }
 
   render() {
-    console.log(this.state.time_up, "here is time-up");
-    console.log(this.state.questions);
+    console.log(this.state)
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
@@ -158,7 +160,7 @@ class Room extends React.Component {
             {this.state.questions[this.state.current_question].all_answers.map(
               (answer) => {
                 return (
-                  <button
+                  <button disabled={this.state.selected}
                     onClick={this.selectAnswer}
                     className="answerbutton"
                     key={answer}
@@ -169,16 +171,12 @@ class Room extends React.Component {
               }
             )}
           </div>
-          {/*} <div>
+           <div>
             {this.state.users.map((user, i) => {
               return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
             })}
-          </div>*/}
-          {this.state.time_up &&
-            this.state.users.map((user, i) => {
-              return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
-            })}
-          <button>next question</button>
+          </div>
+          {this.state.time_up && <button onClick={this.processNextQuestion}>next question</button>}
         </div>
       );
     }

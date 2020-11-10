@@ -14,7 +14,6 @@ class LandingPage extends React.Component {
 
   submitUser = (event) => {
     event.preventDefault();
-    console.log("this is being run");
     this.props.setUser(this.state.user);
     navigate("/dashboard");
   };

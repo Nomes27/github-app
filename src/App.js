@@ -29,11 +29,9 @@ class App extends React.Component {
   };
 
   componentDidUpdate() {
-    console.log("this is in app", this.state.user);
   }
+
   render() {
-    console.log("state-user", this.state.user);
-    console.log("state-host", this.state.host);
     return (
       <div className="App">
         <Router>

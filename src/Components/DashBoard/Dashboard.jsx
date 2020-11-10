@@ -13,7 +13,7 @@ class DashBoard extends React.Component {
   };
 
   generateCode = () => {
-    return "Naomi"; //NJHJ
+    return "NJHJ"; //NJHJ
   };
   /*
  db.collection('users').doc(this.username).collection('booksList').add({
