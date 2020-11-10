@@ -19,7 +19,9 @@ class Room extends React.Component {
 
   returnToDashboard = () => {
     if (this.props.user === this.state.host) {
-      //delete room
+      this.updateLeaderBoard().then(() => {
+        //delete room
+      });
     }
     navigate("/dashboard");
   };
@@ -173,21 +175,40 @@ class Room extends React.Component {
       }
     });
 
+  updateLeaderBoard = () => {
+    let winner = this.state.users[0].username;
 
-    playAgain = () => {
-      this.props.resetQuiz()
-      this.state.users.forEach((user) => {
-        const newUser = {
+    db.collection("Leaderboard")
+      .doc("board")
+
+      .set({
+        //need a way of if user exists on board, adding score to it
+        users: [{ name: winner, score: 10 }], //need way to increment in array
+      });
+  };
+
+  playAgain = () => {
+    //updateLeaderBoard gets called
+    this.updateLeaderBoard();
+    console.log(this.state.users);
+    this.props.resetQuiz();
+    this.state.users.forEach((user) => {
+      const newUser = {
         username: user.username,
         score: 0,
         answers: [],
-        }
-        db.collection('rooms').doc(this.props.room_id).collection('users').doc(user.username).set(newUser)
-      })
-      
-      db.collection('rooms').doc(this.props.room_id).update({current_question: 0})
-    }
+      };
+      db.collection("rooms")
+        .doc(this.props.room_id)
+        .collection("users")
+        .doc(user.username)
+        .set(newUser);
+    });
 
+    db.collection("rooms")
+      .doc(this.props.room_id)
+      .update({ current_question: 0 });
+  };
 
   componentDidMount() {
     rooms
@@ -273,4 +294,3 @@ class Room extends React.Component {
 }
 
 export default Room;
-
