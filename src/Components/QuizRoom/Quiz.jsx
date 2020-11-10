@@ -35,17 +35,20 @@ class Quiz extends React.Component {
     event.preventDefault();
     this.getQuestions().then((response) => {
       const questions = response.data.results;
-      const formattedQuestions = formatQuestions(questions)
-      
+      const formattedQuestions = formatQuestions(questions)   
       rooms.doc(this.props.room_id).update({questions: formattedQuestions}).then(() => {
         this.setState({ showQuiz: true });
-        navigate(`/quiz/${this.props.room_id}`);
       })
-
-
-
     });
   };
+
+  
+resetQuiz = () => {
+    this.setState({
+      showQuiz: false})
+
+}
+
 
   selectTopic = (event) => {
     this.setState({ category: event.target.value });
@@ -57,7 +60,7 @@ class Quiz extends React.Component {
 
   render() {
     if (this.state.showQuiz === true) {
-      return <Room room_id={this.props.room_id} user={this.props.user}/>;
+      return <Room room_id={this.props.room_id} user={this.props.user} resetQuiz={this.resetQuiz}/>;
     } else {
       return (
         <div>
