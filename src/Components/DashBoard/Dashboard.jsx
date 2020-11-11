@@ -1,7 +1,6 @@
 import React from "react";
 import LeaderBoard from "./LeaderBoard";
 import { navigate } from "@reach/router";
-
 import firebase from "../../config";
 import "firebase/firestore";
 const db = firebase.firestore();
@@ -23,13 +22,6 @@ class DashBoard extends React.Component {
     }
 
 
-  /*
- db.collection('users').doc(this.username).collection('booksList').add({
-  password: this.password,
-  name: this.name,
-  rollno: this.rollno
-})
-        ],*/
   setUpRoom = (code) => {
     rooms
       .doc(code)
@@ -63,24 +55,6 @@ class DashBoard extends React.Component {
     navigate(`/quiz`)
   }
 
-  // componentDidMount() {
-  //   userDB
-  //   .get()
-  //   .then(function (doc) {
-  //     if (doc.exists) {
-  //       const user = doc.data();
-  //       this.setState({
-  //         user: user.name
-  //       })
-  //     } else {
-  //       // doc.data() will be undefined in this case
-  //       console.log("No such document!");
-  //     }
-  //   })
-  //   .catch(function (error) {
-  //     console.log("Error getting document:", error);
-  //   });
-  // }
 
   render() {
     return (

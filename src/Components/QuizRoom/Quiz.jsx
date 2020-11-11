@@ -26,7 +26,7 @@ class Quiz extends React.Component {
     };
     return axios.get("https://opentdb.com/api.php?amount=10&type=multiple", {
       params,
-    });
+    })
   };
 
   //&category=9&difficulty=easy&type=multiple
@@ -91,6 +91,8 @@ class Quiz extends React.Component {
   selectDifficulty = (event) => {
     this.setState({ difficulty: event.target.value });
   };
+
+
 
   render() {
     console.log(this.state);
