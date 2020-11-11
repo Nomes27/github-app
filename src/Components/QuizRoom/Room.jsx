@@ -175,42 +175,21 @@ class Room extends React.Component {
         });
       }
     });
-
+  //if user doesnt exist as doc, use set, else update
   updateLeaderBoard = () => {
     let winner = this.state.users[0].username;
-
-    db.collection("Leaderboard")
-      .doc("board")
-      .get()
-      .then((doc) => {
-        let keys = Object.keys(doc.data());
-
-        keys.map((key) => {
-          if (key === winner) {
-            //if user exists in the doc and matches the winner
-            console.log("in if block");
-            return db
-              .collection("Leaderboard")
-              .doc("board")
-              .update(
-                {
-                  [key]: firebase.firestore.FieldValue.increment(10), //can't use .increment in an array, so have to structure like this
-                },
-                { merge: true }
-              );
-          } else {
-            //if user does not exist yet in leaderboard collection
-            db.collection("Leaderboard")
-              .doc("board")
-              .update(
-                {
-                  [winner]: 10,
-                },
-                { merge: true } //need to use this so doesn't overwrite exisitng users
-              );
-          }
+    let user = db.collection("Leaderboard").doc(winner).get();
+    if (user.exists) {
+      db.collection("Leaderboard")
+        .doc(winner)
+        .update({
+          score: firebase.firestore.FieldValue.increment(10),
         });
+    } else {
+      db.collection("Leaderboard").doc(winner).set({
+        score: 10,
       });
+    }
   };
 
   playAgain = () => {

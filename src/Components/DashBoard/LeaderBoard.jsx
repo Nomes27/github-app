@@ -16,15 +16,18 @@ class LeaderBoard extends React.Component {
   componentDidMount() {
     db.collection("Leaderboard")
       .doc("board")
+
       .get()
       .then((doc) => {
         console.log(doc.data());
+
         if (doc.data() !== undefined) {
           //for if doc is empty so doesn't throw error
 
           let usersArr = [];
           Object.entries(doc.data()).map((item) => {
             let obj = { name: item[0], score: item[1] };
+
             usersArr.push(obj);
           });
 
@@ -51,14 +54,16 @@ class LeaderBoard extends React.Component {
           </thead>
           <tbody>
             {this.state.users.map((user, i) => {
-              //NEED SORTING
-              return (
-                <tr>
-                  <td className="leaderboard--position">{i + 1}</td>
-                  <td className="leaderboard--username">{user.name}</td>
-                  <td className="leaderboard--score">{user.score}</td>
-                </tr>
-              );
+              if (i < 10) {
+                //NEED SORTING
+                return (
+                  <tr>
+                    <td className="leaderboard--position">{i + 1}</td>
+                    <td className="leaderboard--username">{user.name}</td>
+                    <td className="leaderboard--score">{user.score}</td>
+                  </tr>
+                );
+              }
             })}
           </tbody>
         </table>
