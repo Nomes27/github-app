@@ -1,5 +1,6 @@
 import React from "react";
-
+import { faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "firebase/firestore";
 import firebase from "../../config.js";
 import "firebase/functions";
@@ -46,7 +47,10 @@ class LeaderBoard extends React.Component {
     console.log(this.state.users, "users leaderboard");
     return (
       <div className="leaderboard">
-        <h2 className="leaderboard--title">Leaderboard</h2>
+        <div className="leaderboard--header">
+          <h2 className="leaderboard--title">LEADERBOARD</h2>
+          <FontAwesomeIcon icon={faTrophy} className="leaderboard--trophy" />
+        </div>
         <table className="leaderboard--table">
           <thead>
             <tr>
@@ -57,20 +61,18 @@ class LeaderBoard extends React.Component {
           </thead>
           <tbody>
             {this.state.users.map((user, i) => {
-              if (i < 10) {
-                //NEED SORTING
-                return (
-                  <tr key={user + i}>
-                    <td className="leaderboard--position">{i + 1}</td>
-                    <td className="leaderboard--username">{user.name}</td>
-                    <td className="leaderboard--score">{user.score}</td>
-                  </tr>
-                );
-              }
+              return (
+                <tr key={user + i} className="leaderboard--row">
+                  <td className="leaderboard--position">{i + 1}</td>
+                  <td className="leaderboard--username">{user.name}</td>
+                  <td className="leaderboard--score">{user.score}</td>
+                </tr>
+              );
             })}
           </tbody>
         </table>
       </div>
+
       /*
 <div className="leaderboard">
       <h2 className="leaderboard--title">Leaderboard</h2>
