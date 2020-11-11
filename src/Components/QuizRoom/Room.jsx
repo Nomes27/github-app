@@ -3,6 +3,7 @@ import "firebase/firestore";
 import firebase from "../../config.js";
 import "firebase/functions";
 import { navigate } from "@reach/router";
+import * as _ from 'underscore'
 const db = firebase.firestore();
 //const room = db.collection("Rooms").doc("XYZA");
 const rooms = db.collection("rooms");
@@ -252,6 +253,12 @@ class Room extends React.Component {
       });
   }
 
+  decode = (sentence) => {
+    return _.unescape(sentence.replace(/&#039;/g, '\''))
+  }
+  
+
+
   render() {
     console.log(this.state);
 
@@ -264,8 +271,7 @@ class Room extends React.Component {
             <div className="current-question">
               <h2>Question {this.state.current_question + 1}</h2>
               <h1>
-                {" "}
-                {this.state.questions[this.state.current_question].question}
+                {this.decode(this.state.questions[this.state.current_question].question)}
               </h1>
               <div className="answerbuttons--container">
                 {this.state.questions[
@@ -278,19 +284,17 @@ class Room extends React.Component {
                       className="answerbutton"
                       key={answer}
                     >
-                      {answer}
+                      {this.decode(answer)}
                     </button>
                   );
                 })}
               </div>
             </div>
           ) : (
-            //do while loop - curr score is equal to next score print the user
+
+            // announce winner
             <h1>{this.state.users[0].username} is the winner!</h1>
-            //name of winner - image of trophy
-            //sorted scores
-            //play again button
-            //back to dashboard button
+
           )}
           <div>
             {this.state.users.map((user, i) => {
