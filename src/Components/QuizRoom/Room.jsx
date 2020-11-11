@@ -133,7 +133,7 @@ class Room extends React.Component {
       //checking to see if time_up is true, so we know to display the results and the next question button
       if (this.state.time_up === false) {
         usersSnapshot.forEach((user) => {
-          if (!user.data().answers.length > this.state.current_question) {
+          if (user.data().answers.length <= this.state.current_question) {
             allAnswered = false;
           }
         });
@@ -286,7 +286,7 @@ class Room extends React.Component {
             //sorted scores
             //play again button
             //back to dashboard button
-          )}
+          )} 
           <div>
             {this.state.users.map((user, i) => {
               return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
