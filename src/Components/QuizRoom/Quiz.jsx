@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import Room from "./Room";
 import { navigate } from "@reach/router";
 import "firebase/firestore";
@@ -16,6 +16,7 @@ class Quiz extends React.Component {
     difficulty: "easy",
     isLoading: true,
     showQuiz: false,
+    users: []
   };
 
 
@@ -36,9 +37,7 @@ class Quiz extends React.Component {
     this.getQuestions().then((response) => {
       const questions = response.data.results;
       const formattedQuestions = formatQuestions(questions)   
-      rooms.doc(this.props.room_id).update({questions: formattedQuestions}).then(() => {
-        this.setState({ showQuiz: true });
-      })
+      rooms.doc(this.props.room_id).update({questions: formattedQuestions, showQuiz: true})
     });
   };
 
@@ -46,7 +45,37 @@ class Quiz extends React.Component {
 resetQuiz = () => {
     this.setState({
       showQuiz: false})
+}
 
+showQuizListener = db.collection('rooms').doc(this.props.room_id).onSnapshot((roomSnapshot) => {
+  if (roomSnapshot.data().showQuiz) {
+    this.setState({
+      showQuiz: true
+    })
+  }
+})
+
+  userslistener = db.collection('rooms').doc(this.props.room_id).collection('users').onSnapshot((usersSnapshot) => {
+       let newUsers = []
+       usersSnapshot.forEach((user) => {
+         newUsers.push(user.data())
+       })
+        this.setState({
+          users: [...newUsers]
+        })
+  })
+
+
+
+playersInRoom = () => {
+  console.log('this function is running')
+  return (
+    <ul>
+  {this.state.users.map((user) => {
+    return <li>{user.username}</li>
+  })}
+</ul>
+  )
 }
 
 
@@ -59,34 +88,51 @@ resetQuiz = () => {
   };
 
   render() {
+    console.log(this.state)
     if (this.state.showQuiz === true) {
       return <Room room_id={this.props.room_id} user={this.props.user} resetQuiz={this.resetQuiz}/>;
     } else {
-      return (
-        <div>
-          <h1>Your code: {this.props.room_id}</h1>
-          <h3>Topic</h3>
-          <select onChange={this.selectTopic}>
-            <option value="9">General knowledge</option>
-            <option value="27">Animals</option>
-            <option value="22">Geography</option>
-            <option value="23">History</option>
-            <option value="25">Art</option>
-            <option value="21">Sport</option>
-            <option value="12">Music</option>
-          </select>
+      if(this.props.host) {
+        return (
+          <div>
+            <h1>Your code: {this.props.room_id}</h1>
+            <h3>Topic</h3>
+            <select onChange={this.selectTopic}>
+              <option value="9">General knowledge</option>
+              <option value="27">Animals</option>
+              <option value="22">Geography</option>
+              <option value="23">History</option>
+              <option value="25">Art</option>
+              <option value="21">Sport</option>
+              <option value="12">Music</option>
+            </select>
+  
+            <h3>Difficulty</h3>
+            <select onChange={this.selectDifficulty}>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+  
+            <br></br>
+            <button onClick={this.startQuiz}>START QUIZ!</button>
 
-          <h3>Difficulty</h3>
-          <select onChange={this.selectDifficulty}>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
-
-          <br></br>
-          <button onClick={this.startQuiz}>START QUIZ!</button>
-        </div>
-      );
+            <div className='users-in-room'>
+              {this.playersInRoom()}
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <h1>Waiting for host to start game</h1>
+            <div className='users-in-room'>
+              {this.playersInRoom()}
+            </div>
+          </div>
+          
+        )
+      }
     }
   }
 }

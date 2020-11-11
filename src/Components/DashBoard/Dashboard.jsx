@@ -13,8 +13,16 @@ class DashBoard extends React.Component {
   };
 
   generateCode = () => {
-    return "naomi"; //NJHJ
-  };
+      let result = '';
+      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let charactersLength = characters.length;
+      for ( let i = 0; i < 4; i++ ) {
+         result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    }
+
+
   /*
  db.collection('users').doc(this.username).collection('booksList').add({
   password: this.password,
@@ -29,6 +37,7 @@ class DashBoard extends React.Component {
         host: this.props.user,
         current_question: 0,
         time_up: false,
+        showQuiz: false
       })
       .then(() => {
         rooms.doc(code).collection("users").doc(this.props.user).set({
@@ -48,6 +57,11 @@ class DashBoard extends React.Component {
     this.setUpRoom(room);
     navigate(`/quiz/${room}`);
   };
+
+  joinGame = (event) => {
+    event.preventDefault();
+    navigate(`/quiz`)
+  }
 
   // componentDidMount() {
   //   userDB
@@ -82,7 +96,7 @@ class DashBoard extends React.Component {
           <button className="dashboard_game_buttons" onClick={this.updateHost}>
             Host Game
           </button>
-          <button className="dashboard_game_buttons">Join Game</button>
+          <button className="dashboard_game_buttons" onClick={this.joinGame}>Join Game</button>
         </div>
         {/* <FriendsList friends={user.friends} path={props.path} /> */}
         <LeaderBoard />

@@ -60,12 +60,6 @@ class Room extends React.Component {
         current_question: firebase.firestore.FieldValue.increment(1),
         time_up: false,
       })
-      .then(() => {
-        this.setState({
-          selected: false,
-          time_up: false,
-        });
-      });
   };
 
   selectAnswer = (event) => {
@@ -115,13 +109,18 @@ class Room extends React.Component {
     .collection("rooms")
     .doc(this.props.room_id)
     .onSnapshot((roomSnapshot) => {
-      console.log(roomSnapshot.data(), "rooooom");
       if (
         roomSnapshot.data().current_question !== this.state.current_question
       ) {
         this.setState({
           current_question: roomSnapshot.data().current_question,
+          selected: false,
         });
+      }
+      if(roomSnapshot.data().time_up !== this.state.time_up ) {
+        this.setState({
+          time_up : roomSnapshot.data().time_up
+        })
       }
     });
 
@@ -134,7 +133,7 @@ class Room extends React.Component {
       //checking to see if time_up is true, so we know to display the results and the next question button
       if (this.state.time_up === false) {
         usersSnapshot.forEach((user) => {
-          if (!user.data().answers.length > this.state.current_question) {
+          if (user.data().answers.length <= this.state.current_question) {
             allAnswered = false;
           }
         });
@@ -146,9 +145,6 @@ class Room extends React.Component {
             .doc(this.props.room_id)
             .update({ time_up: true });
           this.updateUserScore();
-          this.setState({
-            time_up: true,
-          });
         }
       } else {
         // if time up is true, get users by scores and put in state so they can be displayed display
@@ -290,7 +286,7 @@ class Room extends React.Component {
             //sorted scores
             //play again button
             //back to dashboard button
-          )}
+          )} 
           <div>
             {this.state.users.map((user, i) => {
               return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
