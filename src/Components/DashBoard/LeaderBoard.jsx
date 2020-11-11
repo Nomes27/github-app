@@ -12,22 +12,32 @@ class LeaderBoard extends React.Component {
   state = {
     users: [],
   };
-
+  //citiesRef.orderBy("state").orderBy("population", "desc")
   componentDidMount() {
     db.collection("Leaderboard")
-      .doc("board") //n
+      .doc("board")
       .get()
       .then((doc) => {
         console.log(doc.data());
         if (doc.data() !== undefined) {
           //for if doc is empty so doesn't throw error
-          this.setState({ users: doc.data().users });
+
+          let usersArr = [];
+          Object.entries(doc.data()).map((item) => {
+            let obj = { name: item[0], score: item[1] };
+            usersArr.push(obj);
+          });
+
+          this.setState({
+            users: usersArr, //{ name: key, score: val }
+          });
+          //this.setState({ users: [{ name: firstKey, score: firstVal }] });
         }
       });
   }
 
   render() {
-    console.log(this.state.users);
+    console.log(this.state.users, "users leaderboard");
     return (
       <div className="leaderboard">
         <h2 className="leaderboard--title">Leaderboard</h2>
@@ -40,17 +50,16 @@ class LeaderBoard extends React.Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              {this.state.users.map((user, i) => {
-                return (
-                  <>
-                    <td className="leaderboard--position">{i + 1}</td>
-                    <td className="leaderboard--username">{user.name}</td>
-                    <td className="leaderboard--score">{user.score}</td>
-                  </>
-                );
-              })}
-            </tr>
+            {this.state.users.map((user, i) => {
+              //NEED SORTING
+              return (
+                <tr>
+                  <td className="leaderboard--position">{i + 1}</td>
+                  <td className="leaderboard--username">{user.name}</td>
+                  <td className="leaderboard--score">{user.score}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

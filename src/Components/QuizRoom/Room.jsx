@@ -180,15 +180,39 @@ class Room extends React.Component {
 
     db.collection("Leaderboard")
       .doc("board")
+      .get()
+      .then((doc) => {
+        let keys = Object.keys(doc.data());
 
-      .set({
-        //need a way of if user exists on board, adding score to it
-        users: [{ name: winner, score: 10 }], //need way to increment in array
+        keys.map((key) => {
+          if (key === winner) {
+            //if user exists in the doc and matches the winner
+            console.log("in if block");
+            return db
+              .collection("Leaderboard")
+              .doc("board")
+              .update(
+                {
+                  [key]: firebase.firestore.FieldValue.increment(10), //can't use .increment in an array, so have to structure like this
+                },
+                { merge: true }
+              );
+          } else {
+            //if user does not exist yet in leaderboard collection
+            db.collection("Leaderboard")
+              .doc("board")
+              .update(
+                {
+                  [winner]: 10,
+                },
+                { merge: true } //need to use this so doesn't overwrite exisitng users
+              );
+          }
+        });
       });
   };
 
   playAgain = () => {
-    //updateLeaderBoard gets called
     this.updateLeaderBoard();
     console.log(this.state.users);
     this.props.resetQuiz();
@@ -229,6 +253,7 @@ class Room extends React.Component {
 
   render() {
     console.log(this.state);
+
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
