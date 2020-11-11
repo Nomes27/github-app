@@ -178,18 +178,25 @@ class Room extends React.Component {
   //if user doesnt exist as doc, use set, else update
   updateLeaderBoard = () => {
     let winner = this.state.users[0].username;
-    let user = db.collection("Leaderboard").doc(winner).get();
-    if (user.exists) {
-      db.collection("Leaderboard")
-        .doc(winner)
-        .update({
-          score: firebase.firestore.FieldValue.increment(10),
-        });
-    } else {
-      db.collection("Leaderboard").doc(winner).set({
-        score: 10,
+
+    db.collection("Leaderboard")
+      .doc(winner)
+      .get()
+      .then((user) => {
+        if (user.exists) {
+          db.collection("Leaderboard")
+            .doc(winner)
+            .update({
+              score: firebase.firestore.FieldValue.increment(10),
+              name: winner,
+            });
+        } else {
+          db.collection("Leaderboard").doc(winner).set({
+            score: 10,
+            name: winner,
+          });
+        }
       });
-    }
   };
 
   playAgain = () => {
@@ -232,7 +239,7 @@ class Room extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    //  console.log(this.state);
 
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;

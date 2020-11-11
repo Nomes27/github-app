@@ -13,31 +13,34 @@ class LeaderBoard extends React.Component {
     users: [],
   };
   //citiesRef.orderBy("state").orderBy("population", "desc")
+  /*
   componentDidMount() {
     db.collection("Leaderboard")
-      .doc("board")
-
       .get()
-      .then((doc) => {
-        console.log(doc.data());
-
-        if (doc.data() !== undefined) {
-          //for if doc is empty so doesn't throw error
-
-          let usersArr = [];
-          Object.entries(doc.data()).map((item) => {
-            let obj = { name: item[0], score: item[1] };
-
-            usersArr.push(obj);
-          });
-
+      .then((leaderboardSnapshot) => {
+        let usersArr = [];
+        leaderboardSnapshot.forEach((doc) => {
+          usersArr.push({ name: doc.data().name, score: doc.data().score });
           this.setState({
-            users: usersArr, //{ name: key, score: val }
+            users: [...usersArr],
           });
-          //this.setState({ users: [{ name: firstKey, score: firstVal }] });
-        }
+        });
       });
-  }
+  }*/
+  leaderboardListener = db
+    .collection("Leaderboard")
+    .orderBy("score", "desc")
+    .limit(10)
+    .onSnapshot((usersSnapshot) => {
+      console.log(usersSnapshot);
+      let newUsers = [];
+      usersSnapshot.forEach((doc) => {
+        newUsers.push({ name: doc.data().name, score: doc.data().score });
+      });
+      this.setState({
+        users: [...newUsers],
+      });
+    });
 
   render() {
     console.log(this.state.users, "users leaderboard");
@@ -57,7 +60,7 @@ class LeaderBoard extends React.Component {
               if (i < 10) {
                 //NEED SORTING
                 return (
-                  <tr>
+                  <tr key={user + i}>
                     <td className="leaderboard--position">{i + 1}</td>
                     <td className="leaderboard--username">{user.name}</td>
                     <td className="leaderboard--score">{user.score}</td>
