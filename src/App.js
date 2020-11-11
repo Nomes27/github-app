@@ -4,7 +4,7 @@ import "firebase/firestore";
 import "firebase/auth";
 
 import LandingPage from "./Components/LandingPage/LandingPage";
-
+import Join from './Components/Join/Join';
 import React from "react";
 import { Router } from "@reach/router";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
@@ -46,7 +46,8 @@ class App extends React.Component {
             setHost={this.setHost}
           />
           <ProfilePage path="/profile" user={this.state.user} />
-          <Quiz path="/quiz/:room_id" user={this.state.user} />
+          <Join path="/quiz" user={this.state.user} host={this.state.host}/>
+          <Quiz path="/quiz/:room_id" user={this.state.user} host={this.state.host}/>
         </Router>
       </div>
     );
