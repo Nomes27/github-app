@@ -22,16 +22,16 @@ class LandingPage extends React.Component {
     return (
       <div className="landing-page--wrapper">
         <div className="landing-page--graphic"></div>
-        <div className="landing-page--sign-in">
-          <form onSubmit={this.submitUser}>
+          <form className='signin-form' onSubmit={this.submitUser}>
             <input
+            className='signin-input'
               onChange={this.updateUsername}
               type="text"
-              placeholder="enter username..."
+              placeholder="enter a username..."
             ></input>
-            <button type="submit">START PLAYING</button>
+            <button className='signin-button' type="submit">PLAY</button>
           </form>
-        </div>
+     
       </div>
     );
   }

@@ -4,6 +4,7 @@ import firebase from "../../config.js";
 import "firebase/functions";
 import { navigate } from "@reach/router";
 import * as _ from 'underscore'
+import trophy from '../../img/trophy.png';
 const db = firebase.firestore();
 //const room = db.collection("Rooms").doc("XYZA");
 const rooms = db.collection("rooms");
@@ -254,7 +255,9 @@ class Room extends React.Component {
   }
 
   decode = (sentence) => {
-    return _.unescape(sentence.replace(/&#039;/g, '\''))
+    let newSentence = _.unescape(sentence.replace(/&#039;/g, '\''));
+    newSentence.replace(/&eacute;/g, 'é');
+    return newSentence;
   }
   
 
@@ -269,10 +272,10 @@ class Room extends React.Component {
         <div className="questions-wrapper">
           {this.state.current_question !== 10 ? (
             <div className="current-question">
-              <h2>Question {this.state.current_question + 1}</h2>
-              <h1>
+              <h3>Question {this.state.current_question + 1}</h3>
+              <h2>
                 {this.decode(this.state.questions[this.state.current_question].question)}
-              </h1>
+              </h2>
               <div className="answerbuttons--container">
                 {this.state.questions[
                   this.state.current_question
@@ -293,27 +296,30 @@ class Room extends React.Component {
           ) : (
 
             // announce winner
-            <h1>{this.state.users[0].username} is the winner!</h1>
-
+            <div className='winner-banner'>
+            <h1 className='winner'>{this.state.users[0].username} is the winner!</h1>
+            <img className='trophy' src={trophy}></img>
+            </div>
           )}
-          <div>
+          <div className='user-scores-container'>
+            <h4 className='user-scores'>Scores:</h4>
             {this.state.users.map((user, i) => {
-              return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;
+              return <p className='user-score' key={user + i}>{`${user.username}: ${user.score}`}</p>;
             })}
           </div>
           {this.state.time_up &&
           this.props.user === this.state.host &&
           this.state.current_question !== 10 ? (
-            <button onClick={this.processNextQuestion}>next question</button>
+            <button className='next-question-btn' onClick={this.processNextQuestion}>NEXT QUESTION</button>
           ) : null}
           {this.state.current_question === 10 && (
-            <div>
+            <div className='endgame-buttons-container'>
               {this.props.user === this.state.host && (
-                <button onClick={this.playAgain}>Play Again</button>
+                <button className='endgame-buttons' onClick={this.playAgain}>PLAY AGAIN</button>
               )}
 
-              <button onClick={this.returnToDashboard}>
-                Return to dashboard
+              <button className='endgame-buttons' onClick={this.returnToDashboard}>
+                RETURN TO DASHBOARD
               </button>
             </div>
           )}

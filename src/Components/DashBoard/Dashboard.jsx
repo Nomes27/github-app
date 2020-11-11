@@ -55,22 +55,24 @@ class DashBoard extends React.Component {
     navigate(`/quiz`)
   }
 
+  logOut = () => {
+    navigate(`/`);
+  }
 
   render() {
     return (
       <div>
-        <header className="dashboard_header">
-          <div className="dashboard_header_buttons">
-            <button className="dashboard_header_button">Log out </button>
-            <button className="dashboard_header_button">Settings </button>
+        <header className="dashboard-header">
+          <div className="dashboard-header-buttons">
+            <button className="logout-btn" onClick={this.logOut}>LOG OUT</button>
           </div>
-          <h1>Hello, {this.props.user}!</h1>
+          <h1 className='dashboard-greeting'>Hello, {this.props.user}!</h1>
         </header>
-        <div>
-          <button className="dashboard_game_buttons" onClick={this.updateHost}>
-            Host Game
+        <div className='dashboard-play-buttons'>
+          <button className="play-btn" onClick={this.updateHost}>
+            HOST GAME
           </button>
-          <button className="dashboard_game_buttons" onClick={this.joinGame}>Join Game</button>
+          <button className="play-btn" onClick={this.joinGame}>JOIN GAME</button>
         </div>
         {/* <FriendsList friends={user.friends} path={props.path} /> */}
         <LeaderBoard />
