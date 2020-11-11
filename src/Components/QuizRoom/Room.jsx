@@ -19,7 +19,9 @@ class Room extends React.Component {
 
   returnToDashboard = () => {
     if (this.props.user === this.state.host) {
-      //delete room
+      this.updateLeaderBoard().then(() => {
+        //delete room
+      });
     }
     navigate("/dashboard");
   };
@@ -173,21 +175,64 @@ class Room extends React.Component {
       }
     });
 
+  updateLeaderBoard = () => {
+    let winner = this.state.users[0].username;
 
-    playAgain = () => {
-      this.props.resetQuiz()
-      this.state.users.forEach((user) => {
-        const newUser = {
+    db.collection("Leaderboard")
+      .doc("board")
+      .get()
+      .then((doc) => {
+        let keys = Object.keys(doc.data());
+
+        keys.map((key) => {
+          if (key === winner) {
+            //if user exists in the doc and matches the winner
+            console.log("in if block");
+            return db
+              .collection("Leaderboard")
+              .doc("board")
+              .update(
+                {
+                  [key]: firebase.firestore.FieldValue.increment(10), //can't use .increment in an array, so have to structure like this
+                },
+                { merge: true }
+              );
+          } else {
+            //if user does not exist yet in leaderboard collection
+            db.collection("Leaderboard")
+              .doc("board")
+              .update(
+                {
+                  [winner]: 10,
+                },
+                { merge: true } //need to use this so doesn't overwrite exisitng users
+              );
+          }
+        });
+      });
+  };
+
+  playAgain = () => {
+    this.updateLeaderBoard();
+    console.log(this.state.users);
+    this.props.resetQuiz();
+    this.state.users.forEach((user) => {
+      const newUser = {
         username: user.username,
         score: 0,
         answers: [],
-        }
-        db.collection('rooms').doc(this.props.room_id).collection('users').doc(user.username).set(newUser)
-      })
-      
-      db.collection('rooms').doc(this.props.room_id).update({current_question: 0})
-    }
+      };
+      db.collection("rooms")
+        .doc(this.props.room_id)
+        .collection("users")
+        .doc(user.username)
+        .set(newUser);
+    });
 
+    db.collection("rooms")
+      .doc(this.props.room_id)
+      .update({ current_question: 0 });
+  };
 
   componentDidMount() {
     rooms
@@ -208,6 +253,7 @@ class Room extends React.Component {
 
   render() {
     console.log(this.state);
+
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
@@ -273,4 +319,3 @@ class Room extends React.Component {
 }
 
 export default Room;
-

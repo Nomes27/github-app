@@ -1,11 +1,70 @@
 import React from "react";
 
+import "firebase/firestore";
+import firebase from "../../config.js";
+import "firebase/functions";
+const db = firebase.firestore();
+
 //info from the db should fill the table
 //examples are in there for now, but the username and score should corresponde to the first 10 items of the leaderboard collection on firestore
 
-function LeaderBoard() {
-  return (
-    <div className="leaderboard">
+class LeaderBoard extends React.Component {
+  state = {
+    users: [],
+  };
+  //citiesRef.orderBy("state").orderBy("population", "desc")
+  componentDidMount() {
+    db.collection("Leaderboard")
+      .doc("board")
+      .get()
+      .then((doc) => {
+        console.log(doc.data());
+        if (doc.data() !== undefined) {
+          //for if doc is empty so doesn't throw error
+
+          let usersArr = [];
+          Object.entries(doc.data()).map((item) => {
+            let obj = { name: item[0], score: item[1] };
+            usersArr.push(obj);
+          });
+
+          this.setState({
+            users: usersArr, //{ name: key, score: val }
+          });
+          //this.setState({ users: [{ name: firstKey, score: firstVal }] });
+        }
+      });
+  }
+
+  render() {
+    console.log(this.state.users, "users leaderboard");
+    return (
+      <div className="leaderboard">
+        <h2 className="leaderboard--title">Leaderboard</h2>
+        <table className="leaderboard--table">
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Username</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.users.map((user, i) => {
+              //NEED SORTING
+              return (
+                <tr>
+                  <td className="leaderboard--position">{i + 1}</td>
+                  <td className="leaderboard--username">{user.name}</td>
+                  <td className="leaderboard--score">{user.score}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      /*
+<div className="leaderboard">
       <h2 className="leaderboard--title">Leaderboard</h2>
       <table className="leaderboard--table">
         <thead>
@@ -16,12 +75,12 @@ function LeaderBoard() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="leaderboard--position">1</td>
+              <tr>
+               <td className="leaderboard--position">1</td>
             <td className="leaderboard--username">ilikequizzes</td>
             <td className="leaderboard--score">500</td>
-          </tr>
-          <tr>
+            </tr>
+              <tr>
             <td className="leaderboard--position">2</td>
             <td className="leaderboard--username">notacat</td>
             <td className="leaderboard--score">450</td>
@@ -69,7 +128,9 @@ function LeaderBoard() {
         </tbody>
       </table>
     </div>
-  );
+            */
+    );
+  }
 }
 
 export default LeaderBoard;
