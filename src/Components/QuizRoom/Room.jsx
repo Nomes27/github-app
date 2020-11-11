@@ -18,12 +18,13 @@ class Room extends React.Component {
   };
 
   returnToDashboard = () => {
-    if (this.props.user === this.state.host) {
-      this.updateLeaderBoard().then(() => {
-        //delete room
-      });
-    }
     navigate("/dashboard");
+    if (this.props.user === this.state.host) {
+      this.updateLeaderBoard();
+
+      db.collection("rooms").doc(this.props.room_id).delete();
+      //delete the doc
+    }
   };
 
   getUserInfo = () => {
@@ -59,7 +60,7 @@ class Room extends React.Component {
       .update({
         current_question: firebase.firestore.FieldValue.increment(1),
         time_up: false,
-      })
+      });
   };
 
   selectAnswer = (event) => {
@@ -110,6 +111,7 @@ class Room extends React.Component {
     .doc(this.props.room_id)
     .onSnapshot((roomSnapshot) => {
       if (
+        roomSnapshot.data() !== undefined &&
         roomSnapshot.data().current_question !== this.state.current_question
       ) {
         this.setState({
@@ -117,10 +119,13 @@ class Room extends React.Component {
           selected: false,
         });
       }
-      if(roomSnapshot.data().time_up !== this.state.time_up ) {
+      if (
+        roomSnapshot.data() !== undefined &&
+        roomSnapshot.data().time_up !== this.state.time_up
+      ) {
         this.setState({
-          time_up : roomSnapshot.data().time_up
-        })
+          time_up: roomSnapshot.data().time_up,
+        });
       }
     });
 
@@ -286,7 +291,7 @@ class Room extends React.Component {
             //sorted scores
             //play again button
             //back to dashboard button
-          )} 
+          )}
           <div>
             {this.state.users.map((user, i) => {
               return <p key={user + i}>{`${user.username}: ${user.score}`}</p>;

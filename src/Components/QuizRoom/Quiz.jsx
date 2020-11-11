@@ -49,7 +49,10 @@ class Quiz extends React.Component {
     .collection("rooms")
     .doc(this.props.room_id)
     .onSnapshot((roomSnapshot) => {
-      if (roomSnapshot.data().showQuiz !== this.state.showQuiz) {
+      if (
+        roomSnapshot.data() !== undefined &&
+        roomSnapshot.data().showQuiz !== this.state.showQuiz
+      ) {
         this.setState({
           showQuiz: roomSnapshot.data().showQuiz,
         });
