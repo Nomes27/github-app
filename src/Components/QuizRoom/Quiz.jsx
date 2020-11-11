@@ -16,10 +16,8 @@ class Quiz extends React.Component {
     difficulty: "easy",
     isLoading: true,
     showQuiz: false,
-    users: []
+    users: [],
   };
-
-
 
   getQuestions = () => {
     const params = {
@@ -36,48 +34,52 @@ class Quiz extends React.Component {
     event.preventDefault();
     this.getQuestions().then((response) => {
       const questions = response.data.results;
-      const formattedQuestions = formatQuestions(questions)   
-      rooms.doc(this.props.room_id).update({questions: formattedQuestions, showQuiz: true})
+      const formattedQuestions = formatQuestions(questions);
+      rooms
+        .doc(this.props.room_id)
+        .update({ questions: formattedQuestions, showQuiz: true });
     });
   };
 
-  
-resetQuiz = () => {
-    this.setState({
-      showQuiz: false})
-}
+  resetQuiz = () => {
+    db.collection("rooms").doc(this.props.room_id).update({ showQuiz: false });
+  };
 
-showQuizListener = db.collection('rooms').doc(this.props.room_id).onSnapshot((roomSnapshot) => {
-  if (roomSnapshot.data().showQuiz) {
-    this.setState({
-      showQuiz: true
-    })
-  }
-})
-
-  userslistener = db.collection('rooms').doc(this.props.room_id).collection('users').onSnapshot((usersSnapshot) => {
-       let newUsers = []
-       usersSnapshot.forEach((user) => {
-         newUsers.push(user.data())
-       })
+  showQuizListener = db
+    .collection("rooms")
+    .doc(this.props.room_id)
+    .onSnapshot((roomSnapshot) => {
+      if (roomSnapshot.data().showQuiz !== this.state.showQuiz) {
         this.setState({
-          users: [...newUsers]
-        })
-  })
+          showQuiz: roomSnapshot.data().showQuiz,
+        });
+      }
+    });
 
+  userslistener = db
+    .collection("rooms")
+    .doc(this.props.room_id)
+    .collection("users")
+    .onSnapshot((usersSnapshot) => {
+      let newUsers = [];
+      usersSnapshot.forEach((user) => {
+        newUsers.push(user.data());
+      });
+      this.setState({
+        users: [...newUsers],
+      });
+    });
 
-
-playersInRoom = () => {
-  console.log('this function is running')
-  return (
-    <ul>
-  {this.state.users.map((user) => {
-    return <li>{user.username}</li>
-  })}
-</ul>
-  )
-}
-
+  playersInRoom = () => {
+    console.log("this function is running");
+    return (
+      <ul>
+        {this.state.users.map((user) => {
+          return <li>{user.username}</li>;
+        })}
+      </ul>
+    );
+  };
 
   selectTopic = (event) => {
     this.setState({ category: event.target.value });
@@ -88,11 +90,17 @@ playersInRoom = () => {
   };
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     if (this.state.showQuiz === true) {
-      return <Room room_id={this.props.room_id} user={this.props.user} resetQuiz={this.resetQuiz}/>;
+      return (
+        <Room
+          room_id={this.props.room_id}
+          user={this.props.user}
+          resetQuiz={this.resetQuiz}
+        />
+      );
     } else {
-      if(this.props.host) {
+      if (this.props.host) {
         return (
           <div>
             <h1>Your code: {this.props.room_id}</h1>
@@ -106,32 +114,27 @@ playersInRoom = () => {
               <option value="21">Sport</option>
               <option value="12">Music</option>
             </select>
-  
+
             <h3>Difficulty</h3>
             <select onChange={this.selectDifficulty}>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
             </select>
-  
+
             <br></br>
             <button onClick={this.startQuiz}>START QUIZ!</button>
 
-            <div className='users-in-room'>
-              {this.playersInRoom()}
-            </div>
+            <div className="users-in-room">{this.playersInRoom()}</div>
           </div>
         );
       } else {
         return (
           <div>
             <h1>Waiting for host to start game</h1>
-            <div className='users-in-room'>
-              {this.playersInRoom()}
-            </div>
+            <div className="users-in-room">{this.playersInRoom()}</div>
           </div>
-          
-        )
+        );
       }
     }
   }
