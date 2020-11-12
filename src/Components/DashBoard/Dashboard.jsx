@@ -4,7 +4,7 @@ import { navigate } from "@reach/router";
 import firebase from "../../config";
 import "firebase/firestore";
 import exit from "../../img/exit.png";
-
+import online from "../../img/online.png";
 import axios from "axios";
 
 import avatar from "../../img/avatar-placeholder.png";
@@ -160,14 +160,21 @@ class DashBoard extends React.Component {
           </button>
         </div>
         <LeaderBoard />
+        
+        <div className='online-users'>
         <h3>Online Users:</h3>
+        <div className='user-list'>
         {this.state.loading ? (
           <h4>Loading Users...</h4>
         ) : (
           this.state.onlineUsers.map((user) => {
-            return <h6>{user}</h6>;
+            return (
+               <div className='online-user'><img className='online-icon' src={online}></img>{user}</div>
+            ) 
           })
         )}
+        </div>
+        </div>
       </div>
     );
   }

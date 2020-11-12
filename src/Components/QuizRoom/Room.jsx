@@ -93,7 +93,7 @@ class Room extends React.Component {
         if (
           answer ===
           this.state.questions[this.state.current_question].correct_answer
-          // this.state.questions[this.state.current_question].correct_answer
+
         ) {
           db.collection("rooms")
             .doc(this.props.room_id)
@@ -287,6 +287,8 @@ class Room extends React.Component {
       });
   }
 
+ 
+
   decode = (sentence) => {
     let newSentence = _.unescape(
       sentence
@@ -311,16 +313,15 @@ class Room extends React.Component {
         <div className="questions-wrapper">
           {this.state.current_question !== 10 ? (
             <div className="current-question">
-              <h3 className="question-num">
-                Question {this.state.current_question + 1}
-              </h3>
-
               <div className="box sb1">
-                <h3>
+              <span className="question-num">
+                Question {this.state.current_question + 1}
+              </span>
+                <span>
                   {this.decode(
                     this.state.questions[this.state.current_question].question
                   )}
-                </h3>
+                </span>
               </div>
               <div className="answerbuttons--container">
                 {this.state.questions[
@@ -362,7 +363,7 @@ class Room extends React.Component {
             })}
           </div>
 
-          {this.state.time_up ? (
+          {this.state.time_up && this.state.current_question < 10 ? (
             <div className="user-answers-container">
               {this.state.users.map((user, i) => {
                 return (
@@ -371,9 +372,9 @@ class Room extends React.Component {
                     <span>{` ${user.answers[this.state.current_question]}`}</span>
                   </div>
                 );
-              })}
+              })}           
               <h4 className='correct-answer'>Correct answer...</h4>
-                    <p className="correct-answer">{`${this.state.questions[this.state.current_question].correct_answer}`}</p>
+              <p className="correct-answer">{`${this.state.questions[this.state.current_question].correct_answer}`}</p>
             </div>
           ) : null}
 
@@ -387,6 +388,7 @@ class Room extends React.Component {
               NEXT QUESTION
             </button>
           ) : null}
+
           {this.state.current_question === 10 && (
             <div className="endgame-buttons-container">
               {this.props.user === this.state.host && (
