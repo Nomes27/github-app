@@ -95,6 +95,10 @@
 }
 
 /* Dashboard */
+.user-avatar {
+  width: 200px;
+}
+
 .dashboard-header {
   background-color: var(--purple);
   color: white;
@@ -108,6 +112,7 @@
 
 .play-btn {
   font-family: var(--font), cursive;
+  color: white;
   font-weight: bold;
   font-size: 20px;
   padding: 1rem;
@@ -117,6 +122,7 @@
   outline: none;
   cursor: pointer;
   box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
+  background: var(--pink);
 }
 
 .play-btn:hover {
@@ -138,14 +144,25 @@
   opacity: 50%;
 }
 
+.exit {
+  width: 30px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 5px 0 0 5px;
+  opacity: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 /* leaderboard */
 .leaderboard {
   background: white;
   border: none;
-
-  width: 91%;
+  width: 90%;
+  max-width: 600px;
   height: 350px;
-
   margin: 0 auto;
   border-radius: 20px;
 }
@@ -281,11 +298,9 @@ option {
   color: white;
 }
 
-/* .question {
-  background-color: white;
-  border-radius: 10px;
-  padding: 5px;
-} */
+.question {
+  color: white;
+}
 
 .box {
   width: 80%;
@@ -370,6 +385,11 @@ option {
   cursor: pointer;
   background: var(--pink);
   color: white;
+}
+
+.next-question-btn:hover {
+  box-shadow: -2px 2px 5px 1px rgb(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 .endgame-buttons-container {
@@ -459,6 +479,11 @@ option {
   cursor: pointer;
 }
 
+.code-btn:hover {
+  box-shadow: -2px 2px 5px 1px rgb(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
 /* media queries */
 @media screen and (min-width: 375px) {
   .leaderboard table th {
@@ -479,40 +504,6 @@ option {
 }
 
 @media screen and (min-width: 1200px) {
-  .landing-page--wrapper {
-    flex-direction: row-reverse;
-  }
-
-  .landing-page--graphic {
-    height: 100vh;
-  }
-
-  .landing-page--sign-in {
-    height: 100vh;
-  }
-
-  .profile_grid {
-    display: grid;
-    height: 100px;
-    grid-template-columns: 1fr 3fr;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-  }
-  .profile_grid_item1 {
-    background-color: rgb(187, 184, 184);
-  }
-  .profile_grid_item2 {
-    align-self: center;
-  }
-  .profile_graphic {
-    width: 90%;
-    display: block;
-    margin: auto;
-    padding-top: 10rem;
-  }
-
   .leaderboard--table {
     width: 80%;
   }
@@ -524,9 +515,6 @@ option {
   }
   .leaderboard td {
     font-size: 1.5rem;
-  }
-  .leaderboard--trophy {
-    display: none;
   }
   .leaderboard--position {
     font-size: 2rem;

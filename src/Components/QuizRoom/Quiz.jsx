@@ -4,7 +4,8 @@ import "firebase/firestore";
 import firebase from "../../config.js";
 import axios from "axios";
 import { formatQuestions } from "../../utils/utils";
-
+import exit from "../../img/exit.png";
+import { navigate } from "@reach/router";
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
 
@@ -114,6 +115,10 @@ class Quiz extends React.Component {
       });
   }
 
+  backToDash = () => {
+    navigate('/dashboard')
+  };
+
   render() {
     console.log(this.state.multi);
     if (this.state.loading) {
@@ -130,6 +135,9 @@ class Quiz extends React.Component {
       if (this.props.host) {
         return (
           <div className="choose-wrapper">
+
+            <img className="exit" src={exit} onClick={this.backToDash}></img>
+
             {this.state.multi ? (
               <h1 className="room-code">Room code: {this.props.room_id}</h1>
             ) : (

@@ -291,7 +291,6 @@ class Room extends React.Component {
         .replace(/&hellip;/gi, "___")
         .replace(/&rdquo;/gi, "'")
     );
-
     return newSentence;
   };
 
@@ -303,14 +302,11 @@ class Room extends React.Component {
         <div className="questions-wrapper">
           {this.state.current_question !== 10 ? (
             <div className="current-question">
+
               <h3 className="question-num">
                 Question {this.state.current_question + 1}
               </h3>
-              <h2>
-                {this.decode(
-                  this.state.questions[this.state.current_question].question
-                )}
-              </h2>
+
               <div className="box sb1">
                 <h3>
                   {this.decode(
