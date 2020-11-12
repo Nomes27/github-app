@@ -302,9 +302,11 @@ class Room extends React.Component {
         <div className="questions-wrapper">
           {this.state.current_question !== 10 ? (
             <div className="current-question">
-              <h2 className="question">
-                Question {this.state.current_question}
-              </h2>
+
+              <h3 className="question-num">
+                Question {this.state.current_question + 1}
+              </h3>
+
               <div className="box sb1">
                 <h3>
                   {this.decode(

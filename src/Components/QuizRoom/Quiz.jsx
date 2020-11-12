@@ -135,6 +135,7 @@ class Quiz extends React.Component {
       if (this.props.host) {
         return (
           <div className="choose-wrapper">
+
             <img className="exit" src={exit} onClick={this.backToDash}></img>
 
             {this.state.multi ? (
@@ -153,6 +154,11 @@ class Quiz extends React.Component {
               <option value="11">Film</option>
               <option value="21">Sport</option>
               <option value="12">Music</option>
+              <option value="10">Books</option>
+              <option value="13">Musicals & Theatre</option>
+              <option value="14">Television</option>
+              <option value="15">Video Games</option>
+              <option value="17">Science & Nature</option>
             </select>
 
             <h3 class="quiz-choose">Choose your difficulty</h3>

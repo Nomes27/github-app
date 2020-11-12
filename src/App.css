@@ -344,6 +344,9 @@ option {
   cursor: pointer;
   box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
 }
+.answerbutton:disabled {
+  background-color: #999797;
+}
 
 .answerbutton:hover {
   box-shadow: -2px 2px 5px 1px rgb(0, 0, 0, 0.2);
