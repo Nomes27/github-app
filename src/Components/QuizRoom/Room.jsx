@@ -17,6 +17,7 @@ class Room extends React.Component {
     current_question: 0,
     isLoading: true,
     selected: false,
+    multi: true,
   };
 
   returnToDashboard = () => {
@@ -47,6 +48,7 @@ class Room extends React.Component {
         time_up: roomData.time_up,
         current_question: roomData.current_question,
         isLoading: false,
+        multi: roomData.multi
       });
     });
 
@@ -239,6 +241,34 @@ class Room extends React.Component {
       .update({ current_question: 0 });
   };
 
+  getWinners = () => {
+    let winnersEndPos = 0;
+    while (
+      winnersEndPos < this.state.users.length -1 &&
+      this.state.users[winnersEndPos +1].score === this.state.users[0].score
+    ) {
+      winnersEndPos++;
+    }
+
+    let winnerStr = "";
+    if (winnersEndPos === 0) {
+      winnerStr += `${this.state.users[0].username} is the winner!`;
+    } else if (winnersEndPos === 1) {
+      winnerStr += `${this.state.users[0].username} and ${this.state.users[1].username} are the winners!`;
+    } else {
+      for (let i = 0; i <= winnersEndPos; i++) {
+        if (i === winnersEndPos) {
+          winnerStr += `and ${this.state.users[i].username} are the winners!`;
+        } else if (i === winnersEndPos - 1) {
+          winnerStr += `${this.state.users[i].username} `;
+        } else {
+          winnerStr += `${this.state.users[i].username}, `;
+        }
+      }
+    }
+    return winnerStr;
+  };
+
   componentDidMount() {
     rooms
       .doc(this.props.room_id)
@@ -298,10 +328,11 @@ class Room extends React.Component {
           ) : (
             // announce winner
             <div className="winner-banner">
-              <h1 className="winner">
-                {this.state.users[0].username} is the winner!
-              </h1>
-              <img className="trophy" src={trophy}></img>
+
+              {this.state.multi && <h1 className="winner">{this.getWinners()}</h1>}
+              {!this.state.multi && <h1 className="winner">Quiz Complete!</h1>}
+              <img className="trophy" src={trophy} alt="trophy"></img>
+
             </div>
           )}
           <div className="user-scores-container">
