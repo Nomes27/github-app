@@ -7,10 +7,13 @@ import exit from "../../img/exit.png";
 import axios from "axios";
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
+const onlineUsers = db.collection("onlineUsers");
 
 class DashBoard extends React.Component {
   state = {
     user: "",
+    loading: true,
+    onlineUsers: [],
   };
 
   generateCode = () => {
@@ -67,7 +70,7 @@ class DashBoard extends React.Component {
       .then(() => {
         return code;
       });
-  }; 
+  };
 
   hostSolo = (event) => {
     event.preventDefault();
@@ -96,10 +99,33 @@ class DashBoard extends React.Component {
   };
 
   logOut = () => {
+    onlineUsers.doc(this.props.user).delete();
     navigate(`/`);
   };
 
+  componentDidMount() {
+    onlineUsers.get().then((users) => {
+      console.log(users);
+      const newOnlineUsers = [];
+      users.forEach((user) => {
+        newOnlineUsers.push(user.data().username);
+      });
+      this.setState({ loading: false, onlineUsers: [...newOnlineUsers] });
+    });
+  }
+
+  onlineUsersListener = onlineUsers.onSnapshot((usersSnapshot) => {
+    let newOnlineUsers = [];
+    usersSnapshot.forEach((user) => {
+      newOnlineUsers.push(user.data().username);
+    });
+    this.setState({
+      onlineUsers: [...newOnlineUsers],
+    });
+  });
+
   render() {
+    console.log(this.state.onlineUsers);
     return (
       <div>
         <header className="dashboard-header">
@@ -124,8 +150,15 @@ class DashBoard extends React.Component {
             SOLO GAME
           </button>
         </div>
-        {/* <FriendsList friends={user.friends} path={props.path} /> */}
         <LeaderBoard />
+        <h3>Online Users:</h3>
+        {this.state.loading ? (
+          <h4>Loading Users...</h4>
+        ) : (
+          this.state.onlineUsers.map((user) => {
+            return <h6>{user}</h6>;
+          })
+        )}
       </div>
     );
   }
