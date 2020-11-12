@@ -38,11 +38,7 @@ class LandingPage extends React.Component {
           </form>
 
           <h3>{this.state.error}</h3>
-        </div>
-
-     
-
-     
+        </div>   
     );
   }
 }

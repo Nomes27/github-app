@@ -1,19 +1,23 @@
 /* variables */
 :root {
-   --purple: #ac05f1;
-   --blue: #2ac7da;
-   --green: #b0d959;
-   --yellow: #ffca2b;
-   --pink: #ff0080;
-   --white: #ffffff;
-   --font: 'Poppins', sans-serif;
+  --purple: #ac05f1;
+  --blue: #2ac7da;
+  --green: #b0d959;
+  --yellow: #ffca2b;
+  --pink: #ff0080;
+  --white: #ffffff;
+  --font: "Poppins", sans-serif;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   text-align: center;
-  background-image: linear-gradient(to bottom right, var(--purple), var(--blue));
+  background-image: linear-gradient(
+    to bottom right,
+    var(--purple),
+    var(--blue)
+  );
   height: 100vh;
   width: 100%;
   font-family: var(--font), sans-serif;
@@ -43,6 +47,7 @@
 .landing-page--wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100vw;
   height: 100vh;
 }
@@ -50,7 +55,7 @@
 .signin-form {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   margin: 50px auto;
   z-index: 99;
 }
@@ -59,9 +64,11 @@
   padding: 20px;
   border: 4px solid var(--darkerpurple);
   border-radius: 20px;
-  margin: 15px 0;
   font-size: 20px;
   outline: none;
+  width: 80%;
+  max-width: 500px;
+  margin: 15px auto;
 }
 
 .signin-button {
@@ -74,12 +81,18 @@
   margin: 15px auto;
   outline: none;
   width: 50%;
+  max-width: 200px;
   color: white;
   padding: 10px;
   background: var(--pink);
   cursor: pointer;
+  box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
 }
 
+.signin-button:hover {
+  box-shadow: -2px 2px 5px 1px rgb(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
 
 /* Dashboard */
 .dashboard-header {
@@ -93,13 +106,6 @@
   justify-content: flex-start;
 }
 
-.dashboard-header-button {
-  font-family: var(--font), cursive;
-  border-radius: 10px;
-  padding: 1rem;
-  outline: none;
-}
-
 .play-btn {
   font-family: var(--font), cursive;
   font-weight: bold;
@@ -110,6 +116,12 @@
   margin: 15px 5px;
   outline: none;
   cursor: pointer;
+  box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
+}
+
+.play-btn:hover {
+  box-shadow: -2px 2px 5px 1px rgb(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
 .dashboard-greeting {
@@ -128,16 +140,13 @@
 
 /* leaderboard */
 .leaderboard {
-
- 
-
   background: white;
   border: none;
   width: 90%;
+  max-width: 500px;
   height: 400px;
   margin: 0 auto;
   border-radius: 20px;
-
 }
 
 .leaderboard--title {
@@ -179,13 +188,21 @@ tr:nth-child(even) {
   background-color: #c4bbca;
 }
 
-
 /* pre-quiz */
+.choose-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-top: -10px;
+}
 
 .quiz-players {
-  opacity: 80%;
   background: white;
   width: 90%;
+  max-width: 500px;
   margin: 10px auto 0 auto;
   border-radius: 10px;
 }
@@ -203,7 +220,7 @@ tr:nth-child(even) {
   margin: 0 auto;
   border-radius: 10px;
   margin: 10px auto;
-  opacity: 80%;
+  max-width: 500px;
 }
 
 .quiz-choose {
@@ -236,18 +253,44 @@ select {
   font-weight: bold;
   cursor: pointer;
   margin: 5px 0;
+  color: black;
 }
 
 option {
   font-family: var(--font), cursive;
   font-weight: bold;
   cursor: pointer;
+  color: black;
 }
 
 /* quiz */
+.questions-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: 95%;
+  height: 100vh;
+  max-width: 600px;
+  margin: -40px auto 0 auto;
+}
+
+.question-num {
+  margin-top: -30px;
+  color: white;
+}
+
+.question {
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px;
+}
 
 .answerbutton {
   font-family: var(--font), cursive;
+  background: var(--pink);
+  color: white;
   border-radius: 10px;
   width: 100%;
   margin: 10px 0px;
@@ -257,6 +300,7 @@ option {
   border: none;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
 }
 .answerbuttons--container {
   width: 90%;
@@ -269,7 +313,8 @@ option {
   margin-top: 5px;
 }
 
-.user-score, .user-scores {
+.user-score,
+.user-scores {
   margin: 0;
   padding: 0;
 }
@@ -312,6 +357,7 @@ option {
   background: var(--pink);
   color: white;
   margin: 5px auto;
+  box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
 }
 
 .winner {
@@ -327,12 +373,17 @@ option {
   width: 80%;
   margin: 10px auto 0 auto;
   border-radius: 10px;
-  opacity: 80%;
   padding: 5px;
 }
 
 /* Join */
-
+.join-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
 
 .enter-code {
   color: white;
@@ -369,60 +420,6 @@ option {
   cursor: pointer;
 }
 
-
 /* media queries */
 @media screen and (min-width: 1200px) {
-  .landing-page--wrapper {
-    flex-direction: row-reverse;
-  }
-
-  .landing-page--graphic {
-    height: 100vh;
-  }
-
-  .landing-page--sign-in {
-    height: 100vh;
-  }
-
-  .profile_grid {
-    display: grid;
-    height: 100px;
-    grid-template-columns: 1fr 3fr;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-  }
-  .profile_grid_item1 {
-    background-color: rgb(187, 184, 184);
-  }
-  .profile_grid_item2 {
-    align-self: center;
-  }
-  .profile_graphic {
-    width: 90%;
-    display: block;
-    margin: auto;
-    padding-top: 10rem;
-  }
-
-  .leaderboard--table {
-    width: 80%;
-  }
-  .leaderboard th {
-    font-size: 2rem;
-  }
-  .leaderboard--title {
-    font-size: 3rem;
-  }
-  .leaderboard td {
-    font-size: 1.5rem;
-  }
-  .leaderboard--trophy {
-    font-size: 3rem;
-  }
-  .leaderboard--header {
-    display: flex;
-    margin: 0 40rem;
-  }
 }

@@ -113,7 +113,7 @@ class Quiz extends React.Component {
     } else {
       if (this.props.host) {
         return (
-          <div>
+          <div className='choose-wrapper'>
             <h1 className='room-code'>Room code: {this.props.room_id}</h1>
             <h3 class='quiz-choose'>Choose a topic</h3>
             <select onChange={this.selectTopic}>
