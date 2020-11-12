@@ -93,7 +93,6 @@ class Room extends React.Component {
         if (
           answer ===
           this.state.questions[this.state.current_question].correct_answer
-
         ) {
           db.collection("rooms")
             .doc(this.props.room_id)
@@ -287,8 +286,6 @@ class Room extends React.Component {
       });
   }
 
- 
-
   decode = (sentence) => {
     let newSentence = _.unescape(
       sentence
@@ -314,9 +311,9 @@ class Room extends React.Component {
           {this.state.current_question !== 10 ? (
             <div className="current-question">
               <div className="box sb1">
-              <span className="question-num">
-                Question {this.state.current_question + 1}
-              </span>
+                <span className="question-num">
+                  Question {this.state.current_question + 1}
+                </span>
                 <span>
                   {this.decode(
                     this.state.questions[this.state.current_question].question
@@ -369,12 +366,18 @@ class Room extends React.Component {
                 return (
                   <div>
                     <strong>{`${user.username} answered:`}</strong>
-                    <span>{` ${user.answers[this.state.current_question]}`}</span>
+                    <span>
+                      {this.decode(
+                        ` ${user.answers[this.state.current_question]}`
+                      )}
+                    </span>
                   </div>
                 );
-              })}           
-              <h4 className='correct-answer'>Correct answer...</h4>
-              <p className="correct-answer">{`${this.state.questions[this.state.current_question].correct_answer}`}</p>
+              })}
+              <h4 className="correct-answer">Correct answer...</h4>
+              <p className="correct-answer">{`${
+                this.state.questions[this.state.current_question].correct_answer
+              }`}</p>
             </div>
           ) : null}
 
