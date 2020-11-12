@@ -83,7 +83,7 @@ class DashBoard extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='dash-wrapper'>
         <header className="dashboard-header">
           <div className="dashboard-header-buttons">
             <img

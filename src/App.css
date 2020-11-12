@@ -95,8 +95,13 @@
 }
 
 /* Dashboard */
+.dash-wrapper {
+  height: 100vh;
+}
+
 .user-avatar {
-  width: 200px;
+  margin: 0;
+  width: 150px;
 }
 
 .dashboard-header {
@@ -111,11 +116,13 @@
 }
 
 .play-btn {
+  width: 25%;
+  height: 75px;
   font-family: var(--font), cursive;
   color: white;
   font-weight: bold;
   font-size: 20px;
-  padding: 1rem;
+  padding: 2px;
   border: none;
   border-radius: 10px;
   margin: 15px 5px;
@@ -158,26 +165,30 @@
 
 /* leaderboard */
 .leaderboard {
+  font-family: var(--font), sans-serif;
   background: white;
+  padding: 5px;
   border: none;
-  width: 90%;
-  max-width: 600px;
+  width: 80%;
   height: 350px;
   margin: 0 auto;
   border-radius: 20px;
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .leaderboard--title {
   margin: 0 auto;
   margin-bottom: 5px;
   padding-top: 5px;
-  font-family: var(--font), sans-serif;
 }
 
 .leaderboard--table {
   margin: 0 auto;
   border-spacing: 0;
-  width: 80%;
+  width: 90%;
   table-layout: fixed;
 }
 
@@ -192,7 +203,6 @@ table th {
 }
 .leaderboard--trophy {
   color: rgb(224, 177, 47);
-  font-size: 3rem;
 }
 
 .leaderboard--position {
@@ -222,6 +232,8 @@ tr:nth-child(even) {
   max-width: 500px;
   margin: 10px auto 0 auto;
   border-radius: 10px;
+  height: 50%;
+  max-height: 300px;
 }
 
 .players-in-room {
@@ -262,6 +274,8 @@ tr:nth-child(even) {
   background: var(--pink);
   color: white;
   cursor: pointer;
+  width: 40%;
+  min-width: 200px;
 }
 
 select {
@@ -279,6 +293,17 @@ option {
   cursor: pointer;
   color: black;
 }
+
+.user-waiting-to-start {
+  height: 100vh;
+  display: flex;
+  flex-direction:column;
+}
+
+.user-waiting-to-start h1 {
+  color: white;
+}
+
 
 /* quiz */
 .questions-wrapper {
@@ -300,6 +325,10 @@ option {
 
 .question {
   color: white;
+}
+
+.current-question {
+  width: 90%;
 }
 
 .box {
@@ -360,16 +389,34 @@ option {
   flex-direction: column;
 }
 
-.user-scores-container {
-  margin-top: 5px;
-  width: 40%;
-  max-width: 400px;
-}
-
 .user-score,
-.user-scores {
+.user-scores,
+.user-answer,
+.user-answers {
   margin: 0;
   padding: 0;
+}
+
+.user-scores-container {
+  background-color: white;
+  width: 90%;
+  margin: 10px auto 0 auto;
+  border-radius: 10px;
+  padding: 5px;
+  max-width: 480px;
+}
+
+.user-answers-container {
+  background-color: white;
+  width: 90%;
+  margin: 10px auto 0 auto;
+  border-radius: 10px;
+  padding: 5px;
+  max-width: 480px;
+}
+
+.correct-answer {
+  margin: 0;
 }
 
 .next-question-btn {
@@ -426,13 +473,7 @@ option {
   width: 150px;
 }
 
-.user-scores-container {
-  background-color: white;
-  width: 80%;
-  margin: 10px auto 0 auto;
-  border-radius: 10px;
-  padding: 5px;
-}
+
 
 /* Join */
 
@@ -442,6 +483,8 @@ option {
   justify-content: center;
   align-content: center;
   align-items: center;
+  height: 100vh;
+  margin-top:-40px;
 }
 
 .enter-code {
@@ -456,9 +499,10 @@ option {
 }
 
 .code-form input {
-  width: 90%;
+  width: 80%;
+  max-width: 400px;
   margin: 0 auto;
-  padding: 20px 5px;
+  padding: 20px;
   border: none;
   border-radius: 10px;
   outline: none;
@@ -470,13 +514,15 @@ option {
   border-radius: 10px;
   outline: none;
   border: none;
-  margin: 20px 0 0 0;
+  margin: 20px auto 0 auto;
   font-family: var(--font), cursive;
   font-weight: bold;
   font-size: 20px;
   background: var(--pink);
   color: white;
   cursor: pointer;
+  width: 40%;
+  min-width: 200px;
 }
 
 .code-btn:hover {
@@ -485,38 +531,42 @@ option {
 }
 
 /* media queries */
-@media screen and (min-width: 375px) {
-  .leaderboard table th {
-    font-size: 1.2rem;
-  }
-}
-@media screen and (min-width: 1000px) {
-  .leaderboard--title {
-    font-size: 2.5rem;
-  }
-  .leaderboard td {
-    padding-top: 10px;
-    padding-bottom: 10px;
+@media screen and (max-width: 280px) {
+  .user-avatar {
+    width: 100px;
+    margin-top: -20px;
   }
   .leaderboard {
-    height: 50%;
+    height: 45%;
+  }
+  .leaderboard table th {
+    font-size: 0.8rem;
+  }
+  .leaderboard td {
+    font-size: 1rem;
+  }
+  .leaderboard--title {
+    font-size: 1.3rem;
   }
 }
 
-@media screen and (min-width: 1200px) {
-  .leaderboard--table {
-    width: 80%;
+
+@media screen and (min-width: 300px) and (max-width: 767px) {
+  .user-avatar {
+    width: 100px;
+    margin-top: -20px;
   }
-  .leaderboard th {
-    font-size: 2rem;
+  .leaderboard {
+    height: 45%;
   }
-  .leaderboard--title {
-    font-size: 3rem;
+  .leaderboard table th {
+    font-size: 1rem;
   }
   .leaderboard td {
+    font-size: 1rem;
+  }
+  .leaderboard--title {
     font-size: 1.5rem;
   }
-  .leaderboard--position {
-    font-size: 2rem;
-  }
 }
+

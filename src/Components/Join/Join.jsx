@@ -49,9 +49,8 @@ handleChange = (event) => {
 
 
 render() {
-    console.log(this.state)
     return(
-        <div className='join-wrapper'>
+     <div className='join-wrapper'>
      <h1 className='enter-code'>Enter your code</h1>
      <form className='code-form' onSubmit={this.submitCode}>
      <input value={this.state.code} onChange={this.handleChange} type='text'></input>
