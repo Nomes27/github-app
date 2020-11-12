@@ -19,6 +19,7 @@ class Quiz extends React.Component {
     multi: true,
     loading: true,
     error: "",
+    token: "",
   };
 
   getQuestions = () => {
@@ -27,6 +28,7 @@ class Quiz extends React.Component {
       difficulty: this.state.difficulty,
       amount: 10,
       type: "multiple",
+      token: this.state.token,
     };
     console.log(params);
     return axios.get("https://opentdb.com/api.php", {
@@ -90,8 +92,8 @@ class Quiz extends React.Component {
       <div className="quiz-players">
         <h3 className="ready-to-play">Players in room:</h3>
         <ul className="players-in-room">
-          {this.state.users.map((user) => {
-            return <li>{user.username}</li>;
+          {this.state.users.map((user, i) => {
+            return <li key={`${user}${i}`}>{user.username}</li>;
           })}
         </ul>
       </div>
@@ -111,7 +113,12 @@ class Quiz extends React.Component {
       .doc(this.props.room_id)
       .get()
       .then((doc) => {
-        this.setState({ multi: doc.data().multi, loading: false });
+        console.log(doc.data().multi, "multi status");
+        this.setState({
+          multi: doc.data().multi,
+          loading: false,
+          token: doc.data().sessionToken,
+        });
       });
   }
 
@@ -136,7 +143,10 @@ class Quiz extends React.Component {
         return (
           <div className="choose-wrapper">
 
+
+
             <img className="exit" src={exit} onClick={this.backToDash}></img>
+
 
             {this.state.multi ? (
               <h1 className="room-code">Room code: {this.props.room_id}</h1>
