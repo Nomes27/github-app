@@ -23,8 +23,11 @@ class Quiz extends React.Component {
     const params = {
       category: this.state.category,
       difficulty: this.state.difficulty,
+      amount: 10,
+      type: "multiple",
     };
-    return axios.get("https://opentdb.com/api.php?amount=10&type=multiple", {
+    console.log(params);
+    return axios.get("https://opentdb.com/api.php", {
       params,
     })
   };
@@ -118,7 +121,8 @@ class Quiz extends React.Component {
               <option value="27">Animals</option>
               <option value="22">Geography</option>
               <option value="23">History</option>
-              <option value="25">Art</option>
+              <option value="18">Computers</option>
+              <option value="11">Film</option>
               <option value="21">Sport</option>
               <option value="12">Music</option>
             </select>
