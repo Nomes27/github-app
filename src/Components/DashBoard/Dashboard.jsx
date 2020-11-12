@@ -41,7 +41,7 @@ class DashBoard extends React.Component {
         current_question: 0,
         time_up: false,
         showQuiz: false,
-        multi: multi
+        multi: multi,
       })
       .then(() => {
         rooms.doc(code).collection("users").doc(this.props.user).set({
@@ -83,7 +83,7 @@ class DashBoard extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="dashboard-container">
         <header className="dashboard-header">
           <div className="dashboard-header-buttons">
             <img
@@ -93,7 +93,7 @@ class DashBoard extends React.Component {
               alt="logout button"
             ></img>
           </div>
-          <img className='user-avatar' src={avatar}></img>
+          <img className="user-avatar" src={avatar}></img>
           <h1 className="dashboard-greeting">Hello, {this.props.user}!</h1>
         </header>
         <div className="dashboard-play-buttons">
