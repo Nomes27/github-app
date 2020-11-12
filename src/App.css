@@ -1,19 +1,23 @@
 /* variables */
 :root {
-   --purple: #ac05f1;
-   --blue: #2ac7da;
-   --green: #b0d959;
-   --yellow: #ffca2b;
-   --pink: #ff0080;
-   --white: #ffffff;
-   --font: 'Poppins', sans-serif;
+  --purple: #ac05f1;
+  --blue: #2ac7da;
+  --green: #b0d959;
+  --yellow: #ffca2b;
+  --pink: #ff0080;
+  --white: #ffffff;
+  --font: "Poppins", sans-serif;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   text-align: center;
-  background-image: linear-gradient(to bottom right, var(--purple), var(--blue));
+  background-image: linear-gradient(
+    to bottom right,
+    var(--purple),
+    var(--blue)
+  );
   height: 100vh;
   width: 100%;
   font-family: var(--font), sans-serif;
@@ -80,7 +84,6 @@
   cursor: pointer;
 }
 
-
 /* Dashboard */
 .dashboard-header {
   background-color: var(--purple);
@@ -128,57 +131,51 @@
 
 /* leaderboard */
 .leaderboard {
-
- 
-
   background: white;
   border: none;
-  width: 90%;
-  height: 400px;
+  width: 91%;
+  height: 350px;
   margin: 0 auto;
   border-radius: 20px;
-
 }
 
 .leaderboard--title {
   margin: 0 auto;
   margin-bottom: 5px;
+  padding-top: 5px;
+  font-family: var(--font), sans-serif;
 }
 
 .leaderboard--table {
   margin: 0 auto;
   border-spacing: 0;
+  width: 80%;
+  table-layout: fixed;
 }
 
 table th {
   text-align: center;
   margin: 0 auto;
-  padding: 0 10px;
-  background-color: #55177e;
+  background-color: #ff0080;
   color: white;
   padding-top: 7px;
   padding-bottom: 7px;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 .leaderboard--trophy {
   color: rgb(224, 177, 47);
   font-size: 3rem;
 }
 
-td {
-  padding-top: 7px;
-  padding-bottom: 7px;
-}
 .leaderboard--position {
-  color: rgb(224, 177, 47);
+  color: #ffca2b;
   font-size: 1.5rem;
-  text-shadow: #000 0px 0px 1px;
+  text-shadow: #000 0px 0px 2px;
 }
 
 tr:nth-child(even) {
-  background-color: #c4bbca;
+  background-color: #dddddd;
 }
-
 
 /* pre-quiz */
 
@@ -269,7 +266,8 @@ option {
   margin-top: 5px;
 }
 
-.user-score, .user-scores {
+.user-score,
+.user-scores {
   margin: 0;
   padding: 0;
 }
@@ -333,7 +331,6 @@ option {
 
 /* Join */
 
-
 .enter-code {
   color: white;
 }
@@ -369,8 +366,25 @@ option {
   cursor: pointer;
 }
 
-
 /* media queries */
+@media screen and (min-width: 375px) {
+  .leaderboard table th {
+    font-size: 1.2rem;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .leaderboard--title {
+    font-size: 2.5rem;
+  }
+  .leaderboard td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .leaderboard {
+    height: 50%;
+  }
+}
+
 @media screen and (min-width: 1200px) {
   .landing-page--wrapper {
     flex-direction: row-reverse;
@@ -419,10 +433,9 @@ option {
     font-size: 1.5rem;
   }
   .leaderboard--trophy {
-    font-size: 3rem;
+    display: none;
   }
-  .leaderboard--header {
-    display: flex;
-    margin: 0 40rem;
+  .leaderboard--position {
+    font-size: 2rem;
   }
 }

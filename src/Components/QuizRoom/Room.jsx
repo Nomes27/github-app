@@ -181,26 +181,42 @@ class Room extends React.Component {
     });
   //if user doesnt exist as doc, use set, else update
   updateLeaderBoard = () => {
-    let winner = this.state.users[0].username;
+    // let winner = this.state.users[0].username;
+    let winners = [];
 
-    db.collection("Leaderboard")
-      .doc(winner)
-      .get()
-      .then((user) => {
-        if (user.exists) {
-          db.collection("Leaderboard")
-            .doc(winner)
-            .update({
-              score: firebase.firestore.FieldValue.increment(10),
+    let winnersEndPos = 0;
+    while (
+      winnersEndPos < this.state.users.length - 1 &&
+      this.state.users[winnersEndPos + 1].score === this.state.users[0].score
+    ) {
+      winnersEndPos++;
+    }
+    for (let i = 0; i <= winnersEndPos; i++) {
+      winners.push(this.state.users[i].username);
+    }
+
+    console.log(winners);
+    winners.forEach((winner) => {
+      console.log(this.state.users[0].score, "SCOREEE");
+      db.collection("Leaderboard")
+        .doc(winner)
+        .get()
+        .then((user) => {
+          if (user.exists) {
+            db.collection("Leaderboard")
+              .doc(winner)
+              .update({
+                score: firebase.firestore.FieldValue.increment(10),
+                name: winner,
+              });
+          } else {
+            db.collection("Leaderboard").doc(winner).set({
+              score: 10,
               name: winner,
             });
-        } else {
-          db.collection("Leaderboard").doc(winner).set({
-            score: 10,
-            name: winner,
-          });
-        }
-      });
+          }
+        });
+    });
   };
 
   playAgain = () => {
@@ -277,7 +293,7 @@ class Room extends React.Component {
   };
 
   render() {
-    //  console.log(this.state);
+    console.log(this.state.users);
 
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
@@ -312,9 +328,11 @@ class Room extends React.Component {
           ) : (
             // announce winner
             <div className="winner-banner">
+
               {this.state.multi && <h1 className="winner">{this.getWinners()}</h1>}
               {!this.state.multi && <h1 className="winner">Quiz Complete!</h1>}
               <img className="trophy" src={trophy} alt="trophy"></img>
+
             </div>
           )}
           <div className="user-scores-container">
