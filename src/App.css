@@ -304,6 +304,44 @@ option {
   padding: 5px;
 }
 
+/* Join */
+
+
+.enter-code {
+  color: white;
+}
+
+.code-form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.code-form input {
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px 5px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-size: 40px;
+}
+
+.code-btn {
+  padding: 10px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  margin: 20px 0 0 0;
+  font-family: var(--font), cursive;
+  font-weight: bold;
+  font-size: 20px;
+  background: var(--pink);
+  color: white;
+  cursor: pointer;
+}
+
 
 /* media queries */
 @media screen and (min-width: 1200px) {
