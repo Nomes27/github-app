@@ -13,25 +13,11 @@ class LeaderBoard extends React.Component {
   state = {
     users: [],
   };
-  //citiesRef.orderBy("state").orderBy("population", "desc")
-  /*
-  componentDidMount() {
-    db.collection("Leaderboard")
-      .get()
-      .then((leaderboardSnapshot) => {
-        let usersArr = [];
-        leaderboardSnapshot.forEach((doc) => {
-          usersArr.push({ name: doc.data().name, score: doc.data().score });
-          this.setState({
-            users: [...usersArr],
-          });
-        });
-      });
-  }*/
+
   leaderboardListener = db
     .collection("Leaderboard")
     .orderBy("score", "desc")
-    .limit(10)
+    .limit(5)
     .onSnapshot((usersSnapshot) => {
       console.log(usersSnapshot);
       let newUsers = [];
@@ -54,7 +40,7 @@ class LeaderBoard extends React.Component {
         <table className="leaderboard--table">
           <thead>
             <tr>
-              <th>Position</th>
+              <th>Rank</th>
               <th>Username</th>
               <th>Score</th>
             </tr>

@@ -17,6 +17,7 @@ class Room extends React.Component {
     current_question: 0,
     isLoading: true,
     selected: false,
+    multi: true,
   };
 
   returnToDashboard = () => {
@@ -47,6 +48,7 @@ class Room extends React.Component {
         time_up: roomData.time_up,
         current_question: roomData.current_question,
         isLoading: false,
+        multi: roomData.multi
       });
     });
   };
@@ -172,26 +174,42 @@ class Room extends React.Component {
     });
   //if user doesnt exist as doc, use set, else update
   updateLeaderBoard = () => {
-    let winner = this.state.users[0].username;
+    // let winner = this.state.users[0].username;
+    let winners = [];
 
-    db.collection("Leaderboard")
-      .doc(winner)
-      .get()
-      .then((user) => {
-        if (user.exists) {
-          db.collection("Leaderboard")
-            .doc(winner)
-            .update({
-              score: firebase.firestore.FieldValue.increment(10),
+    let winnersEndPos = 0;
+    while (
+      winnersEndPos < this.state.users.length - 1 &&
+      this.state.users[winnersEndPos + 1].score === this.state.users[0].score
+    ) {
+      winnersEndPos++;
+    }
+    for (let i = 0; i <= winnersEndPos; i++) {
+      winners.push(this.state.users[i].username);
+    }
+
+    console.log(winners);
+    winners.forEach((winner) => {
+      console.log(this.state.users[0].score, "SCOREEE");
+      db.collection("Leaderboard")
+        .doc(winner)
+        .get()
+        .then((user) => {
+          if (user.exists) {
+            db.collection("Leaderboard")
+              .doc(winner)
+              .update({
+                score: firebase.firestore.FieldValue.increment(10),
+                name: winner,
+              });
+          } else {
+            db.collection("Leaderboard").doc(winner).set({
+              score: 10,
               name: winner,
             });
-        } else {
-          db.collection("Leaderboard").doc(winner).set({
-            score: 10,
-            name: winner,
-          });
-        }
-      });
+          }
+        });
+    });
   };
 
   playAgain = () => {
@@ -216,6 +234,34 @@ class Room extends React.Component {
       .update({ current_question: 0 });
   };
 
+  getWinners = () => {
+    let winnersEndPos = 0;
+    while (
+      winnersEndPos < this.state.users.length -1 &&
+      this.state.users[winnersEndPos +1].score === this.state.users[0].score
+    ) {
+      winnersEndPos++;
+    }
+
+    let winnerStr = "";
+    if (winnersEndPos === 0) {
+      winnerStr += `${this.state.users[0].username} is the winner!`;
+    } else if (winnersEndPos === 1) {
+      winnerStr += `${this.state.users[0].username} and ${this.state.users[1].username} are the winners!`;
+    } else {
+      for (let i = 0; i <= winnersEndPos; i++) {
+        if (i === winnersEndPos) {
+          winnerStr += `and ${this.state.users[i].username} are the winners!`;
+        } else if (i === winnersEndPos - 1) {
+          winnerStr += `${this.state.users[i].username} `;
+        } else {
+          winnerStr += `${this.state.users[i].username}, `;
+        }
+      }
+    }
+    return winnerStr;
+  };
+
   componentDidMount() {
     rooms
       .doc(this.props.room_id)
@@ -234,6 +280,7 @@ class Room extends React.Component {
   }
 
   decode = (sentence) => {
+
     let newSentence = _.unescape(
       sentence
         .replace(/&#039;/g, "'")
@@ -246,10 +293,12 @@ class Room extends React.Component {
         .replace(/&rdquo;/gi, "'")    
     );
 
+
     return newSentence;
   };
 
   render() {
+
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
@@ -257,8 +306,16 @@ class Room extends React.Component {
         <div className="questions-wrapper">
           {this.state.current_question !== 10 ? (
             <div className="current-question">
-              <h2 className="question-num">
-                Question {this.state.current_question + 1}
+
+            
+                
+
+              <h3 className="question-num">Question {this.state.current_question + 1}</h3>
+              <h2>
+                {this.decode(
+                  this.state.questions[this.state.current_question].question
+                )}
+
               </h2>
               <div className="box sb1">
                 <h3>
@@ -287,10 +344,14 @@ class Room extends React.Component {
           ) : (
             // announce winner
             <div className="winner-banner">
-              <h1 className="winner">
-                {this.state.users[0].username} is the winner!
-              </h1>
-              <img className="trophy" src={trophy}></img>
+
+              
+
+              {this.state.multi && <h1 className="winner">{this.getWinners()}</h1>}
+              {!this.state.multi && <h1 className="winner">Quiz Complete!</h1>}
+              <img className="trophy" src={trophy} alt="trophy"></img>
+
+
             </div>
           )}
           <div className="user-scores-container">
