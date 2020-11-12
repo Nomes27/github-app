@@ -20,16 +20,31 @@ class Quiz extends React.Component {
   };
 
   getQuestions = () => {
-    const params = {
-      category: this.state.category,
-      difficulty: this.state.difficulty,
-      amount: 10,
-      type: "multiple",
-    };
-    console.log(params);
-    return axios.get("https://opentdb.com/api.php", {
-      params,
-    })
+    //Code 4: Token Empty Session Token has returned all possible questions for the specified query. Resetting the Token is necessary.
+    //session token gets store in room in db, so that a new token is not created each time and persists while the room is open
+
+    //let code = response.data.code;
+    //if (code === 4) {
+    //}
+    return db
+      .collection("rooms")
+      .doc(this.props.room_id)
+      .get()
+      .then((doc) => {
+        let sessionToken = doc.data().sessionToken;
+        console.log(sessionToken);
+        const params = {
+          category: this.state.category,
+          difficulty: this.state.difficulty,
+          amount: 10,
+          type: "multiple",
+          token: sessionToken,
+        };
+        console.log(params);
+        return axios.get("https://opentdb.com/api.php", {
+          params,
+        });
+      });
   };
 
   //&category=9&difficulty=easy&type=multiple
@@ -79,13 +94,13 @@ class Quiz extends React.Component {
   playersInRoom = () => {
     console.log("this function is running");
     return (
-      <div className='quiz-players'>
-      <h3 className='ready-to-play'>Players in room:</h3>
-      <ul className='players-in-room'>
-        {this.state.users.map((user) => {
-          return <li>{user.username}</li>;
-        })}
-      </ul>
+      <div className="quiz-players">
+        <h3 className="ready-to-play">Players in room:</h3>
+        <ul className="players-in-room">
+          {this.state.users.map((user) => {
+            return <li>{user.username}</li>;
+          })}
+        </ul>
       </div>
     );
   };
@@ -97,8 +112,6 @@ class Quiz extends React.Component {
   selectDifficulty = (event) => {
     this.setState({ difficulty: event.target.value });
   };
-
-
 
   render() {
     //  console.log(this.state);
@@ -114,8 +127,8 @@ class Quiz extends React.Component {
       if (this.props.host) {
         return (
           <div>
-            <h1 className='room-code'>Room code: {this.props.room_id}</h1>
-            <h3 class='quiz-choose'>Choose a topic</h3>
+            <h1 className="room-code">Room code: {this.props.room_id}</h1>
+            <h3 class="quiz-choose">Choose a topic</h3>
             <select onChange={this.selectTopic}>
               <option value="9">General knowledge</option>
               <option value="27">Animals</option>
@@ -127,7 +140,7 @@ class Quiz extends React.Component {
               <option value="12">Music</option>
             </select>
 
-            <h3 class='quiz-choose'>Choose your difficulty</h3>
+            <h3 class="quiz-choose">Choose your difficulty</h3>
             <select onChange={this.selectDifficulty}>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
@@ -136,14 +149,17 @@ class Quiz extends React.Component {
 
             <br></br>
             {this.playersInRoom()}
-            <button className='start-quiz-btn' onClick={this.startQuiz}>START QUIZ!</button>          
+            <button className="start-quiz-btn" onClick={this.startQuiz}>
+              START QUIZ!
+            </button>
           </div>
         );
       } else {
         return (
           <div>
             <h1>Waiting for host to start game</h1>
-              {this.playersInRoom()}</div>
+            {this.playersInRoom()}
+          </div>
         );
       }
     }
