@@ -4,13 +4,20 @@ import { navigate } from "@reach/router";
 import firebase from "../../config";
 import "firebase/firestore";
 import exit from "../../img/exit.png";
+
+import axios from "axios";
+
 import avatar from "../../img/avatar-placeholder.png";
+
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
+const onlineUsers = db.collection("onlineUsers");
 
 class DashBoard extends React.Component {
   state = {
     user: "",
+    loading: true,
+    onlineUsers: [],
   };
 
   generateCode = () => {
@@ -33,26 +40,43 @@ class DashBoard extends React.Component {
       });
   };
 
+  getRoomToken = () => {
+    return axios
+      .get("https://opentdb.com/api_token.php?command=request")
+      .then((res) => {
+        return res.data.token;
+      });
+  };
+
   setUpRoom = (code, multi) => {
-    rooms
-      .doc(code)
-      .set({
-        host: this.props.user,
-        current_question: 0,
-        time_up: false,
-        showQuiz: false,
-        multi: multi,
+
+    return this.getRoomToken()
+      .then((token) => {
+        console.log(token);
+        return rooms.doc(code).set({
+          host: this.props.user,
+          current_question: 0,
+          time_up: false,
+          showQuiz: false,
+          multi: multi,
+          sessionToken: token,
+        });
+
       })
       .then(() => {
-        rooms.doc(code).collection("users").doc(this.props.user).set({
+        return rooms.doc(code).collection("users").doc(this.props.user).set({
           username: this.props.user,
           score: 0,
           answers: [],
         });
         //create a collection of users within the room doc, within rooms collection
+        // make the room doc(as generated code), puts in the active user into the room
+        //doing this here, so that users are available to view in host lobby
+      })
+      .then(() => {
+        return code;
       });
-    // make the room doc(as generated code), puts in the active user into the room
-  }; //doing this here, so that users are available to view in host lobby
+  };
 
   hostSolo = (event) => {
     event.preventDefault();
@@ -66,10 +90,13 @@ class DashBoard extends React.Component {
 
   hostGame = (multi) => {
     this.props.setHost(true);
-    this.generateCode().then((room) => {
-      this.setUpRoom(room, multi);
-      navigate(`/quiz/${room}`);
-    });
+    this.generateCode()
+      .then((code) => {
+        return this.setUpRoom(code, multi);
+      })
+      .then((code) => {
+        navigate(`/quiz/${code}`);
+      });
   };
 
   joinGame = (event) => {
@@ -78,10 +105,33 @@ class DashBoard extends React.Component {
   };
 
   logOut = () => {
+    onlineUsers.doc(this.props.user).delete();
     navigate(`/`);
   };
 
+  componentDidMount() {
+    onlineUsers.get().then((users) => {
+      console.log(users);
+      const newOnlineUsers = [];
+      users.forEach((user) => {
+        newOnlineUsers.push(user.data().username);
+      });
+      this.setState({ loading: false, onlineUsers: [...newOnlineUsers] });
+    });
+  }
+
+  onlineUsersListener = onlineUsers.onSnapshot((usersSnapshot) => {
+    let newOnlineUsers = [];
+    usersSnapshot.forEach((user) => {
+      newOnlineUsers.push(user.data().username);
+    });
+    this.setState({
+      onlineUsers: [...newOnlineUsers],
+    });
+  });
+
   render() {
+    console.log(this.state.onlineUsers);
     return (
       <div className="dashboard-container">
         <header className="dashboard-header">
@@ -107,8 +157,15 @@ class DashBoard extends React.Component {
             SOLO GAME
           </button>
         </div>
-
         <LeaderBoard />
+        <h3>Online Users:</h3>
+        {this.state.loading ? (
+          <h4>Loading Users...</h4>
+        ) : (
+          this.state.onlineUsers.map((user) => {
+            return <h6>{user}</h6>;
+          })
+        )}
       </div>
     );
   }
