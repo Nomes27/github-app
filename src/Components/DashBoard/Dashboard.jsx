@@ -4,6 +4,7 @@ import { navigate } from "@reach/router";
 import firebase from "../../config";
 import "firebase/firestore";
 import exit from "../../img/exit.png";
+import axios from "axios";
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
 
@@ -32,26 +33,41 @@ class DashBoard extends React.Component {
       });
   };
 
+  getRoomToken = () => {
+    return axios
+      .get("https://opentdb.com/api_token.php?command=request")
+      .then((res) => {
+        return res.data.token;
+      });
+  };
+
   setUpRoom = (code, multi) => {
-    rooms
-      .doc(code)
-      .set({
-        host: this.props.user,
-        current_question: 0,
-        time_up: false,
-        showQuiz: false,
-        multi: multi
+    return this.getRoomToken()
+      .then((token) => {
+        console.log(token);
+        return rooms.doc(code).set({
+          host: this.props.user,
+          current_question: 0,
+          time_up: false,
+          showQuiz: false,
+          multi: multi,
+          sessionToken: token,
+        });
       })
       .then(() => {
-        rooms.doc(code).collection("users").doc(this.props.user).set({
+        return rooms.doc(code).collection("users").doc(this.props.user).set({
           username: this.props.user,
           score: 0,
           answers: [],
         });
         //create a collection of users within the room doc, within rooms collection
+        // make the room doc(as generated code), puts in the active user into the room
+        //doing this here, so that users are available to view in host lobby
+      })
+      .then(() => {
+        return code;
       });
-    // make the room doc(as generated code), puts in the active user into the room
-  }; //doing this here, so that users are available to view in host lobby
+  }; 
 
   hostSolo = (event) => {
     event.preventDefault();
@@ -65,10 +81,13 @@ class DashBoard extends React.Component {
 
   hostGame = (multi) => {
     this.props.setHost(true);
-    this.generateCode().then((room) => {
-      this.setUpRoom(room, multi);
-      navigate(`/quiz/${room}`);
-    });
+    this.generateCode()
+      .then((code) => {
+        return this.setUpRoom(code, multi);
+      })
+      .then((code) => {
+        navigate(`/quiz/${code}`);
+      });
   };
 
   joinGame = (event) => {

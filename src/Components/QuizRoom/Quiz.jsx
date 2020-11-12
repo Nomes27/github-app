@@ -18,6 +18,7 @@ class Quiz extends React.Component {
     multi: true,
     loading: true,
     error: "",
+    token: "",
   };
 
   getQuestions = () => {
@@ -26,6 +27,7 @@ class Quiz extends React.Component {
       difficulty: this.state.difficulty,
       amount: 10,
       type: "multiple",
+      token: this.state.token,
     };
     console.log(params);
     return axios.get("https://opentdb.com/api.php", {
@@ -35,7 +37,7 @@ class Quiz extends React.Component {
 
   startQuiz = (event) => {
     event.preventDefault();
-    if (!this.state.multi || this.state.users.length > 1 ){
+    if (!this.state.multi || this.state.users.length > 1) {
       this.getQuestions().then((response) => {
         const questions = response.data.results;
         const formattedQuestions = formatQuestions(questions);
@@ -44,7 +46,9 @@ class Quiz extends React.Component {
           .update({ questions: formattedQuestions, showQuiz: true });
       });
     } else {
-      this.setState({error: "Must have more than 1 user to start a multiplayer game!"})
+      this.setState({
+        error: "Must have more than 1 user to start a multiplayer game!",
+      });
     }
   };
 
@@ -87,8 +91,8 @@ class Quiz extends React.Component {
       <div className="quiz-players">
         <h3 className="ready-to-play">Players in room:</h3>
         <ul className="players-in-room">
-          {this.state.users.map((user) => {
-            return <li>{user.username}</li>;
+          {this.state.users.map((user, i) => {
+            return <li key={`${user}${i}`}>{user.username}</li>;
           })}
         </ul>
       </div>
@@ -108,16 +112,20 @@ class Quiz extends React.Component {
       .doc(this.props.room_id)
       .get()
       .then((doc) => {
-        this.setState({ multi: doc.data().multi, loading: false });
+        console.log(doc.data().multi, "multi status");
+        this.setState({
+          multi: doc.data().multi,
+          loading: false,
+          token: doc.data().sessionToken,
+        });
       });
   }
 
   render() {
     console.log(this.state.multi);
     if (this.state.loading) {
-      return <h1 className="room-code">LOADING</h1>
-    }
-    else if (this.state.showQuiz) {
+      return <h1 className="room-code">LOADING</h1>;
+    } else if (this.state.showQuiz) {
       return (
         <Room
           room_id={this.props.room_id}
@@ -128,10 +136,12 @@ class Quiz extends React.Component {
     } else {
       if (this.props.host) {
         return (
-
-
-          <div className='choose-wrapper'>
-            {this.state.multi ? <h1 className="room-code">Room code: {this.props.room_id}</h1> : <h1 className="room-code">SOLO MODE</h1>}
+          <div className="choose-wrapper">
+            {this.state.multi ? (
+              <h1 className="room-code">Room code: {this.props.room_id}</h1>
+            ) : (
+              <h1 className="room-code">SOLO MODE</h1>
+            )}
             <h3 class="quiz-choose">Choose a topic</h3>
 
             <select onChange={this.selectTopic}>
@@ -154,9 +164,11 @@ class Quiz extends React.Component {
 
             <br></br>
             {this.playersInRoom()}
-            {!this.state.loading && <button className="start-quiz-btn" onClick={this.startQuiz}>
-              START QUIZ!
-            </button>}
+            {!this.state.loading && (
+              <button className="start-quiz-btn" onClick={this.startQuiz}>
+                START QUIZ!
+              </button>
+            )}
             <h1>{this.state.error}</h1>
           </div>
         );
