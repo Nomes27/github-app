@@ -1,6 +1,6 @@
 import { navigate } from "@reach/router";
-
 import React from "react";
+import logo from '../../img/quizhub.png';
 
 class LandingPage extends React.Component {
   //NEED TO DO FORM VALIDATION ON USER
@@ -21,7 +21,7 @@ class LandingPage extends React.Component {
   render() {
     return (
       <div className="landing-page--wrapper">
-        <div className="landing-page--graphic"></div>
+        <img src={logo} className="landing-page--graphic"></img>
           <form className='signin-form' onSubmit={this.submitUser}>
             <input
             className='signin-input'

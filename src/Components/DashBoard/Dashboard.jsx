@@ -3,6 +3,7 @@ import LeaderBoard from "./LeaderBoard";
 import { navigate } from "@reach/router";
 import firebase from "../../config";
 import "firebase/firestore";
+import exit from '../../img/exit.png';
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
 
@@ -64,7 +65,7 @@ class DashBoard extends React.Component {
       <div>
         <header className="dashboard-header">
           <div className="dashboard-header-buttons">
-            <button className="logout-btn" onClick={this.logOut}>LOG OUT</button>
+            <img src={exit} className="logout-btn" onClick={this.logOut}></img>
           </div>
           <h1 className='dashboard-greeting'>Hello, {this.props.user}!</h1>
         </header>
