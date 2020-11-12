@@ -1,5 +1,6 @@
 import React from "react";
-
+import { faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "firebase/firestore";
 import firebase from "../../config.js";
 import "firebase/functions";
@@ -13,34 +14,43 @@ class LeaderBoard extends React.Component {
     users: [],
   };
   //citiesRef.orderBy("state").orderBy("population", "desc")
+  /*
   componentDidMount() {
     db.collection("Leaderboard")
-      .doc("board")
       .get()
-      .then((doc) => {
-        console.log(doc.data());
-        if (doc.data() !== undefined) {
-          //for if doc is empty so doesn't throw error
-
-          let usersArr = [];
-          Object.entries(doc.data()).map((item) => {
-            let obj = { name: item[0], score: item[1] };
-            usersArr.push(obj);
-          });
-
+      .then((leaderboardSnapshot) => {
+        let usersArr = [];
+        leaderboardSnapshot.forEach((doc) => {
+          usersArr.push({ name: doc.data().name, score: doc.data().score });
           this.setState({
-            users: usersArr, //{ name: key, score: val }
+            users: [...usersArr],
           });
-          //this.setState({ users: [{ name: firstKey, score: firstVal }] });
-        }
+        });
       });
-  }
+  }*/
+  leaderboardListener = db
+    .collection("Leaderboard")
+    .orderBy("score", "desc")
+    .limit(10)
+    .onSnapshot((usersSnapshot) => {
+      console.log(usersSnapshot);
+      let newUsers = [];
+      usersSnapshot.forEach((doc) => {
+        newUsers.push({ name: doc.data().name, score: doc.data().score });
+      });
+      this.setState({
+        users: [...newUsers],
+      });
+    });
 
   render() {
     console.log(this.state.users, "users leaderboard");
     return (
       <div className="leaderboard">
-        <h2 className="leaderboard--title">Leaderboard</h2>
+        <div className="leaderboard--header">
+          <h2 className="leaderboard--title">LEADERBOARD</h2>
+          <FontAwesomeIcon icon={faTrophy} className="leaderboard--trophy" />
+        </div>
         <table className="leaderboard--table">
           <thead>
             <tr>
@@ -51,9 +61,8 @@ class LeaderBoard extends React.Component {
           </thead>
           <tbody>
             {this.state.users.map((user, i) => {
-              //NEED SORTING
               return (
-                <tr>
+                <tr key={user + i} className="leaderboard--row">
                   <td className="leaderboard--position">{i + 1}</td>
                   <td className="leaderboard--username">{user.name}</td>
                   <td className="leaderboard--score">{user.score}</td>
@@ -63,6 +72,7 @@ class LeaderBoard extends React.Component {
           </tbody>
         </table>
       </div>
+
       /*
 <div className="leaderboard">
       <h2 className="leaderboard--title">Leaderboard</h2>

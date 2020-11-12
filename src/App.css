@@ -128,26 +128,55 @@
 
 /* leaderboard */
 .leaderboard {
+
+ 
+
   background: white;
   border: none;
   width: 90%;
   height: 400px;
   margin: 0 auto;
   border-radius: 20px;
+
 }
 
 .leaderboard--title {
   margin: 0 auto;
+  margin-bottom: 5px;
 }
 
 .leaderboard--table {
   margin: 0 auto;
+  border-spacing: 0;
 }
 
 table th {
   text-align: center;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 10px;
+  background-color: #55177e;
+  color: white;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  font-size: 1.2rem;
+}
+.leaderboard--trophy {
+  color: rgb(224, 177, 47);
+  font-size: 3rem;
+}
+
+td {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+.leaderboard--position {
+  color: rgb(224, 177, 47);
+  font-size: 1.5rem;
+  text-shadow: #000 0px 0px 1px;
+}
+
+tr:nth-child(even) {
+  background-color: #c4bbca;
 }
 
 
@@ -375,5 +404,25 @@ option {
     display: block;
     margin: auto;
     padding-top: 10rem;
+  }
+
+  .leaderboard--table {
+    width: 80%;
+  }
+  .leaderboard th {
+    font-size: 2rem;
+  }
+  .leaderboard--title {
+    font-size: 3rem;
+  }
+  .leaderboard td {
+    font-size: 1.5rem;
+  }
+  .leaderboard--trophy {
+    font-size: 3rem;
+  }
+  .leaderboard--header {
+    display: flex;
+    margin: 0 40rem;
   }
 }

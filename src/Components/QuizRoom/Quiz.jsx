@@ -101,7 +101,7 @@ class Quiz extends React.Component {
 
 
   render() {
-    console.log(this.state);
+    //  console.log(this.state);
     if (this.state.showQuiz === true) {
       return (
         <Room
