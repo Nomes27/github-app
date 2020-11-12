@@ -27,6 +27,13 @@ class Room extends React.Component {
 
       db.collection("rooms").doc(this.props.room_id).delete();
       //delete the doc
+    } else {
+      //delete the person from the room
+      db.collection("rooms")
+        .doc(this.props.room_id)
+        .collection("users")
+        .doc(this.props.user)
+        .delete();
     }
   };
 
@@ -131,6 +138,7 @@ class Room extends React.Component {
     .doc(this.props.room_id)
     .collection("users")
     .onSnapshot((usersSnapshot) => {
+      //
       let allAnswered = true;
       //checking to see if time_up is true, so we know to display the results and the next question button
       if (this.state.time_up === false) {
@@ -163,7 +171,7 @@ class Room extends React.Component {
           if (a.score < b.score) {
             return 1;
           }
-          // a must be equal to b
+
           return 0;
         });
 

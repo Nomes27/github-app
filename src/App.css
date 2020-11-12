@@ -95,8 +95,15 @@
 }
 
 /* Dashboard */
-.dash-wrapper {
-  height: 100vh;
+
+.dashboard-container {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--purple),
+    var(--blue)
+  );
+  background-size: cover;
+  padding-bottom: 2rem;
 }
 
 .user-avatar {
@@ -183,6 +190,8 @@
   margin: 0 auto;
   margin-bottom: 5px;
   padding-top: 5px;
+  color: #123fa1;
+  font-family: var(--font), sans-serif;
 }
 
 .leaderboard--table {
