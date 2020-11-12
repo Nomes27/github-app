@@ -3,8 +3,8 @@ import "firebase/firestore";
 import firebase from "../../config.js";
 import "firebase/functions";
 import { navigate } from "@reach/router";
-import * as _ from 'underscore'
-import trophy from '../../img/trophy.png';
+import * as _ from "underscore";
+import trophy from "../../img/trophy.png";
 const db = firebase.firestore();
 //const room = db.collection("Rooms").doc("XYZA");
 const rooms = db.collection("rooms");
@@ -17,6 +17,7 @@ class Room extends React.Component {
     current_question: 0,
     isLoading: true,
     selected: false,
+    multi: true,
   };
 
   returnToDashboard = () => {
@@ -47,6 +48,7 @@ class Room extends React.Component {
         time_up: roomData.time_up,
         current_question: roomData.current_question,
         isLoading: false,
+        multi: roomData.multi
       });
     });
 
@@ -223,6 +225,34 @@ class Room extends React.Component {
       .update({ current_question: 0 });
   };
 
+  getWinners = () => {
+    let winnersEndPos = 0;
+    while (
+      winnersEndPos < this.state.users.length -1 &&
+      this.state.users[winnersEndPos +1].score === this.state.users[0].score
+    ) {
+      winnersEndPos++;
+    }
+
+    let winnerStr = "";
+    if (winnersEndPos === 0) {
+      winnerStr += `${this.state.users[0].username} is the winner!`;
+    } else if (winnersEndPos === 1) {
+      winnerStr += `${this.state.users[0].username} and ${this.state.users[1].username} are the winners!`;
+    } else {
+      for (let i = 0; i <= winnersEndPos; i++) {
+        if (i === winnersEndPos) {
+          winnerStr += `and ${this.state.users[i].username} are the winners!`;
+        } else if (i === winnersEndPos - 1) {
+          winnerStr += `${this.state.users[i].username} `;
+        } else {
+          winnerStr += `${this.state.users[i].username}, `;
+        }
+      }
+    }
+    return winnerStr;
+  };
+
   componentDidMount() {
     rooms
       .doc(this.props.room_id)
@@ -241,12 +271,10 @@ class Room extends React.Component {
   }
 
   decode = (sentence) => {
-    let newSentence = _.unescape(sentence.replace(/&#039;/g, '\''));
-    newSentence.replace(/&eacute;/g, 'é');
+    let newSentence = _.unescape(sentence.replace(/&#039;/g, "'"));
+    newSentence.replace(/&eacute;/g, "é");
     return newSentence;
-  }
-  
-
+  };
 
   render() {
     //  console.log(this.state);
@@ -260,7 +288,9 @@ class Room extends React.Component {
             <div className="current-question">
               <h3>Question {this.state.current_question + 1}</h3>
               <h2>
-                {this.decode(this.state.questions[this.state.current_question].question)}
+                {this.decode(
+                  this.state.questions[this.state.current_question].question
+                )}
               </h2>
               <div className="answerbuttons--container">
                 {this.state.questions[
@@ -280,31 +310,46 @@ class Room extends React.Component {
               </div>
             </div>
           ) : (
-
             // announce winner
-            <div className='winner-banner'>
-            <h1 className='winner'>{this.state.users[0].username} is the winner!</h1>
-            <img className='trophy' src={trophy}></img>
+            <div className="winner-banner">
+              {this.state.multi && <h1 className="winner">{this.getWinners()}</h1>}
+              {!this.state.multi && <h1 className="winner">Quiz Complete!</h1>}
+              <img className="trophy" src={trophy} alt="trophy"></img>
             </div>
           )}
-          <div className='user-scores-container'>
-            <h4 className='user-scores'>Scores:</h4>
+          <div className="user-scores-container">
+            <h4 className="user-scores">Scores:</h4>
             {this.state.users.map((user, i) => {
-              return <p className='user-score' key={user + i}>{`${user.username}: ${user.score}`}</p>;
+              return (
+                <p
+                  className="user-score"
+                  key={user + i}
+                >{`${user.username}: ${user.score}`}</p>
+              );
             })}
           </div>
           {this.state.time_up &&
           this.props.user === this.state.host &&
           this.state.current_question !== 10 ? (
-            <button className='next-question-btn' onClick={this.processNextQuestion}>NEXT QUESTION</button>
+            <button
+              className="next-question-btn"
+              onClick={this.processNextQuestion}
+            >
+              NEXT QUESTION
+            </button>
           ) : null}
           {this.state.current_question === 10 && (
-            <div className='endgame-buttons-container'>
+            <div className="endgame-buttons-container">
               {this.props.user === this.state.host && (
-                <button className='endgame-buttons' onClick={this.playAgain}>PLAY AGAIN</button>
+                <button className="endgame-buttons" onClick={this.playAgain}>
+                  PLAY AGAIN
+                </button>
               )}
 
-              <button className='endgame-buttons' onClick={this.returnToDashboard}>
+              <button
+                className="endgame-buttons"
+                onClick={this.returnToDashboard}
+              >
                 RETURN TO DASHBOARD
               </button>
             </div>
