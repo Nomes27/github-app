@@ -183,6 +183,7 @@ class Quiz extends React.Component {
           <div>
             <h1>Waiting for host to start game</h1>
             {this.playersInRoom()}
+            <div className="waiting-loader"></div>
           </div>
         );
       }
