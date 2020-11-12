@@ -289,7 +289,7 @@ option {
 
 .box {
   width: 80%;
-  max-width: 500px;
+  max-width:600px;
   margin: 10px auto;
   background: white;
   border-radius: 10px;

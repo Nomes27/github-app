@@ -234,9 +234,18 @@ class Room extends React.Component {
   }
 
   decode = (sentence) => {
-    let newSentence = _.unescape(sentence.replace(/&#039;/g, "'"));
-    newSentence.replace(/&eacute;/g, "é");
-    newSentence.replace(/&rsquo;/g, "'");
+    let newSentence = _.unescape(
+      sentence
+        .replace(/&#039;/g, "'")
+        .replace(/&eacute;/gi, "é")
+        .replace(/&oacute;/gi, "'")
+        .replace(/&rsquo;/gi, "'")
+        .replace(/&rsquo;/gi, "'")
+        .replace(/&ldquo;/gi, "'")
+        .replace(/&hellip;/gi, "___")
+        .replace(/&rdquo;/gi, "'")    
+    );
+
     return newSentence;
   };
 
@@ -253,10 +262,10 @@ class Room extends React.Component {
               </h2>
               <div className="box sb1">
                 <h3>
-                {this.decode(
-                  this.state.questions[this.state.current_question].question
-                )}
-                </h3>        
+                  {this.decode(
+                    this.state.questions[this.state.current_question].question
+                  )}
+                </h3>
               </div>
               <div className="answerbuttons--container">
                 {this.state.questions[
