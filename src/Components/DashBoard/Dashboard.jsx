@@ -78,15 +78,18 @@ class DashBoard extends React.Component {
       });
   };
 
+  
   hostSolo = (event) => {
     event.preventDefault();
     this.hostGame(false);
   };
 
+
   hostMulti = (event) => {
     event.preventDefault();
     this.hostGame(true);
   };
+
 
   hostGame = (multi) => {
     this.props.setHost(true);
@@ -99,15 +102,18 @@ class DashBoard extends React.Component {
       });
   };
 
+
   joinGame = (event) => {
     event.preventDefault();
     navigate(`/quiz`);
   };
 
+
   logOut = () => {
     onlineUsers.doc(this.props.user).delete();
     navigate(`/`);
   };
+
 
   componentDidMount() {
     onlineUsers.get().then((users) => {
@@ -119,6 +125,8 @@ class DashBoard extends React.Component {
       this.setState({ loading: false, onlineUsers: [...newOnlineUsers] });
     });
   }
+
+
 
   onlineUsersListener = onlineUsers.onSnapshot((usersSnapshot) => {
     let newOnlineUsers = [];

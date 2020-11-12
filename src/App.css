@@ -175,7 +175,6 @@
   top: 0;
   left: 0;
 }
-
 .online-users {
   width: 90%;
   font-size: 0.8rem;
@@ -184,7 +183,6 @@
   border-radius: 20px;
   padding: 5px;
 }
-
 .online-user {
   display: flex;
   justify-content: center;
@@ -192,22 +190,18 @@
   align-content: center;
   margin: 5px;
 }
-
 .online-icon {
   height: 20px;
 }
-
 .user-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-
 .online-users h3 {
   font-size: 0.8rem;
   margin: 0 auto;
 }
-
 .online-users p {
   font-size: 0.8rem;
   margin: 0 auto;
