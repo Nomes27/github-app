@@ -49,6 +49,7 @@ class DashBoard extends React.Component {
   };
 
   setUpRoom = (code, multi) => {
+
     return this.getRoomToken()
       .then((token) => {
         console.log(token);
@@ -60,6 +61,7 @@ class DashBoard extends React.Component {
           multi: multi,
           sessionToken: token,
         });
+
       })
       .then(() => {
         return rooms.doc(code).collection("users").doc(this.props.user).set({
@@ -131,7 +133,7 @@ class DashBoard extends React.Component {
   render() {
     console.log(this.state.onlineUsers);
     return (
-      <div>
+      <div className="dashboard-container">
         <header className="dashboard-header">
           <div className="dashboard-header-buttons">
             <img
@@ -141,7 +143,7 @@ class DashBoard extends React.Component {
               alt="logout button"
             ></img>
           </div>
-          <img className='user-avatar' src={avatar}></img>
+          <img className="user-avatar" src={avatar}></img>
           <h1 className="dashboard-greeting">Hello, {this.props.user}!</h1>
         </header>
         <div className="dashboard-play-buttons">
