@@ -89,12 +89,10 @@
   box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
 }
 
-
 .signin-button:hover {
   box-shadow: -2px 2px 5px 1px rgb(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
-
 
 /* Dashboard */
 .dashboard-header {
@@ -144,8 +142,6 @@
 .leaderboard {
   background: white;
   border: none;
-
- 
 
   width: 91%;
   height: 350px;
@@ -293,7 +289,7 @@ option {
 
 .box {
   width: 80%;
-  max-width:600px;
+  max-width: 600px;
   margin: 10px auto;
   background: white;
   border-radius: 10px;
@@ -332,6 +328,9 @@ option {
   font-weight: bold;
   cursor: pointer;
   box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
+}
+.answerbutton:disabled {
+  background-color: #999797;
 }
 
 .answerbutton:hover {
@@ -425,7 +424,6 @@ option {
   align-items: center;
 }
 
-
 .enter-code {
   color: white;
 }
@@ -481,8 +479,6 @@ option {
 }
 
 @media screen and (min-width: 1200px) {
-
-
   .landing-page--wrapper {
     flex-direction: row-reverse;
   }
@@ -535,5 +531,4 @@ option {
   .leaderboard--position {
     font-size: 2rem;
   }
-
 }
