@@ -51,11 +51,6 @@ class Room extends React.Component {
         multi: roomData.multi
       });
     });
-
-    //get the users collection from the room document inside the rooms collection
-    //for each document in the users collection, make a user object from each field in the document
-    //push each user document to a users array
-    //set users array in state to the users array
   };
 
   processNextQuestion = () => {
@@ -69,9 +64,7 @@ class Room extends React.Component {
 
   selectAnswer = (event) => {
     const answer = event.target.innerText;
-    // this.setState((prevState) => {
-    //   users: [...prevState, ]
-    // })
+
     rooms
       .doc(this.props.room_id)
       .collection("users")
@@ -287,13 +280,24 @@ class Room extends React.Component {
   }
 
   decode = (sentence) => {
-    let newSentence = _.unescape(sentence.replace(/&#039;/g, "'"));
-    newSentence.replace(/&eacute;/g, "é");
+
+    let newSentence = _.unescape(
+      sentence
+        .replace(/&#039;/g, "'")
+        .replace(/&eacute;/gi, "é")
+        .replace(/&oacute;/gi, "'")
+        .replace(/&rsquo;/gi, "'")
+        .replace(/&rsquo;/gi, "'")
+        .replace(/&ldquo;/gi, "'")
+        .replace(/&hellip;/gi, "___")
+        .replace(/&rdquo;/gi, "'")    
+    );
+
+
     return newSentence;
   };
 
   render() {
-    console.log(this.state.users);
 
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
@@ -302,12 +306,24 @@ class Room extends React.Component {
         <div className="questions-wrapper">
           {this.state.current_question !== 10 ? (
             <div className="current-question">
-              <h3>Question {this.state.current_question + 1}</h3>
+
+            
+                
+
+              <h3 className="question-num">Question {this.state.current_question + 1}</h3>
               <h2>
                 {this.decode(
                   this.state.questions[this.state.current_question].question
                 )}
+
               </h2>
+              <div className="box sb1">
+                <h3>
+                  {this.decode(
+                    this.state.questions[this.state.current_question].question
+                  )}
+                </h3>
+              </div>
               <div className="answerbuttons--container">
                 {this.state.questions[
                   this.state.current_question
@@ -329,9 +345,12 @@ class Room extends React.Component {
             // announce winner
             <div className="winner-banner">
 
+              
+
               {this.state.multi && <h1 className="winner">{this.getWinners()}</h1>}
               {!this.state.multi && <h1 className="winner">Quiz Complete!</h1>}
               <img className="trophy" src={trophy} alt="trophy"></img>
+
 
             </div>
           )}

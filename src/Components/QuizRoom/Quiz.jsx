@@ -128,9 +128,12 @@ class Quiz extends React.Component {
     } else {
       if (this.props.host) {
         return (
-          <div>
+
+
+          <div className='choose-wrapper'>
             {this.state.multi ? <h1 className="room-code">Room code: {this.props.room_id}</h1> : <h1 className="room-code">SOLO MODE</h1>}
             <h3 class="quiz-choose">Choose a topic</h3>
+
             <select onChange={this.selectTopic}>
               <option value="9">General knowledge</option>
               <option value="27">Animals</option>
