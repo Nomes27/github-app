@@ -4,7 +4,11 @@ import { navigate } from "@reach/router";
 import firebase from "../../config";
 import "firebase/firestore";
 import exit from "../../img/exit.png";
+
 import axios from "axios";
+
+import avatar from "../../img/avatar-placeholder.png";
+
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
 
@@ -111,6 +115,7 @@ class DashBoard extends React.Component {
               alt="logout button"
             ></img>
           </div>
+          <img className='user-avatar' src={avatar}></img>
           <h1 className="dashboard-greeting">Hello, {this.props.user}!</h1>
         </header>
         <div className="dashboard-play-buttons">
@@ -124,7 +129,7 @@ class DashBoard extends React.Component {
             SOLO GAME
           </button>
         </div>
-        {/* <FriendsList friends={user.friends} path={props.path} /> */}
+
         <LeaderBoard />
       </div>
     );

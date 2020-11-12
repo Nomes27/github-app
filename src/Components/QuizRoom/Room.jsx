@@ -48,7 +48,7 @@ class Room extends React.Component {
         time_up: roomData.time_up,
         current_question: roomData.current_question,
         isLoading: false,
-        multi: roomData.multi
+        multi: roomData.multi,
       });
     });
   };
@@ -237,8 +237,8 @@ class Room extends React.Component {
   getWinners = () => {
     let winnersEndPos = 0;
     while (
-      winnersEndPos < this.state.users.length -1 &&
-      this.state.users[winnersEndPos +1].score === this.state.users[0].score
+      winnersEndPos < this.state.users.length - 1 &&
+      this.state.users[winnersEndPos + 1].score === this.state.users[0].score
     ) {
       winnersEndPos++;
     }
@@ -280,7 +280,6 @@ class Room extends React.Component {
   }
 
   decode = (sentence) => {
-
     let newSentence = _.unescape(
       sentence
         .replace(/&#039;/g, "'")
@@ -290,15 +289,12 @@ class Room extends React.Component {
         .replace(/&rsquo;/gi, "'")
         .replace(/&ldquo;/gi, "'")
         .replace(/&hellip;/gi, "___")
-        .replace(/&rdquo;/gi, "'")    
+        .replace(/&rdquo;/gi, "'")
     );
-
-
     return newSentence;
   };
 
   render() {
-
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
@@ -307,16 +303,10 @@ class Room extends React.Component {
           {this.state.current_question !== 10 ? (
             <div className="current-question">
 
-            
-                
+              <h3 className="question-num">
+                Question {this.state.current_question + 1}
+              </h3>
 
-              <h3 className="question-num">Question {this.state.current_question + 1}</h3>
-              <h2>
-                {this.decode(
-                  this.state.questions[this.state.current_question].question
-                )}
-
-              </h2>
               <div className="box sb1">
                 <h3>
                   {this.decode(
@@ -344,14 +334,11 @@ class Room extends React.Component {
           ) : (
             // announce winner
             <div className="winner-banner">
-
-              
-
-              {this.state.multi && <h1 className="winner">{this.getWinners()}</h1>}
+              {this.state.multi && (
+                <h1 className="winner">{this.getWinners()}</h1>
+              )}
               {!this.state.multi && <h1 className="winner">Quiz Complete!</h1>}
               <img className="trophy" src={trophy} alt="trophy"></img>
-
-
             </div>
           )}
           <div className="user-scores-container">
