@@ -32,7 +32,7 @@ submitCode = (event) => {
             navigate(`/quiz/${this.state.code}`)
         } else {
             this.setState({
-                errormsg: 'Sorry, room does not exist!'
+                errormsg: 'Sorry, that room does not exist!'
             })
         }
     })
@@ -52,10 +52,10 @@ render() {
     console.log(this.state)
     return(
         <div>
-     <h1>Enter your code</h1>
-     <form onSubmit={this.submitCode}>
+     <h1 className='enter-code'>Enter your code</h1>
+     <form className='code-form' onSubmit={this.submitCode}>
      <input value={this.state.code} onChange={this.handleChange} type='text'></input>
-     <button type='submit'>Submit code</button>
+     <button className='code-btn' type='submit'>SUBMIT CODE</button>
      </form>
      <div className='error'>
          <h3>{this.state.errormsg}</h3>
