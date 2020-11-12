@@ -251,11 +251,13 @@ class Room extends React.Component {
               <h2 className="question-num">
                 Question {this.state.current_question + 1}
               </h2>
-              <h3 className="question">
+              <div className="box sb1">
+                <h3>
                 {this.decode(
                   this.state.questions[this.state.current_question].question
                 )}
-              </h3>
+                </h3>        
+              </div>
               <div className="answerbuttons--container">
                 {this.state.questions[
                   this.state.current_question

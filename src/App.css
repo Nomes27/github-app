@@ -281,10 +281,37 @@ option {
   color: white;
 }
 
-.question {
+/* .question {
   background-color: white;
   border-radius: 10px;
   padding: 5px;
+} */
+
+.box {
+  width: 80%;
+  max-width: 500px;
+  margin: 10px auto;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  font-weight: 900;
+  color: black;
+  font-family: arial;
+  position: relative;
+}
+
+.sb1:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid white;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
+  border-bottom: 10px solid transparent;
+  right: -19px;
+  top: 6px;
 }
 
 .answerbutton {
@@ -302,6 +329,12 @@ option {
   cursor: pointer;
   box-shadow: -2px 2px 5px 5px rgb(0, 0, 0, 0.2);
 }
+
+.answerbutton:hover {
+  box-shadow: -2px 2px 5px 1px rgb(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
 .answerbuttons--container {
   width: 90%;
   margin: 0 auto;
@@ -311,6 +344,8 @@ option {
 
 .user-scores-container {
   margin-top: 5px;
+  width: 40%;
+  max-width: 400px;
 }
 
 .user-score,
