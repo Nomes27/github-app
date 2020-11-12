@@ -76,11 +76,14 @@ class Quiz extends React.Component {
   playersInRoom = () => {
     console.log("this function is running");
     return (
-      <ul>
+      <div className='quiz-players'>
+      <h3 className='ready-to-play'>Players in room:</h3>
+      <ul className='players-in-room'>
         {this.state.users.map((user) => {
           return <li>{user.username}</li>;
         })}
       </ul>
+      </div>
     );
   };
 
@@ -108,8 +111,8 @@ class Quiz extends React.Component {
       if (this.props.host) {
         return (
           <div>
-            <h1>Your code: {this.props.room_id}</h1>
-            <h3>Topic</h3>
+            <h1 className='room-code'>Room code: {this.props.room_id}</h1>
+            <h3 class='quiz-choose'>Choose a topic</h3>
             <select onChange={this.selectTopic}>
               <option value="9">General knowledge</option>
               <option value="27">Animals</option>
@@ -120,7 +123,7 @@ class Quiz extends React.Component {
               <option value="12">Music</option>
             </select>
 
-            <h3>Difficulty</h3>
+            <h3 class='quiz-choose'>Choose your difficulty</h3>
             <select onChange={this.selectDifficulty}>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
@@ -128,17 +131,15 @@ class Quiz extends React.Component {
             </select>
 
             <br></br>
-            <button onClick={this.startQuiz}>START QUIZ!</button>
-
-            <div className="users-in-room">{this.playersInRoom()}</div>
+            {this.playersInRoom()}
+            <button className='start-quiz-btn' onClick={this.startQuiz}>START QUIZ!</button>          
           </div>
         );
       } else {
         return (
           <div>
             <h1>Waiting for host to start game</h1>
-            <div className="users-in-room">{this.playersInRoom()}</div>
-          </div>
+              {this.playersInRoom()}</div>
         );
       }
     }
