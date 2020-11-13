@@ -316,8 +316,6 @@ class Room extends React.Component {
       sentence
         .replace(/&#039;/g, "'")
         .replace(/&eacute;/gi, "é")
-        .replace(/&oacute;/gi, "'")
-        .replace(/&rsquo;/gi, "'")
         .replace(/&rsquo;/gi, "'")
         .replace(/&ldquo;/gi, "'")
         .replace(/&hellip;/gi, "___")
@@ -429,9 +427,8 @@ class Room extends React.Component {
                 );
               })}
               <h4 className="correct-answer">Correct answer...</h4>
-              <p className="correct-answer">{`${
-                this.state.questions[this.state.current_question].correct_answer
-              }`}</p>
+              <p className="correct-answer">{`${decode(this.state.questions[this.state.current_question].correct_answer
+              )}`}</p>
             </div>
           ) : null}
 
