@@ -4,7 +4,7 @@ import "firebase/firestore";
 import "firebase/auth";
 
 import LandingPage from "./Components/LandingPage/LandingPage";
-import Join from './Components/Join/Join';
+import Join from "./Components/Join/Join";
 import React from "react";
 import { Router } from "@reach/router";
 import ProfilePage from "./Components/ProfilePage/ProfilePage";
@@ -18,6 +18,7 @@ class App extends React.Component {
   state = {
     user: "",
     host: false,
+    avatar: "",
   };
 
   setHost = (host) => {
@@ -28,10 +29,13 @@ class App extends React.Component {
     this.setState({ user: user });
   };
 
-  componentDidUpdate() {
-  }
+  setAvatar = (avatar) => {
+    this.setState({ avatar: avatar });
+  };
+  componentDidUpdate() {}
 
   render() {
+    console.log(this.state, "state in app");
     return (
       <div className="App">
         <Router>
@@ -39,15 +43,21 @@ class App extends React.Component {
             path="/"
             setUser={this.setUser}
             testUser={this.state.user}
+            setAvatar={this.setAvatar}
           />
           <DashBoard
             path="/dashboard"
             user={this.state.user}
             setHost={this.setHost}
+            avatar={this.state.avatar}
           />
           <ProfilePage path="/profile" user={this.state.user} />
-          <Join path="/quiz" user={this.state.user} host={this.state.host}/>
-          <Quiz path="/quiz/:room_id" user={this.state.user} host={this.state.host}/>
+          <Join path="/quiz" user={this.state.user} host={this.state.host} />
+          <Quiz
+            path="/quiz/:room_id"
+            user={this.state.user}
+            host={this.state.host}
+          />
         </Router>
       </div>
     );

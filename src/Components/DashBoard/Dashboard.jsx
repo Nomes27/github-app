@@ -3,11 +3,18 @@ import LeaderBoard from "./LeaderBoard";
 import { navigate } from "@reach/router";
 import firebase from "../../config";
 import "firebase/firestore";
+
 import exit from "../../img/exit.png";
+
+
+import cactus from "../../img/avatar-placeholder.png";
+import zombie from "../../img/zombie-avatar.png";
+import sheep from "../../img/sheep-avatar.png";
+import coffee from "../../img/coffee-avatar.png";
+import alien from "../../img/alien-avatar.png";
+import sloth from "../../img/sloth-avatar.png";
 import online from "../../img/online.png";
 import axios from "axios";
-
-import avatar from "../../img/avatar-placeholder.png";
 
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
@@ -139,7 +146,6 @@ class DashBoard extends React.Component {
   });
 
   render() {
-    console.log(this.state.onlineUsers);
     return (
 
       <div className="dashboard-container">
@@ -153,7 +159,25 @@ class DashBoard extends React.Component {
               alt="logout button"
             ></img>
           </div>
-          <img className="user-avatar" src={avatar}></img>
+          <img
+            className="user-avatar"
+            src={
+              this.props.avatar === "zombie"
+                ? zombie
+                : this.props.avatar === "cactus"
+                ? cactus
+                : this.props.avatar === "sheep"
+                ? sheep
+                : this.props.avatar === "coffee"
+                ? coffee
+                : this.props.avatar === "alien"
+                ? alien
+                : this.props.avatar === "sloth"
+                ? sloth
+                : null
+            }
+          />
+
           <h1 className="dashboard-greeting">Hello, {this.props.user}!</h1>
         </header>
         <div className="dashboard-play-buttons">
