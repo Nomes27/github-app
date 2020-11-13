@@ -217,7 +217,6 @@ class Room extends React.Component {
       winners.push(this.state.users[i].username);
     }
 
-    console.log(winners);
     winners.forEach((winner) => {
       db.collection("Leaderboard")
         .doc(winner)
@@ -324,6 +323,17 @@ class Room extends React.Component {
         .replace(/&hellip;/gi, "___")
         .replace(/&rdquo;/gi, "'")
         .replace(/&shy;/gi, "-")
+        .replace(/&aacute;/gi, "á")
+        .replace(/&iacute;/gi, "í")
+        .replace(/&ouml;/gi, "ö")
+        .replace(/&agrave;/gi, "à")
+        .replace(/&egrave;/gi, "è")
+        .replace(/&euml;/gi, "ë")
+        .replace(/&ograve;/gi, "ò")
+        .replace(/&oacute;/gi, "ó")
+        .replace(/&#153;/gi, "™")
+        .replace(/&copy;/gi, "©")
+        .replace(/&uuml;/gi, "ü")
     );
     return newSentence;
   };
