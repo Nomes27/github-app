@@ -424,8 +424,8 @@ class Room extends React.Component {
                 );
               })}
               <h4 className="correct-answer">Correct answer...</h4>
-              <p className="correct-answer">{`${decode(this.state.questions[this.state.current_question].correct_answer
-              )}`}</p>
+              <p className="correct-answer">{this.decode(`${this.state.questions[this.state.current_question].correct_answer
+              }`)}</p>
             </div>
           ) : null}
 
