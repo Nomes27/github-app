@@ -14,7 +14,6 @@ class LandingPage extends React.Component {
     error: "",
     showAvatars: false,
     avatar: "",
-    prevAvatar: "",
   };
 
   updateUsername = (event) => {
@@ -42,12 +41,11 @@ class LandingPage extends React.Component {
     this.props.setAvatar(name);
     this.setState((prevState) => ({
       avatar: name,
-      prevAvatar: prevState.avatar,
     }));
     //for highlighting yellow on selected avatar
     event.target.classList.add("selected");
     event.target.classList.remove("landing-page--avatar");
-    let element = document.getElementById(`${this.state.prevAvatar}`);
+    let element = document.getElementById(`${this.state.avatar}`);
     if (element !== null) {
       element.classList.add("landing-page--avatar");
       element.classList.remove("selected");
@@ -106,6 +104,7 @@ element.classList.add("class-name");*/
                 alt="sheep avatar"
                 onClick={this.selectAvatar}
                 name="sheep"
+                id="sheep"
               ></img>
               <img
                 className="landing-page--avatar"
@@ -113,6 +112,7 @@ element.classList.add("class-name");*/
                 alt="coffee avatar"
                 onClick={this.selectAvatar}
                 name="coffee"
+                id="coffee"
               ></img>
               <img
                 className="landing-page--avatar"
@@ -120,6 +120,7 @@ element.classList.add("class-name");*/
                 alt="alien avatar"
                 onClick={this.selectAvatar}
                 name="alien"
+                id="alien"
               ></img>
               <img
                 className="landing-page--avatar"
@@ -127,6 +128,7 @@ element.classList.add("class-name");*/
                 alt="sloth avatar"
                 onClick={this.selectAvatar}
                 name="sloth"
+                id="sloth"
               ></img>
             </div>
           )}
