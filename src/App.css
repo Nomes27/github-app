@@ -39,18 +39,31 @@
   grid-gap: 10px;
   justify-content: center;
 }
+.landing-page-select-avatar-button {
+  padding: 20px;
+  border: 4px solid var(--darkerpurple);
+  border-radius: 20px;
+  font-size: 20px;
+  outline: none;
+  width: 80%;
+  max-width: 500px;
+  margin: 15px auto;
+  cursor: pointer;
+}
 
 .landing-page--avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.selected-avatar {
-  border: black 1px solid;
+.selected {
+  box-shadow: 2px 2px 5px 2px rgba(177, 174, 13, 0.884);
+  border-radius: 50%;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .landing-page--avatar:hover {
   box-shadow: -2px 2px 5px 1px rgb(0, 0, 0, 0.2);
   transition: all 0.3s ease;

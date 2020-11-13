@@ -13,6 +13,8 @@ class LandingPage extends React.Component {
     user: "",
     error: "",
     showAvatars: false,
+    avatar: "",
+    prevAvatar: "",
   };
 
   updateUsername = (event) => {
@@ -38,12 +40,30 @@ class LandingPage extends React.Component {
   selectAvatar = (event) => {
     let name = event.target.name;
     this.props.setAvatar(name);
-  };
+    this.setState((prevState) => ({
+      avatar: name,
+      prevAvatar: prevState.avatar,
+    }));
+    //for highlighting yellow on selected avatar
+    event.target.classList.add("selected");
+    event.target.classList.remove("landing-page--avatar");
+    let element = document.getElementById(`${this.state.prevAvatar}`);
+    if (element !== null) {
+      element.classList.add("landing-page--avatar");
+      element.classList.remove("selected");
+    }
+  }; /*
+  var element = document.getElementById("my-class");
+element.classList.add("class-name");*/
 
   render() {
     return (
       <div className="landing-page--wrapper">
-        <img src={logo} className="landing-page--graphic"></img>
+        <img
+          src={logo}
+          alt="quizhub logo"
+          className="landing-page--graphic"
+        ></img>
         <form className="signin-form" onSubmit={this.submitUser}>
           <input
             className="signin-input"
@@ -56,7 +76,10 @@ class LandingPage extends React.Component {
           </button>
         </form>
         <div className="outer-avatar-container">
-          <button onClick={this.showAvatarToggle} className="signin-input">
+          <button
+            onClick={this.showAvatarToggle}
+            className="landing-page-select-avatar-button"
+          >
             Select Avatar
           </button>
           {this.state.showAvatars && (
@@ -67,6 +90,7 @@ class LandingPage extends React.Component {
                 alt="cactus avatar"
                 onClick={this.selectAvatar}
                 name="cactus"
+                id="cactus"
               ></img>
               <img
                 className="landing-page--avatar"
@@ -74,6 +98,7 @@ class LandingPage extends React.Component {
                 alt="zombie avatar"
                 onClick={this.selectAvatar}
                 name="zombie"
+                id="zombie"
               ></img>
               <img
                 className="landing-page--avatar"

@@ -115,7 +115,7 @@ class DashBoard extends React.Component {
                 ? sheep
                 : this.props.avatar === "coffee"
                 ? coffee
-                : this.props.avatar === "alient"
+                : this.props.avatar === "alien"
                 ? alien
                 : this.props.avatar === "sloth"
                 ? sloth
