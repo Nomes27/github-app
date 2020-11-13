@@ -18,9 +18,13 @@
     var(--purple),
     var(--blue)
   );
+  background-attachment: fixed;
+  background-repeat: repeat;
   height: 100vh;
   width: 100%;
   font-family: var(--font), sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 * {
@@ -148,16 +152,14 @@
 /* Dashboard */
 
 .dashboard-container {
-  background-image: linear-gradient(
-    to bottom right,
-    var(--purple),
-    var(--blue)
-  );
-  background-size: cover;
-  padding-bottom: 2rem;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
+
 .user-avatar {
-  width: 200px;
+  margin: 0;
+  width: 150px;
 }
 
 .dashboard-header {
@@ -171,12 +173,21 @@
   justify-content: flex-start;
 }
 
+.dashboard-play-buttons {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
 .play-btn {
+  width: 25%;
+  height: 75px;
   font-family: var(--font), cursive;
   color: white;
   font-weight: bold;
-  font-size: 20px;
-  padding: 1rem;
+  font-size: 1rem;
+  padding: 2px;
   border: none;
   border-radius: 10px;
   margin: 15px 5px;
@@ -193,7 +204,6 @@
 
 .dashboard-greeting {
   margin: 0;
-  padding-bottom: 10px;
 }
 
 .logout-btn {
@@ -216,16 +226,50 @@
   top: 0;
   left: 0;
 }
+.online-users {
+  width: 90%;
+  font-size: 0.8rem;
+  margin: 6px auto 0 auto;
+  background: white;
+  border-radius: 20px;
+  padding: 5px;
+}
+.online-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin: 5px;
+}
+.online-icon {
+  height: 20px;
+}
+.user-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.online-users h3 {
+  font-size: 0.8rem;
+  margin: 0 auto;
+}
+.online-users p {
+  font-size: 0.8rem;
+  margin: 0 auto;
+}
 
 /* leaderboard */
 .leaderboard {
+  font-family: var(--font), sans-serif;
   background: white;
   border: none;
   width: 90%;
-  max-width: 600px;
-  height: 350px;
   margin: 0 auto;
   border-radius: 20px;
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .leaderboard--title {
@@ -239,7 +283,7 @@
 .leaderboard--table {
   margin: 0 auto;
   border-spacing: 0;
-  width: 80%;
+  width: 90%;
   table-layout: fixed;
 }
 
@@ -254,7 +298,6 @@ table th {
 }
 .leaderboard--trophy {
   color: rgb(224, 177, 47);
-  font-size: 3rem;
 }
 
 .leaderboard--position {
@@ -284,6 +327,8 @@ tr:nth-child(even) {
   max-width: 500px;
   margin: 10px auto 0 auto;
   border-radius: 10px;
+  height: 50%;
+  max-height: 300px;
 }
 
 .players-in-room {
@@ -324,6 +369,8 @@ tr:nth-child(even) {
   background: var(--pink);
   color: white;
   cursor: pointer;
+  width: 40%;
+  min-width: 200px;
 }
 
 select {
@@ -364,8 +411,19 @@ option {
   }
 }
 
+.user-waiting-to-start {
+  height: 100vh;
+  display: flex;
+  flex-direction:column;
+}
+
+.user-waiting-to-start h1 {
+  color: white;
+}
+
 /* quiz */
 .questions-wrapper {
+  font-family: var(--font), sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -378,15 +436,25 @@ option {
 }
 
 .question-num {
-  margin-top: -30px;
-  color: white;
+  color: black;
+  margin: 0;
+  padding: 0;
+  display:block;
+  color: var(--pink);
 }
 
 .question {
+  font-family: var(--font), sans-serif;
   color: white;
 }
 
+.current-question {
+  font-family: var(--font), sans-serif;
+  width: 90%;
+}
+
 .box {
+  font-family: var(--font), sans-serif;
   width: 80%;
   max-width: 600px;
   margin: 10px auto;
@@ -396,7 +464,6 @@ option {
   text-align: center;
   font-weight: 900;
   color: black;
-  font-family: arial;
   position: relative;
 }
 
@@ -444,16 +511,36 @@ option {
   flex-direction: column;
 }
 
-.user-scores-container {
-  margin-top: 5px;
-  width: 40%;
-  max-width: 400px;
-}
-
 .user-score,
-.user-scores {
+.user-scores,
+.user-answer,
+.user-answers {
   margin: 0;
   padding: 0;
+}
+
+.user-scores-container {
+  background-color: white;
+  width: 80%;
+  margin: 10px auto 0 auto;
+  border-radius: 10px;
+  padding: 5px;
+  max-width: 480px;
+  font-size: 0.8rem;
+}
+
+.user-answers-container {
+  background-color: white;
+  width: 80%;
+  margin: 10px auto 0 auto;
+  border-radius: 10px;
+  padding: 5px;
+  max-width: 480px;
+  font-size: 0.8rem;
+}
+
+.correct-answer {
+  margin: 0;
 }
 
 .next-question-btn {
@@ -510,13 +597,7 @@ option {
   width: 150px;
 }
 
-.user-scores-container {
-  background-color: white;
-  width: 80%;
-  margin: 10px auto 0 auto;
-  border-radius: 10px;
-  padding: 5px;
-}
+
 
 /* Join */
 
@@ -526,6 +607,8 @@ option {
   justify-content: center;
   align-content: center;
   align-items: center;
+  height: 100vh;
+  margin-top:-40px;
 }
 
 .enter-code {
@@ -540,9 +623,10 @@ option {
 }
 
 .code-form input {
-  width: 90%;
+  width: 80%;
+  max-width: 400px;
   margin: 0 auto;
-  padding: 20px 5px;
+  padding: 20px;
   border: none;
   border-radius: 10px;
   outline: none;
@@ -554,13 +638,15 @@ option {
   border-radius: 10px;
   outline: none;
   border: none;
-  margin: 20px 0 0 0;
+  margin: 20px auto 0 auto;
   font-family: var(--font), cursive;
   font-weight: bold;
   font-size: 20px;
   background: var(--pink);
   color: white;
   cursor: pointer;
+  width: 40%;
+  min-width: 200px;
 }
 
 .code-btn:hover {
@@ -569,38 +655,36 @@ option {
 }
 
 /* media queries */
-@media screen and (min-width: 375px) {
-  .leaderboard table th {
-    font-size: 1.2rem;
+@media screen and (max-width: 280px) {
+  .user-avatar {
+    width: 100px;
+    margin-top: -20px;
   }
-}
-@media screen and (min-width: 1000px) {
-  .leaderboard--title {
-    font-size: 2.5rem;
+  .leaderboard table th {
+    font-size: 0.8rem;
   }
   .leaderboard td {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    font-size: 1rem;
   }
-  .leaderboard {
-    height: 50%;
+  .leaderboard--title {
+    font-size: 1.3rem;
   }
 }
 
-@media screen and (min-width: 1200px) {
-  .leaderboard--table {
-    width: 80%;
+
+@media screen and (min-width: 300px) and (max-width: 767px) {
+  .user-avatar {
+    width: 100px;
+    margin-top: -20px;
   }
-  .leaderboard th {
-    font-size: 2rem;
-  }
-  .leaderboard--title {
-    font-size: 3rem;
+  .leaderboard table th {
+    font-size: 1rem;
   }
   .leaderboard td {
+    font-size: 1rem;
+  }
+  .leaderboard--title {
     font-size: 1.5rem;
   }
-  .leaderboard--position {
-    font-size: 2rem;
-  }
 }
+

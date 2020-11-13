@@ -1,12 +1,18 @@
 import { navigate } from "@reach/router";
 import React from "react";
 import logo from "../../img/quizhub.png";
+
 import cactus from "../../img/avatar-placeholder.png";
 import zombie from "../../img/zombie-avatar.png";
 import sheep from "../../img/sheep-avatar.png";
 import coffee from "../../img/coffee-avatar.png";
 import alien from "../../img/alien-avatar.png";
 import sloth from "../../img/sloth-avatar.png";
+import "firebase/firestore";
+import firebase from "../../config.js";
+
+const usersDB = firebase.firestore().collection("onlineUsers");
+
 class LandingPage extends React.Component {
   //NEED TO DO FORM VALIDATION ON USER
   state = {
@@ -26,6 +32,7 @@ class LandingPage extends React.Component {
       this.setState({ error: "Name cannot be blank!" });
     } else {
       this.props.setUser(this.state.user);
+      usersDB.doc(this.state.user).set({username: this.state.user});
       navigate("/dashboard");
     }
   };
@@ -133,7 +140,6 @@ element.classList.add("class-name");*/
             </div>
           )}
         </div>
-
         <h3>{this.state.error}</h3>
       </div>
     );
