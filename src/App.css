@@ -163,9 +163,15 @@
 /* Dashboard */
 
 .dashboard-container {
-  height: 100vh;
   margin: 0;
   padding: 0;
+  background-size: cover;
+  background-image: linear-gradient(
+    to bottom right,
+    var(--purple),
+    var(--blue)
+  );
+  padding-bottom: 1rem;
 }
 
 .user-avatar {
