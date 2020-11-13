@@ -14,7 +14,6 @@ import firebase from "../../config.js";
 const usersDB = firebase.firestore().collection("onlineUsers");
 
 class LandingPage extends React.Component {
-  //NEED TO DO FORM VALIDATION ON USER
   state = {
     user: "",
     error: "",

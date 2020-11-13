@@ -22,7 +22,6 @@ const avatarStore = {
 };
 
 const db = firebase.firestore();
-//const room = db.collection("Rooms").doc("XYZA");
 const rooms = db.collection("rooms");
 class Room extends React.Component {
   state = {
@@ -62,7 +61,6 @@ class Room extends React.Component {
     this.getUserInfo().then((docs) => {
       docs.forEach((doc) => {
         userData.push(doc.data());
-        //NOW HAVE ACCESS TO USER DATA FOR ROOM - NEED TO SET TO STATE
       });
       this.setState({
         users: [...userData],
@@ -118,7 +116,6 @@ class Room extends React.Component {
             .update({ score: firebase.firestore.FieldValue.increment(1) });
           //updated score is not being shown on the page, need to set the state of users, so updated score shows on page
         } else {
-          console.log("incorrect answer");
           db.collection("rooms")
             .doc(this.props.room_id)
             .collection("users")
@@ -241,7 +238,6 @@ class Room extends React.Component {
 
   playAgain = () => {
     this.updateLeaderBoard();
-    console.log(this.state.users);
     this.props.resetQuiz();
     this.state.users.forEach((user) => {
       const newUser = {
@@ -337,7 +333,6 @@ class Room extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
@@ -384,7 +379,9 @@ class Room extends React.Component {
               {this.state.users.map((user, i) => {
                 const winnersEndPos = this.getWinnerPos();
                 if (i <= winnersEndPos) {
-                  return <img className='winner-avatar' src={avatarStore[user.avatar]}></img>;
+                  return <img className='winner-avatar' src={avatarStore[user.avatar]} alt="winner avatar"></img>;
+                } else {
+                  return null
                 }
               })}
               </div>
