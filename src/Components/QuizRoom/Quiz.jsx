@@ -20,7 +20,6 @@ class Quiz extends React.Component {
     multi: true,
     loading: true,
     error: "",
-    token: "",
   };
 
   getQuestions = () => {
@@ -29,7 +28,6 @@ class Quiz extends React.Component {
       difficulty: this.state.difficulty,
       amount: 10,
       type: "multiple",
-      token: this.state.token,
     };
     console.log(params);
     return axios.get("https://opentdb.com/api.php", {
@@ -118,7 +116,6 @@ class Quiz extends React.Component {
         this.setState({
           multi: doc.data().multi,
           loading: false,
-          token: doc.data().sessionToken,
         });
       });
   }
@@ -128,7 +125,7 @@ class Quiz extends React.Component {
   };
 
   render() {
-    console.log(this.state.multi);
+
     if (this.state.loading) {
       return <h1 className="room-code">LOADING</h1>;
     } else if (this.state.showQuiz) {
@@ -152,7 +149,7 @@ class Quiz extends React.Component {
             ) : (
               <h1 className="room-code">SOLO MODE</h1>
             )}
-            <h3 class="quiz-choose">Choose a topic</h3>
+            <h3 className="quiz-choose">Choose a topic</h3>
 
             <select onChange={this.selectTopic}>
               <option value="9">General knowledge</option>

@@ -28,6 +28,8 @@ submitCode = (event) => {
           username: this.props.user,
           score: 0,
           answers: [],
+          incorrect_answers: 0,
+          avatar: this.props.avatar
             })
             navigate(`/quiz/${this.state.code}`)
         } else {
