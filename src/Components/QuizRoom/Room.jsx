@@ -107,7 +107,9 @@ class Room extends React.Component {
 
         if (
           answer ===
-          this.state.questions[this.state.current_question].correct_answer
+          this.decode(
+            this.state.questions[this.state.current_question].correct_answer
+          )
         ) {
           db.collection("rooms")
             .doc(this.props.room_id)
@@ -375,23 +377,28 @@ class Room extends React.Component {
           ) : (
             // announce winner
             <div className="winner-banner">
-              <div className='winner-images'>
-              {this.state.users.map((user, i) => {
-                const winnersEndPos = this.getWinnerPos();
-                if (i <= winnersEndPos) {
-                  return <img className='winner-avatar' src={avatarStore[user.avatar]} alt="winner avatar"></img>;
-                } else {
-                  return null
-                }
-              })}
+              <div className="winner-images">
+                {this.state.users.map((user, i) => {
+                  const winnersEndPos = this.getWinnerPos();
+                  if (i <= winnersEndPos) {
+                    return (
+                      <img
+                        className="winner-avatar"
+                        src={avatarStore[user.avatar]}
+                        alt="winner avatar"
+                        key={`${user}${i}`}
+                      ></img>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
               </div>
 
               {this.state.multi && (
                 <h1 className="winner">{this.getWinners()}</h1>
               )}
               {!this.state.multi && <h1 className="winner">Quiz Complete!</h1>}
-
- 
 
               <img className="trophy" src={trophy} alt="trophy"></img>
             </div>
@@ -413,9 +420,9 @@ class Room extends React.Component {
             <div className="user-answers-container">
               {this.state.users.map((user, i) => {
                 return (
-                  <div>
+                  <div key={user.username + i}>
                     <strong>{`${user.username} answered:`}</strong>
-                    <span key={user.username + i}>
+                    <span >
                       {this.decode(
                         ` ${user.answers[this.state.current_question] || " "}`
                       )}
@@ -424,8 +431,14 @@ class Room extends React.Component {
                 );
               })}
               <h4 className="correct-answer">Correct answer...</h4>
-              <p className="correct-answer">{this.decode(`${this.state.questions[this.state.current_question].correct_answer
-              }`)}</p>
+              <p className="correct-answer">
+                {this.decode(
+                  `${
+                    this.state.questions[this.state.current_question]
+                      .correct_answer
+                  }`
+                )}
+              </p>
             </div>
           ) : null}
 
