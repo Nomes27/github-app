@@ -34,8 +34,12 @@ class LeaderBoard extends React.Component {
     return (
       <div className="leaderboard">
         <div className="leaderboard--header">
-          <h2 className="leaderboard--title">LEADERBOARD</h2>
+          <h2 className="leaderboard--title">
           <FontAwesomeIcon icon={faTrophy} className="leaderboard--trophy" />
+            LEADERBOARD
+          <FontAwesomeIcon icon={faTrophy} className="leaderboard--trophy" />
+            </h2>
+          
         </div>
         <table className="leaderboard--table">
           <thead>

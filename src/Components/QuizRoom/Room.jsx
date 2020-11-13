@@ -298,6 +298,7 @@ class Room extends React.Component {
         .replace(/&ldquo;/gi, "'")
         .replace(/&hellip;/gi, "___")
         .replace(/&rdquo;/gi, "'")
+        .replace(/&shy;/gi, "-")
     );
     return newSentence;
   };
@@ -348,6 +349,7 @@ class Room extends React.Component {
               <img className="trophy" src={trophy} alt="trophy"></img>
             </div>
           )}
+
           <div className="user-scores-container">
             <h4 className="user-scores">Scores:</h4>
             {this.state.users.map((user, i) => {
@@ -359,6 +361,22 @@ class Room extends React.Component {
               );
             })}
           </div>
+
+          {this.state.time_up ? (
+            <div className="user-answers-container">
+              {this.state.users.map((user, i) => {
+                return (
+                  <div>
+                    <strong>{`${user.username} answered:`}</strong>
+                    <span>{` ${user.answers[this.state.current_question]}`}</span>
+                  </div>
+                );
+              })}
+              <h4 className='correct-answer'>Correct answer...</h4>
+                    <p className="correct-answer">{`${this.state.questions[this.state.current_question].correct_answer}`}</p>
+            </div>
+          ) : null}
+
           {this.state.time_up &&
           this.props.user === this.state.host &&
           this.state.current_question !== 10 ? (
