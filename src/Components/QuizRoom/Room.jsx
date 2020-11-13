@@ -316,8 +316,6 @@ class Room extends React.Component {
       sentence
         .replace(/&#039;/g, "'")
         .replace(/&eacute;/gi, "é")
-        .replace(/&oacute;/gi, "'")
-        .replace(/&rsquo;/gi, "'")
         .replace(/&rsquo;/gi, "'")
         .replace(/&ldquo;/gi, "'")
         .replace(/&hellip;/gi, "___")
