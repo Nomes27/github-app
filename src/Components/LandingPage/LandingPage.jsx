@@ -32,7 +32,7 @@ class LandingPage extends React.Component {
       this.setState({ error: "Name cannot be blank!" });
     } else {
       this.props.setUser(this.state.user);
-      usersDB.doc(this.state.user).set({username: this.state.user});
+      usersDB.doc(this.state.user).set({ username: this.state.user });
       navigate("/dashboard");
     }
   };
@@ -76,70 +76,74 @@ element.classList.add("class-name");*/
             type="text"
             placeholder="enter a username..."
           ></input>
+
+          <div className="outer-avatar-container">
+            <button
+              onClick={this.showAvatarToggle}
+              className="landing-page-select-avatar-button"
+              type='button'
+            >
+              Select Avatar
+            </button>
+
+            {this.state.showAvatars && (
+              <div className="landing-page--avatar-container">
+                <img
+                  className="landing-page--avatar"
+                  src={cactus}
+                  alt="cactus avatar"
+                  onClick={this.selectAvatar}
+                  name="cactus"
+                  id="cactus"
+                ></img>
+                <img
+                  className="landing-page--avatar"
+                  src={zombie}
+                  alt="zombie avatar"
+                  onClick={this.selectAvatar}
+                  name="zombie"
+                  id="zombie"
+                ></img>
+                <img
+                  className="landing-page--avatar"
+                  src={sheep}
+                  alt="sheep avatar"
+                  onClick={this.selectAvatar}
+                  name="sheep"
+                  id="sheep"
+                ></img>
+                <img
+                  className="landing-page--avatar"
+                  src={coffee}
+                  alt="coffee avatar"
+                  onClick={this.selectAvatar}
+                  name="coffee"
+                  id="coffee"
+                ></img>
+                <img
+                  className="landing-page--avatar"
+                  src={alien}
+                  alt="alien avatar"
+                  onClick={this.selectAvatar}
+                  name="alien"
+                  id="alien"
+                ></img>
+                <img
+                  className="landing-page--avatar"
+                  src={sloth}
+                  alt="sloth avatar"
+                  onClick={this.selectAvatar}
+                  name="sloth"
+                  id="sloth"
+                ></img>
+              </div>
+            )}
+          </div>
+
           <button className="signin-button" type="submit">
             PLAY
           </button>
         </form>
-        <div className="outer-avatar-container">
-          <button
-            onClick={this.showAvatarToggle}
-            className="landing-page-select-avatar-button"
-          >
-            Select Avatar
-          </button>
-          {this.state.showAvatars && (
-            <div className="landing-page--avatar-container">
-              <img
-                className="landing-page--avatar"
-                src={cactus}
-                alt="cactus avatar"
-                onClick={this.selectAvatar}
-                name="cactus"
-                id="cactus"
-              ></img>
-              <img
-                className="landing-page--avatar"
-                src={zombie}
-                alt="zombie avatar"
-                onClick={this.selectAvatar}
-                name="zombie"
-                id="zombie"
-              ></img>
-              <img
-                className="landing-page--avatar"
-                src={sheep}
-                alt="sheep avatar"
-                onClick={this.selectAvatar}
-                name="sheep"
-                id="sheep"
-              ></img>
-              <img
-                className="landing-page--avatar"
-                src={coffee}
-                alt="coffee avatar"
-                onClick={this.selectAvatar}
-                name="coffee"
-                id="coffee"
-              ></img>
-              <img
-                className="landing-page--avatar"
-                src={alien}
-                alt="alien avatar"
-                onClick={this.selectAvatar}
-                name="alien"
-                id="alien"
-              ></img>
-              <img
-                className="landing-page--avatar"
-                src={sloth}
-                alt="sloth avatar"
-                onClick={this.selectAvatar}
-                name="sloth"
-                id="sloth"
-              ></img>
-            </div>
-          )}
-        </div>
         <h3>{this.state.error}</h3>
       </div>
     );

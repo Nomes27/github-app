@@ -52,7 +52,7 @@ class App extends React.Component {
             avatar={this.state.avatar}
           />
           <ProfilePage path="/profile" user={this.state.user} />
-          <Join path="/quiz" user={this.state.user} host={this.state.host} />
+          <Join path="/quiz" user={this.state.user} host={this.state.host} avatar={this.state.avatar} />
           <Quiz
             path="/quiz/:room_id"
             user={this.state.user}

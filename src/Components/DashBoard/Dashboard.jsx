@@ -47,34 +47,24 @@ class DashBoard extends React.Component {
       });
   };
 
-  getRoomToken = () => {
-    return axios
-      .get("https://opentdb.com/api_token.php?command=request")
-      .then((res) => {
-        return res.data.token;
-      });
-  };
 
   setUpRoom = (code, multi) => {
 
-    return this.getRoomToken()
-      .then((token) => {
-        console.log(token);
         return rooms.doc(code).set({
           host: this.props.user,
           current_question: 0,
           time_up: false,
           showQuiz: false,
           multi: multi,
-          sessionToken: token,
-        });
+        })
 
-      })
       .then(() => {
         return rooms.doc(code).collection("users").doc(this.props.user).set({
           username: this.props.user,
           score: 0,
           answers: [],
+          incorrect_answers: 0,
+          avatar: this.props.avatar
         });
         //create a collection of users within the room doc, within rooms collection
         // make the room doc(as generated code), puts in the active user into the room

@@ -5,6 +5,22 @@ import "firebase/functions";
 import { navigate } from "@reach/router";
 import * as _ from "underscore";
 import trophy from "../../img/trophy.png";
+import cactus from "../../img/avatar-placeholder.png";
+import zombie from "../../img/zombie-avatar.png";
+import sheep from "../../img/sheep-avatar.png";
+import coffee from "../../img/coffee-avatar.png";
+import alien from "../../img/alien-avatar.png";
+import sloth from "../../img/sloth-avatar.png";
+
+const avatarStore = {
+  cactus: cactus,
+  zombie: zombie,
+  sheep: sheep,
+  coffee: coffee,
+  alien: alien,
+  sloth: sloth,
+};
+
 const db = firebase.firestore();
 //const room = db.collection("Rooms").doc("XYZA");
 const rooms = db.collection("rooms");
@@ -82,7 +98,8 @@ class Room extends React.Component {
 
   updateUserScore = () => {
     ///compare each users answers against the correct answer, update score on db
-    db.collection("rooms")
+    return db
+      .collection("rooms")
       .doc(this.props.room_id)
       .collection("users")
       .doc(this.props.user)
@@ -102,6 +119,13 @@ class Room extends React.Component {
           //updated score is not being shown on the page, need to set the state of users, so updated score shows on page
         } else {
           console.log("incorrect answer");
+          db.collection("rooms")
+            .doc(this.props.room_id)
+            .collection("users")
+            .doc(this.props.user)
+            .update({
+              incorrect_answers: firebase.firestore.FieldValue.increment(1),
+            });
         }
       })
       .catch((err) => {
@@ -148,8 +172,6 @@ class Room extends React.Component {
         });
 
         if (allAnswered === true) {
-          //
-
           db.collection("rooms")
             .doc(this.props.room_id)
             .update({ time_up: true });
@@ -197,7 +219,6 @@ class Room extends React.Component {
 
     console.log(winners);
     winners.forEach((winner) => {
-      console.log(this.state.users[0].score, "SCOREEE");
       db.collection("Leaderboard")
         .doc(winner)
         .get()
@@ -241,7 +262,7 @@ class Room extends React.Component {
       .update({ current_question: 0 });
   };
 
-  getWinners = () => {
+  getWinnerPos = () => {
     let winnersEndPos = 0;
     while (
       winnersEndPos < this.state.users.length - 1 &&
@@ -249,6 +270,11 @@ class Room extends React.Component {
     ) {
       winnersEndPos++;
     }
+    return winnersEndPos;
+  };
+
+  getWinners = () => {
+    const winnersEndPos = this.getWinnerPos();
 
     let winnerStr = "";
     if (winnersEndPos === 0) {
@@ -303,6 +329,7 @@ class Room extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     if (this.state.isLoading === true) {
       return <h1>LOADING.....</h1>;
     } else {
@@ -328,7 +355,12 @@ class Room extends React.Component {
                     <button
                       disabled={this.state.selected}
                       onClick={this.selectAnswer}
-                      className="answerbutton"
+                      className={
+                        this.state.questions[this.state.current_question]
+                          .correct_answer === answer && this.state.time_up
+                          ? "correct-answerbutton"
+                          : "answerbutton"
+                      }
                       key={answer}
                     >
                       {this.decode(answer)}
@@ -340,10 +372,22 @@ class Room extends React.Component {
           ) : (
             // announce winner
             <div className="winner-banner">
+              <div className='winner-images'>
+              {this.state.users.map((user, i) => {
+                const winnersEndPos = this.getWinnerPos();
+                if (i <= winnersEndPos) {
+                  return <img className='winner-avatar' src={avatarStore[user.avatar]}></img>;
+                }
+              })}
+              </div>
+
               {this.state.multi && (
                 <h1 className="winner">{this.getWinners()}</h1>
               )}
               {!this.state.multi && <h1 className="winner">Quiz Complete!</h1>}
+
+ 
+
               <img className="trophy" src={trophy} alt="trophy"></img>
             </div>
           )}
@@ -366,9 +410,9 @@ class Room extends React.Component {
                 return (
                   <div>
                     <strong>{`${user.username} answered:`}</strong>
-                    <span>
+                    <span key={user.username + i}>
                       {this.decode(
-                        ` ${user.answers[this.state.current_question]}`
+                        ` ${user.answers[this.state.current_question] || " "}`
                       )}
                     </span>
                   </div>
