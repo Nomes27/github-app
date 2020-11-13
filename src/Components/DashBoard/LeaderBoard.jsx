@@ -19,7 +19,6 @@ class LeaderBoard extends React.Component {
     .orderBy("score", "desc")
     .limit(5)
     .onSnapshot((usersSnapshot) => {
-      console.log(usersSnapshot);
       let newUsers = [];
       usersSnapshot.forEach((doc) => {
         newUsers.push({ name: doc.data().name, score: doc.data().score });
@@ -30,16 +29,14 @@ class LeaderBoard extends React.Component {
     });
 
   render() {
-    console.log(this.state.users, "users leaderboard");
     return (
       <div className="leaderboard">
         <div className="leaderboard--header">
           <h2 className="leaderboard--title">
-          <FontAwesomeIcon icon={faTrophy} className="leaderboard--trophy" />
+            <FontAwesomeIcon icon={faTrophy} className="leaderboard--trophy" />
             LEADERBOARD
-          <FontAwesomeIcon icon={faTrophy} className="leaderboard--trophy" />
-            </h2>
-          
+            <FontAwesomeIcon icon={faTrophy} className="leaderboard--trophy" />
+          </h2>
         </div>
         <table className="leaderboard--table">
           <thead>
@@ -62,73 +59,6 @@ class LeaderBoard extends React.Component {
           </tbody>
         </table>
       </div>
-
-      /*
-<div className="leaderboard">
-      <h2 className="leaderboard--title">Leaderboard</h2>
-      <table className="leaderboard--table">
-        <thead>
-          <tr>
-            <th>Position</th>
-            <th>Username</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-              <tr>
-               <td className="leaderboard--position">1</td>
-            <td className="leaderboard--username">ilikequizzes</td>
-            <td className="leaderboard--score">500</td>
-            </tr>
-              <tr>
-            <td className="leaderboard--position">2</td>
-            <td className="leaderboard--username">notacat</td>
-            <td className="leaderboard--score">450</td>
-          </tr>
-          <tr>
-            <td className="leaderboard--position">3</td>
-            <td className="leaderboard--username">coolbean</td>
-            <td className="leaderboard--score">420</td>
-          </tr>
-          <tr>
-            <td className="leaderboard--position">4</td>
-            <td className="leaderboard--username">Quizmaster2020</td>
-            <td className="leaderboard--score">400</td>
-          </tr>
-          <tr>
-            <td className="leaderboard--position">5</td>
-            <td className="leaderboard--username">Fredo</td>
-            <td className="leaderboard--score">380</td>
-          </tr>
-          <tr>
-            <td className="leaderboard--position">6</td>
-            <td className="leaderboard--username">Sal10</td>
-            <td className="leaderboard--score">340</td>
-          </tr>
-          <tr>
-            <td className="leaderboard--position">7</td>
-            <td className="leaderboard--username">BillyBones</td>
-            <td className="leaderboard--score">340</td>
-          </tr>
-          <tr>
-            <td className="leaderboard--position">8</td>
-            <td className="leaderboard--username">smartypants</td>
-            <td className="leaderboard--score">300</td>
-          </tr>
-          <tr>
-            <td className="leaderboard--position">9</td>
-            <td className="leaderboard--username">jazzyapple</td>
-            <td className="leaderboard--score">280</td>
-          </tr>
-          <tr>
-            <td className="leaderboard--position">10</td>
-            <td className="leaderboard--username">poppinfresh</td>
-            <td className="leaderboard--score">200</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-            */
     );
   }
 }

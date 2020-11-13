@@ -6,7 +6,6 @@ import axios from "axios";
 import { formatQuestions } from "../../utils/utils";
 import exit from "../../img/exit.png";
 import { navigate } from "@reach/router";
-import question from "../../img/question.png";
 const db = firebase.firestore();
 const rooms = db.collection("rooms");
 
@@ -29,7 +28,6 @@ class Quiz extends React.Component {
       amount: 10,
       type: "multiple",
     };
-    console.log(params);
     return axios.get("https://opentdb.com/api.php", {
       params,
     });
@@ -86,7 +84,6 @@ class Quiz extends React.Component {
     });
 
   playersInRoom = () => {
-    console.log("this function is running");
     return (
       <div className="quiz-players">
         <h3 className="ready-to-play">Players in room:</h3>
@@ -112,7 +109,6 @@ class Quiz extends React.Component {
       .doc(this.props.room_id)
       .get()
       .then((doc) => {
-        console.log(doc.data().multi, "multi status");
         this.setState({
           multi: doc.data().multi,
           loading: false,
@@ -141,7 +137,7 @@ class Quiz extends React.Component {
         return (
           <div className="choose-wrapper">
 
-            <img className="exit" src={exit} onClick={this.backToDash}></img>
+            <img className="exit" src={exit} onClick={this.backToDash} alt="door icon"></img>
 
 
             {this.state.multi ? (
@@ -167,7 +163,7 @@ class Quiz extends React.Component {
               <option value="17">Science & Nature</option>
             </select>
 
-            <h3 class="quiz-choose">Choose your difficulty</h3>
+            <h3 className="quiz-choose">Choose your difficulty</h3>
             <select onChange={this.selectDifficulty}>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>

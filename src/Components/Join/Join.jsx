@@ -3,8 +3,6 @@ import { navigate } from "@reach/router";
 import firebase from "../../config";
 import "firebase/firestore";
 const db = firebase.firestore();
-const rooms = db.collection("rooms");
-
 
 class Join extends React.Component {
     state = {
