@@ -18,9 +18,13 @@
     var(--purple),
     var(--blue)
   );
+  background-attachment: fixed;
+  background-repeat: repeat;
   height: 100vh;
   width: 100%;
   font-family: var(--font), sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 * {
@@ -97,13 +101,9 @@
 /* Dashboard */
 
 .dashboard-container {
-  background-image: linear-gradient(
-    to bottom right,
-    var(--purple),
-    var(--blue)
-  );
-  background-size: cover;
-  padding-bottom: 2rem;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 .user-avatar {
@@ -122,13 +122,20 @@
   justify-content: flex-start;
 }
 
+.dashboard-play-buttons {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
 .play-btn {
   width: 25%;
   height: 75px;
   font-family: var(--font), cursive;
   color: white;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1rem;
   padding: 2px;
   border: none;
   border-radius: 10px;
@@ -146,7 +153,6 @@
 
 .dashboard-greeting {
   margin: 0;
-  padding-bottom: 10px;
 }
 
 .logout-btn {
@@ -169,15 +175,44 @@
   top: 0;
   left: 0;
 }
+.online-users {
+  width: 90%;
+  font-size: 0.8rem;
+  margin: 6px auto 0 auto;
+  background: white;
+  border-radius: 20px;
+  padding: 5px;
+}
+.online-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin: 5px;
+}
+.online-icon {
+  height: 20px;
+}
+.user-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.online-users h3 {
+  font-size: 0.8rem;
+  margin: 0 auto;
+}
+.online-users p {
+  font-size: 0.8rem;
+  margin: 0 auto;
+}
 
 /* leaderboard */
 .leaderboard {
   font-family: var(--font), sans-serif;
   background: white;
-  padding: 5px;
   border: none;
-  width: 80%;
-  height: 350px;
+  width: 90%;
   margin: 0 auto;
   border-radius: 20px;
   font-size: 1.5rem;
@@ -316,6 +351,7 @@ option {
 
 /* quiz */
 .questions-wrapper {
+  font-family: var(--font), sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -328,19 +364,25 @@ option {
 }
 
 .question-num {
-  margin-top: -30px;
-  color: white;
+  color: black;
+  margin: 0;
+  padding: 0;
+  display:block;
+  color: var(--pink);
 }
 
 .question {
+  font-family: var(--font), sans-serif;
   color: white;
 }
 
 .current-question {
+  font-family: var(--font), sans-serif;
   width: 90%;
 }
 
 .box {
+  font-family: var(--font), sans-serif;
   width: 80%;
   max-width: 600px;
   margin: 10px auto;
@@ -350,7 +392,6 @@ option {
   text-align: center;
   font-weight: 900;
   color: black;
-  font-family: arial;
   position: relative;
 }
 
@@ -408,20 +449,22 @@ option {
 
 .user-scores-container {
   background-color: white;
-  width: 90%;
+  width: 80%;
   margin: 10px auto 0 auto;
   border-radius: 10px;
   padding: 5px;
   max-width: 480px;
+  font-size: 0.8rem;
 }
 
 .user-answers-container {
   background-color: white;
-  width: 90%;
+  width: 80%;
   margin: 10px auto 0 auto;
   border-radius: 10px;
   padding: 5px;
   max-width: 480px;
+  font-size: 0.8rem;
 }
 
 .correct-answer {
@@ -545,9 +588,6 @@ option {
     width: 100px;
     margin-top: -20px;
   }
-  .leaderboard {
-    height: 45%;
-  }
   .leaderboard table th {
     font-size: 0.8rem;
   }
@@ -564,9 +604,6 @@ option {
   .user-avatar {
     width: 100px;
     margin-top: -20px;
-  }
-  .leaderboard {
-    height: 45%;
   }
   .leaderboard table th {
     font-size: 1rem;
