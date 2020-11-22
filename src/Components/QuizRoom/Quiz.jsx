@@ -137,7 +137,7 @@ class Quiz extends React.Component {
           <div className="choose-wrapper">
             <div className="dashboard-header-buttons">
               <img
-                className="exit"
+                className="logout-btn"
                 src={exit}
                 onClick={this.backToDash}
                 alt="door icon"
