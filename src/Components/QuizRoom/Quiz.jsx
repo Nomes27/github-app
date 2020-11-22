@@ -135,13 +135,14 @@ class Quiz extends React.Component {
       if (this.props.host) {
         return (
           <div className="choose-wrapper">
-            <img
-              className="exit"
-              src={exit}
-              onClick={this.backToDash}
-              alt="door icon"
-            ></img>
-
+            <div className="dashboard-header-buttons">
+              <img
+                className="exit"
+                src={exit}
+                onClick={this.backToDash}
+                alt="door icon"
+              ></img>
+            </div>
             {this.state.multi ? (
               <h1 className="room-code">Room code: {this.props.room_id}</h1>
             ) : (
