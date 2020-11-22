@@ -3,7 +3,7 @@ import Room from "./Room";
 import "firebase/firestore";
 import firebase from "../../config.js";
 import axios from "axios";
-import { formatQuestions } from "../../utils/utils";
+import formatQuestions from "../../utils/formatQuestions";
 import exit from "../../img/exit.png";
 import { navigate } from "@reach/router";
 const db = firebase.firestore();
@@ -121,7 +121,6 @@ class Quiz extends React.Component {
   };
 
   render() {
-
     if (this.state.loading) {
       return <h1 className="room-code">LOADING</h1>;
     } else if (this.state.showQuiz) {
@@ -136,9 +135,12 @@ class Quiz extends React.Component {
       if (this.props.host) {
         return (
           <div className="choose-wrapper">
-
-            <img className="exit" src={exit} onClick={this.backToDash} alt="door icon"></img>
-
+            <img
+              className="exit"
+              src={exit}
+              onClick={this.backToDash}
+              alt="door icon"
+            ></img>
 
             {this.state.multi ? (
               <h1 className="room-code">Room code: {this.props.room_id}</h1>
@@ -182,7 +184,7 @@ class Quiz extends React.Component {
         );
       } else {
         return (
-          <div className='user-waiting-to-start'>
+          <div className="user-waiting-to-start">
             <h1>Waiting for host to start game</h1>
             {/* add a loader here*/}
             {this.playersInRoom()}
