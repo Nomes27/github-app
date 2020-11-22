@@ -4,7 +4,7 @@ import "firebase/firestore";
 import firebase from "../../config.js";
 import axios from "axios";
 import formatQuestions from "../../utils/formatQuestions";
-import exit from "../../img/exit.png";
+import exit from "../../img/exit2.png";
 import { navigate } from "@reach/router";
 const db = firebase.firestore();
 const rooms = db.collection("rooms");

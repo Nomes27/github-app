@@ -4,7 +4,7 @@ import { navigate } from "@reach/router";
 import firebase from "../../config";
 import "firebase/firestore";
 
-import exit from "../../img/exit.png";
+import exit from "../../img/exit2.png";
 import cactus from "../../img/cactus-avatar.png";
 import zombie from "../../img/zombie-avatar.png";
 import sheep from "../../img/sheep-avatar.png";
