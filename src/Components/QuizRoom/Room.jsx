@@ -5,7 +5,7 @@ import "firebase/functions";
 import { navigate } from "@reach/router";
 import * as _ from "underscore";
 import trophy from "../../img/trophy.png";
-import cactus from "../../img/avatar-placeholder.png";
+import cactus from "../../img/cactus-avatar.png";
 import zombie from "../../img/zombie-avatar.png";
 import sheep from "../../img/sheep-avatar.png";
 import coffee from "../../img/coffee-avatar.png";
@@ -422,7 +422,7 @@ class Room extends React.Component {
                 return (
                   <div key={user.username + i}>
                     <strong>{`${user.username} answered:`}</strong>
-                    <span >
+                    <span>
                       {this.decode(
                         ` ${user.answers[this.state.current_question] || " "}`
                       )}

@@ -5,8 +5,7 @@ import firebase from "../../config";
 import "firebase/firestore";
 
 import exit from "../../img/exit.png";
-
-import cactus from "../../img/avatar-placeholder.png";
+import cactus from "../../img/cactus-avatar.png";
 import zombie from "../../img/zombie-avatar.png";
 import sheep from "../../img/sheep-avatar.png";
 import coffee from "../../img/coffee-avatar.png";

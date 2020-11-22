@@ -2,7 +2,7 @@ import { navigate } from "@reach/router";
 import React from "react";
 import logo from "../../img/quizhub.png";
 
-import cactus from "../../img/avatar-placeholder.png";
+import cactus from "../../img/cactus-avatar.png";
 import zombie from "../../img/zombie-avatar.png";
 import sheep from "../../img/sheep-avatar.png";
 import coffee from "../../img/coffee-avatar.png";
@@ -80,7 +80,7 @@ element.classList.add("class-name");*/
             <button
               onClick={this.showAvatarToggle}
               className="landing-page-select-avatar-button"
-              type='button'
+              type="button"
             >
               Select Avatar
             </button>
